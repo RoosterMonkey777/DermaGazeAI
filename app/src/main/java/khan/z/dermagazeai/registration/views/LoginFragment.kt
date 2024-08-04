@@ -101,7 +101,7 @@ class LoginFragment : Fragment(){
         facebookLoginHandler = FacebookLoginHandler(this) { isSuccessful ->
             if (isSuccessful) {
                 Log.d("LoginFragment", "User is signed in with Facebook")
-                Toast.makeText(context, "Signed in using Facebook", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Signed in using Facebook", Toast.LENGTH_SHORT).show()
                 storeSignInMethod(SignInMethod.FACEBOOK)
                 findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             } else {

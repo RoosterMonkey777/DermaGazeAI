@@ -35,35 +35,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-//    private fun signOut() {
-//        Log.d("LoginFragment", "Sign out initiated")
-//
-//        // signout from facebook
-//        LoginManager.getInstance().logOut()
-//
-//        // signout from aws-cognito
-//        Amplify.Auth.signOut { signOutResult ->
-//            requireActivity().runOnUiThread {
-//                when (signOutResult) {
-//                    is AWSCognitoAuthSignOutResult.CompleteSignOut -> {
-//                        Toast.makeText(context, "Signed out successfully", Toast.LENGTH_SHORT).show()
-//                        Log.i("AuthQuickStart", "Signed out successfully")
-//                        findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
-//                    }
-//                    is AWSCognitoAuthSignOutResult.PartialSignOut -> {
-//                        Log.e("AuthQuickStart", "Partial sign-out, hostedUIError: ${signOutResult.hostedUIError}")
-//                        Log.e("AuthQuickStart", "Partial sign-out, globalSignOutError: ${signOutResult.globalSignOutError}")
-//                        Log.e("AuthQuickStart", "Partial sign-out, revokeTokenError: ${signOutResult.revokeTokenError}")
-//                    }
-//                    is AWSCognitoAuthSignOutResult.FailedSignOut -> {
-//                        Toast.makeText(context, "Sign out failed: ${signOutResult.exception.message}", Toast.LENGTH_SHORT).show()
-//                        Log.e("AuthQuickStart", "Sign out Failed", signOutResult.exception)
-//                    }
-//                }
-//            }
-//        }
-//    }
-
+    //TODO: Will have to move this function to make it cleaner later
     private fun signOut() {
         Log.d("LoginFragment", "Sign out initiated")
 

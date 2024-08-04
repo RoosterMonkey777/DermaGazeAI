@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <com.facebook.login.widget.LoginButton
         android:id="@+id/btn_fb"
         android:layout_width="wrap_content"
@@ -14,13 +13,5 @@
         android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp"
         android:minHeight="50dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="signout"
-        android:id="@+id/btn_signout"
-        />
-
 
 </LinearLayout>
