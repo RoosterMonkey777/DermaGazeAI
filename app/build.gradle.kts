@@ -51,4 +51,14 @@ dependencies {
     // navigation
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+
+    // amplify
+    implementation(libs.amplify.api)
+    implementation(libs.amplify.datastore)
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
+    implementation(libs.amplify.auth.cognito)
+    implementation(libs.amplify.core)
+
+    // facebook
+    implementation(libs.facebook.login)
 }

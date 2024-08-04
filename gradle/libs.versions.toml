@@ -14,7 +14,12 @@ constraintlayout = "2.1.4"
 navigationFragmentKtx = "2.7.7"
 navigationUiKtx = "2.7.7"
 
+# amplify
+amplify = "2.19.1"
+desugarJdkLibs = "2.0.4"
 
+#facebook
+facebookLogin = "latest.release"
 
 
 
@@ -31,6 +36,16 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 # navigation
 androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
+
+# amplify
+amplify-api = { group = "com.amplifyframework", name = "aws-api", version.ref = "amplify" }
+amplify-datastore = { group = "com.amplifyframework", name = "aws-datastore", version.ref = "amplify" }
+desugar-jdk-libs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugarJdkLibs" }
+amplify-auth-cognito = { module = "com.amplifyframework:aws-auth-cognito", version.ref = "amplify" }
+amplify-core = { module = "com.amplifyframework:core", version.ref = "amplify" }
+
+# facebook
+facebook-login = { module = "com.facebook.android:facebook-login", version.ref = "facebookLogin" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

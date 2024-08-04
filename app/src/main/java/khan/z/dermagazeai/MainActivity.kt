@@ -1,5 +1,6 @@
 package khan.z.dermagazeai
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.amplifyframework.core.Amplify
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,10 +40,14 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Amplify.Auth.handleWebUISignInResponse(data)
     }
 }

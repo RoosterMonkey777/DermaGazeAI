@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-dermagazeai-dev-3e32a-authRole",
+      "UnauthRoleArn": "arn:aws:iam::150147616082:role/amplify-dermagazeai-dev-3e32a-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::150147616082:role/amplify-dermagazeai-dev-3e32a-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-dermagazeai-dev-3e32a-deployment",
+      "UnauthRoleName": "amplify-dermagazeai-dev-3e32a-unauthRole",
+      "StackName": "amplify-dermagazeai-dev-3e32a",
+      "StackId": "arn:aws:cloudformation:us-east-1:150147616082:stack/amplify-dermagazeai-dev-3e32a/e98debb0-51fe-11ef-aa7d-12fcfd9808a7",
+      "AmplifyAppId": "d1hbljrev58v4y"
+    },
+    "categories": {
+      "auth": {
+        "dermagazeai35cf642d": {}
+      }
+    }
+  }
+}
