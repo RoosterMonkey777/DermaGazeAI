@@ -18,8 +18,9 @@ navigationUiKtx = "2.7.7"
 amplify = "2.19.1"
 desugarJdkLibs = "2.0.4"
 
-#facebook
+# facebook / google
 facebookLogin = "latest.release"
+playServicesAuth = "21.2.0"
 
 
 
@@ -44,8 +45,9 @@ desugar-jdk-libs = { group = "com.android.tools", name = "desugar_jdk_libs", ver
 amplify-auth-cognito = { module = "com.amplifyframework:aws-auth-cognito", version.ref = "amplify" }
 amplify-core = { module = "com.amplifyframework:core", version.ref = "amplify" }
 
-# facebook
+# facebook / google
 facebook-login = { module = "com.facebook.android:facebook-login", version.ref = "facebookLogin" }
+play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

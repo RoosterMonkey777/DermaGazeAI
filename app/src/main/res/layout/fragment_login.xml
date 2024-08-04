@@ -24,14 +24,15 @@
         android:minHeight="50dp"
         android:text="google"/>
 
-<Button
-    android:id="@+id/btn_signout"
+
+    <Button
+        android:id="@+id/btn_signout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp"
         android:minHeight="50dp"
-    android:text="signout"/>
+        android:text="signout"/>
 
 </LinearLayout>

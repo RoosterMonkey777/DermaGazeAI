@@ -1,11 +1,10 @@
 <resources>
     <string name="app_name">DermaGazeAI</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="facebook_app_id">896849079128060</string>
     <string name="fb_login_protocol_scheme">fb896849079128060</string>
     <string name="facebook_client_token">a68743d53d940e5df5578ece117472e5</string>
-    <string name="your_web_client_id">171025768114-080ksrp2knm09b6v3idih18p9mu19ugr.apps.googleusercontent.com</string>
+    <string name="google_app_id">171025768114-080ksrp2knm09b6v3idih18p9mu19ugr.apps.googleusercontent.com</string>
 
 </resources>

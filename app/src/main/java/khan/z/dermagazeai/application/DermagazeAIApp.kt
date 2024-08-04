@@ -14,15 +14,13 @@ class DermagazeAIApp: Application() {
         try {
             Amplify.addPlugin(AWSCognitoAuthPlugin())
             Amplify.configure(applicationContext)
-
-            Log.i("TestApp1", "Initialized Amplify")
+            Log.i("DermagazeAIApp", "Initialized Amplify")
         } catch (error: AmplifyException) {
-            Log.e("TestApp1", "Could not initialize Amplify", error)
+            Log.e("DermagazeAIApp", "Could not initialize Amplify", error)
 
         }
         FacebookSdk.sdkInitialize(getApplicationContext())
         AppEventsLogger.activateApp(this)
     }
-
 
 }
