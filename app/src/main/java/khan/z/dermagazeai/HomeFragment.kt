@@ -1,5 +1,6 @@
 package khan.z.dermagazeai
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.amplifyframework.auth.cognito.result.AWSCognitoAuthSignOutResult
 import com.amplifyframework.core.Amplify
 import com.facebook.login.LoginManager
+import khan.z.dermagazeai.registration.SignInMethod
 
 
 class HomeFragment : Fragment() {
@@ -33,15 +35,51 @@ class HomeFragment : Fragment() {
         }
     }
 
+//    private fun signOut() {
+//        Log.d("LoginFragment", "Sign out initiated")
+//
+//        // signout from facebook
+//        LoginManager.getInstance().logOut()
+//
+//        // signout from aws-cognito
+//        Amplify.Auth.signOut { signOutResult ->
+//            requireActivity().runOnUiThread {
+//                when (signOutResult) {
+//                    is AWSCognitoAuthSignOutResult.CompleteSignOut -> {
+//                        Toast.makeText(context, "Signed out successfully", Toast.LENGTH_SHORT).show()
+//                        Log.i("AuthQuickStart", "Signed out successfully")
+//                        findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
+//                    }
+//                    is AWSCognitoAuthSignOutResult.PartialSignOut -> {
+//                        Log.e("AuthQuickStart", "Partial sign-out, hostedUIError: ${signOutResult.hostedUIError}")
+//                        Log.e("AuthQuickStart", "Partial sign-out, globalSignOutError: ${signOutResult.globalSignOutError}")
+//                        Log.e("AuthQuickStart", "Partial sign-out, revokeTokenError: ${signOutResult.revokeTokenError}")
+//                    }
+//                    is AWSCognitoAuthSignOutResult.FailedSignOut -> {
+//                        Toast.makeText(context, "Sign out failed: ${signOutResult.exception.message}", Toast.LENGTH_SHORT).show()
+//                        Log.e("AuthQuickStart", "Sign out Failed", signOutResult.exception)
+//                    }
+//                }
+//            }
+//        }
+//    }
+
     private fun signOut() {
         Log.d("LoginFragment", "Sign out initiated")
 
-        // signout from facebook
-        LoginManager.getInstance().logOut()
+        val currentSignInMethod = getSignInMethod()
+        when (currentSignInMethod) {
+            SignInMethod.FACEBOOK -> {
+                LoginManager.getInstance().logOut()
+                Log.i("Facebook Signout", "Signed out facebook successfully")
+            }
+            SignInMethod.NONE -> { Log.w("HomeFragment", "No sign-in method recorded") }
+        }
 
-        // signout from aws-cognito
+        // Always sign out from AWS Cognito
         Amplify.Auth.signOut { signOutResult ->
             requireActivity().runOnUiThread {
+                clearSignInMethod()
                 when (signOutResult) {
                     is AWSCognitoAuthSignOutResult.CompleteSignOut -> {
                         Toast.makeText(context, "Signed out successfully", Toast.LENGTH_SHORT).show()
@@ -59,6 +97,20 @@ class HomeFragment : Fragment() {
                     }
                 }
             }
+        }
+    }
+
+    private fun getSignInMethod(): SignInMethod {
+        val sharedPref = requireActivity().getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        val methodName = sharedPref.getString("currentSignInMethod", SignInMethod.NONE.name)
+        return SignInMethod.valueOf(methodName ?: SignInMethod.NONE.name)
+    }
+
+    private fun clearSignInMethod() {
+        val sharedPref = requireActivity().getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putString("currentSignInMethod", SignInMethod.NONE.name)
+            apply()
         }
     }
 }

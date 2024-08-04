@@ -1,11 +1,13 @@
 package khan.z.dermagazeai.registration.views
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.amplifyframework.auth.AuthProvider
@@ -17,6 +19,7 @@ import com.facebook.FacebookException
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import khan.z.dermagazeai.R
+import khan.z.dermagazeai.registration.SignInMethod
 import khan.z.dermagazeai.registration.helpers.FacebookLoginHandler
 
 //class LoginFragment : Fragment(){
@@ -98,6 +101,8 @@ class LoginFragment : Fragment(){
         facebookLoginHandler = FacebookLoginHandler(this) { isSuccessful ->
             if (isSuccessful) {
                 Log.d("LoginFragment", "User is signed in with Facebook")
+                Toast.makeText(context, "Signed in using Facebook", Toast.LENGTH_LONG).show()
+                storeSignInMethod(SignInMethod.FACEBOOK)
                 findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             } else {
                 Log.w("LoginFragment", "Sign-in was not successful")
@@ -110,4 +115,14 @@ class LoginFragment : Fragment(){
         super.onActivityResult(requestCode, resultCode, data)
         facebookLoginHandler.onActivityResult(requestCode, resultCode, data)
     }
+
+    // Store the login type locally to reference
+    private fun storeSignInMethod(method: SignInMethod) {
+        val sharedPref = requireActivity().getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putString("currentSignInMethod", method.name)
+            apply()
+        }
+    }
+
 }
