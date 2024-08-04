@@ -46,9 +46,9 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         googleSignInHandler = GoogleSignInHandler(this, findNavController())
-        googleSignInHandler.initializeGoogleSignIn(getString(R.string.google_app_id))
+        googleSignInHandler.initializeGoogleSignIn(view, getString(R.string.google_app_id), R.id.btn_google, R.id.custom_google)
         facebookSignInHandler = FacebookSignInHandler(this, findNavController())
-        facebookSignInHandler.initializeFacebookLogin(view, R.id.btn_fb)
+        facebookSignInHandler.initializeFacebookLogin(view, R.id.btn_fb, R.id.custom_fb)
 
         view.findViewById<View>(R.id.btn_google).setOnClickListener {
             googleSignInHandler.signIn()

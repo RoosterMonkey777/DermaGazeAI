@@ -3,26 +3,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:layout="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/btn_fb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
-        android:minHeight="50dp" />
+<!--    <com.facebook.login.widget.LoginButton-->
+<!--        android:id="@+id/btn_fb"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        android:layout_marginTop="30dp"-->
+<!--        android:layout_marginBottom="30dp"-->
+<!--        android:minHeight="50dp"-->
+<!--        />-->
 
-    <Button
-        android:id="@+id/btn_google"
+<!--    <com.google.android.gms.common.SignInButton-->
+<!--        android:id="@+id/btn_google"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        android:layout_marginTop="30dp"-->
+<!--        android:layout_marginBottom="30dp"-->
+<!--        android:minHeight="50dp"/>-->
+
+    <include
+        layout="@layout/facebook_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
-        android:minHeight="50dp"
-        android:text="google"/>
+        android:layout_height="wrap_content" />
+
+    <include
+        layout="@layout/google_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 
     <Button
