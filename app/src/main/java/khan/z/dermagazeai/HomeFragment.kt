@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.amplifyframework.auth.cognito.result.AWSCognitoAuthSignOutResult
 import com.amplifyframework.core.Amplify
 import com.facebook.login.LoginManager
+import com.google.android.gms.auth.api.identity.Identity
 import khan.z.dermagazeai.registration.SignInMethod
 
 
@@ -44,6 +45,16 @@ class HomeFragment : Fragment() {
             SignInMethod.FACEBOOK -> {
                 LoginManager.getInstance().logOut()
                 Log.i("Facebook Signout", "Signed out facebook successfully")
+            }
+            SignInMethod.GOOGLE -> {
+                val oneTapClient = Identity.getSignInClient(requireActivity())
+                oneTapClient.signOut().addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.i("Google Signout", "Signed out Google successfully")
+                    } else {
+                        Log.e("Google Signout", "Google sign-out failed", task.exception)
+                    }
+                }
             }
             SignInMethod.NONE -> { Log.w("HomeFragment", "No sign-in method recorded") }
         }

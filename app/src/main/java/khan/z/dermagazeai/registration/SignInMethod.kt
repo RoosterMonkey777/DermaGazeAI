@@ -1,7 +1,7 @@
 package khan.z.dermagazeai.registration
 
 enum class SignInMethod {
-    FACEBOOK, NONE
+    FACEBOOK, GOOGLE, NONE
 }
 
 //enum class SignInMethod {

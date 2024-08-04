@@ -61,4 +61,8 @@ dependencies {
 
     // facebook
     implementation(libs.facebook.login)
+
+    // google
+    implementation("com.google.android.gms:play-services-auth:20.4.1")
+
 }
