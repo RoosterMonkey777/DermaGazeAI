@@ -1,4 +1,4 @@
-package khan.z.dermagazeai
+package khan.z.dermagazeai.application
 
 import android.app.Application
 import android.util.Log

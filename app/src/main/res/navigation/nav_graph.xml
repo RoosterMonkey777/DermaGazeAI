@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/startupFragment"
-        android:name="khan.z.dermagazeai.registration.StartupFragment"
+        android:name="khan.z.dermagazeai.registration.views.StartupFragment"
         android:label="fragment_startup"
         tools:layout="@layout/fragment_startup">
         <action
@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="khan.z.dermagazeai.registration.LoginFragment"
+        android:name="khan.z.dermagazeai.registration.views.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login">
 <!--        <action-->

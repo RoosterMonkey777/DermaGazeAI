@@ -1,4 +1,4 @@
-package khan.z.dermagazeai.registration
+package khan.z.dermagazeai.registration.views
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
