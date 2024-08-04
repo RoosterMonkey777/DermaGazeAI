@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.amplifyframework.auth.cognito.result.AWSCognitoAuthSignOutResult
 import com.amplifyframework.core.Amplify
+import com.facebook.login.LoginManager
 
 
 class HomeFragment : Fragment() {
@@ -35,6 +36,11 @@ class HomeFragment : Fragment() {
 
     private fun signOut() {
         Log.d("LoginFragment", "Sign out initiated")
+
+        // signout from facebook
+        LoginManager.getInstance().logOut()
+
+        // signout from aws-cognito
         Amplify.Auth.signOut { signOutResult ->
             requireActivity().runOnUiThread {
                 when (signOutResult) {
