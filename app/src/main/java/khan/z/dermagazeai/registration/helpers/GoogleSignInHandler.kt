@@ -23,7 +23,7 @@ import com.google.android.gms.tasks.Task
 import khan.z.dermagazeai.R
 import khan.z.dermagazeai.registration.SignInMethod
 
-class GoogleSignInHandler(private val fragment: Fragment, private val navController: NavController) {
+class GoogleSignInHandler(private val fragment: Fragment, private val navController: NavController, private val destinationFragmentId: Int) {
 
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var signInButton: SignInButton
@@ -95,7 +95,7 @@ class GoogleSignInHandler(private val fragment: Fragment, private val navControl
                     { result ->
                         Log.i("AuthQuickStart", "Federated google Successfully: $result")
                         fragment.requireActivity().runOnUiThread {
-                            navController.navigate(R.id.action_loginFragment_to_homeFragment)
+                            navController.navigate(destinationFragmentId)
                         }
                     },
                     { error ->

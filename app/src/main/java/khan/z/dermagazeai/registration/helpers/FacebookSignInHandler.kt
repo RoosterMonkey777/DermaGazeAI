@@ -15,24 +15,22 @@ import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
+import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import khan.z.dermagazeai.R
 import khan.z.dermagazeai.registration.SignInMethod
 
-class FacebookSignInHandler(private val fragment: Fragment, private val navController: NavController) {
+class FacebookSignInHandler(private val fragment: Fragment, private val navController: NavController, private val destinationFragmentId: Int) {
 
     private val callbackManager: CallbackManager = CallbackManager.Factory.create()
     private lateinit var loginButton: LoginButton
+    private lateinit var customFacebookButton: ImageButton
 
-    fun initializeFacebookLogin(view: View, loginButtonId: Int, customButtonId: Int) {
-        loginButton = view.findViewById(loginButtonId)
-        val customFacebookButton: ImageButton = view.findViewById(customButtonId)
 
-        loginButton.setPermissions("email")
-        loginButton.setFragment(fragment)
 
-        loginButton.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+    init {
+        LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(result: LoginResult) {
                 Log.d("FacebookSignInHandler", "Facebook login successful")
                 Toast.makeText(fragment.context, "Signed in using Facebook", Toast.LENGTH_SHORT).show()
@@ -46,9 +44,17 @@ class FacebookSignInHandler(private val fragment: Fragment, private val navContr
                 Log.e("FacebookSignInHandler", "Facebook login error", error)
             }
         })
+    }
+
+    fun initializeFacebookLogin(view: View, loginButtonId: Int, customButtonId: Int) {
+        loginButton = view.findViewById(loginButtonId)
+        customFacebookButton = view.findViewById(customButtonId)
+
+        loginButton.setPermissions("email")
+        loginButton.setFragment(fragment)
 
         customFacebookButton.setOnClickListener {
-            loginButton.performClick()
+            LoginManager.getInstance().logInWithReadPermissions(fragment, listOf("email"))
         }
     }
 
@@ -67,7 +73,8 @@ class FacebookSignInHandler(private val fragment: Fragment, private val navContr
                     if (result.isSignedIn) {
                         // Successfully signed in
                         Log.d("FacebookSignInHandler", "User is signed in with Facebook")
-                        navController.navigate(R.id.action_loginFragment_to_homeFragment)
+                        //navController.navigate(R.id.action_loginFragment_to_homeFragment)
+                        navController.navigate(destinationFragmentId)
                     } else {
                         Log.w("FacebookSignInHandler", "Sign-in result was not signed in")
                     }

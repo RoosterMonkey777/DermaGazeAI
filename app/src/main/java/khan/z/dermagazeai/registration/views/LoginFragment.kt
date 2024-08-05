@@ -8,12 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.amplifyframework.auth.AuthProvider
 import com.amplifyframework.auth.cognito.result.AWSCognitoAuthSignOutResult
 import com.amplifyframework.core.Amplify
+import com.facebook.FacebookSdk
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.identity.Identity
 import khan.z.dermagazeai.R
@@ -23,17 +26,19 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
+import khan.z.dermagazeai.registration.helpers.EmailSignInHandler
 import khan.z.dermagazeai.registration.helpers.FacebookSignInHandler
 import khan.z.dermagazeai.registration.helpers.GoogleSignInHandler
 
 
-// CURRENT VERSION ----------------------------------------------------------------------------------------
 
-// V4: both google and facebook signin with seperation of concerns
+// CURRENT VERSION ----------------------------------------------------------------------------------------
+//V7: email, fb, google (seperation of concers)
 class LoginFragment : Fragment() {
 
     private lateinit var googleSignInHandler: GoogleSignInHandler
     private lateinit var facebookSignInHandler: FacebookSignInHandler
+    private lateinit var emailSignInHandler: EmailSignInHandler
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,17 +50,18 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        googleSignInHandler = GoogleSignInHandler(this, findNavController())
+        googleSignInHandler = GoogleSignInHandler(this, findNavController(), R.id.action_loginFragment_to_homeFragment)
         googleSignInHandler.initializeGoogleSignIn(view, getString(R.string.google_app_id), R.id.btn_google, R.id.custom_google)
-        facebookSignInHandler = FacebookSignInHandler(this, findNavController())
+
+        facebookSignInHandler = FacebookSignInHandler(this, findNavController(), R.id.action_loginFragment_to_homeFragment)
         facebookSignInHandler.initializeFacebookLogin(view, R.id.btn_fb, R.id.custom_fb)
 
-        view.findViewById<View>(R.id.btn_google).setOnClickListener {
-            googleSignInHandler.signIn()
+        emailSignInHandler = EmailSignInHandler(this, findNavController())
+        emailSignInHandler.initializeEmailSignIn(view, R.id.et_email, R.id.et_password, R.id.btn_login)
+
+        view.findViewById<View>(R.id.tv_signup).setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
         }
-//        view.findViewById<Button>(R.id.btn_signout).setOnClickListener {
-//            signOut()
-//        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -63,41 +69,218 @@ class LoginFragment : Fragment() {
         googleSignInHandler.onActivityResult(requestCode, resultCode, data)
         facebookSignInHandler.onActivityResult(requestCode, resultCode, data)
     }
+}
 
-//    private fun signOut() {
-//        Log.d("LoginFragment", "Sign out initiated")
+
+// V6, email, fb and googele (no seperation of concerns)
+//class LoginFragment : Fragment() {
 //
-//        val oneTapClient = Identity.getSignInClient(requireActivity())
-//        oneTapClient.signOut().addOnCompleteListener { task ->
-//            if (task.isSuccessful) {
-//                Log.i("Google Signout", "Signed out Google successfully")
-//            } else {
-//                Log.e("Google Signout", "Google sign-out failed", task.exception)
-//            }
+//    private lateinit var etEmail: EditText
+//    private lateinit var etPassword: EditText
+//    private lateinit var googleSignInHandler: GoogleSignInHandler
+//    private lateinit var facebookSignInHandler: FacebookSignInHandler
+//
+//    override fun onCreateView(
+//        inflater: LayoutInflater, container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//        return inflater.inflate(R.layout.fragment_login, container, false)
+//    }
+//
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//
+//        googleSignInHandler = GoogleSignInHandler(this, findNavController())
+//        googleSignInHandler.initializeGoogleSignIn(view, getString(R.string.google_app_id), R.id.btn_google, R.id.custom_google)
+//        facebookSignInHandler = FacebookSignInHandler(this, findNavController())
+//        facebookSignInHandler.initializeFacebookLogin(view, R.id.btn_fb, R.id.custom_fb)
+//        etEmail = view.findViewById(R.id.et_email)
+//        etPassword = view.findViewById(R.id.et_password)
+//
+//        view.findViewById<View>(R.id.btn_google).setOnClickListener {
+//            googleSignInHandler.signIn()
 //        }
-//
-//        // Always sign out from AWS Cognito
-//        Amplify.Auth.signOut { signOutResult ->
-//            requireActivity().runOnUiThread {
-//                when (signOutResult) {
-//                    is AWSCognitoAuthSignOutResult.CompleteSignOut -> {
-//                        Toast.makeText(context, "Signed out successfully", Toast.LENGTH_SHORT).show()
-//                        Log.i("AuthQuickStart", "Signed out successfully")
-//                    }
-//                    is AWSCognitoAuthSignOutResult.PartialSignOut -> {
-//                        Log.e("AuthQuickStart", "Partial sign-out, hostedUIError: ${signOutResult.hostedUIError}")
-//                        Log.e("AuthQuickStart", "Partial sign-out, globalSignOutError: ${signOutResult.globalSignOutError}")
-//                        Log.e("AuthQuickStart", "Partial sign-out, revokeTokenError: ${signOutResult.revokeTokenError}")
-//                    }
-//                    is AWSCognitoAuthSignOutResult.FailedSignOut -> {
-//                        Toast.makeText(context, "Sign out failed: ${signOutResult.exception.message}", Toast.LENGTH_SHORT).show()
-//                        Log.e("AuthQuickStart", "Sign out Failed", signOutResult.exception)
-//                    }
-//                }
-//            }
+//        view.findViewById<View>(R.id.tv_signup).setOnClickListener {
+//            findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
+//        }
+//        view.findViewById<Button>(R.id.btn_login).setOnClickListener {
+//            login()
+//        }
+//        val signupTextView: TextView = view.findViewById(R.id.tv_signup)
+//        signupTextView.setOnClickListener {
+//            findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
 //        }
 //    }
-}
+//
+//    private fun login() {
+//        val email = etEmail.text.toString()
+//        val password = etPassword.text.toString()
+//
+//        Amplify.Auth.signIn(email, password,
+//            { result ->
+//                activity?.runOnUiThread {
+//                    if (result.isSignedIn) {
+//                        Toast.makeText(context, "Login succeeded", Toast.LENGTH_SHORT).show()
+//                        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+//                    } else {
+//                        Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//            },
+//            { error ->
+//                activity?.runOnUiThread {
+//                    Toast.makeText(context, "Login failed: ${error.message}", Toast.LENGTH_SHORT).show()
+//                    Log.e("LoginFailed", error.toString())
+//                }
+//            }
+//        )
+//    }
+//
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        Amplify.Auth.handleWebUISignInResponse(data)
+//        googleSignInHandler.onActivityResult(requestCode, resultCode, data)
+//        facebookSignInHandler.onActivityResult(requestCode, resultCode, data)
+//    }
+//}
+
+
+
+//// V5: Only email and password:
+//class LoginFragment : Fragment() {
+//
+//    private lateinit var etEmail: EditText
+//    private lateinit var etPassword: EditText
+//
+//    override fun onCreateView(
+//        inflater: LayoutInflater, container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//        return inflater.inflate(R.layout.fragment_login, container, false)
+//    }
+//
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//
+//        etEmail = view.findViewById(R.id.et_email)
+//        etPassword = view.findViewById(R.id.et_password)
+//
+//        view.findViewById<Button>(R.id.btn_login).setOnClickListener {
+//            login()
+//
+//        }
+//
+//        val signupTextView: TextView = view.findViewById(R.id.tv_signup)
+//        signupTextView.setOnClickListener {
+//            findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
+//        }
+//    }
+//
+//    private fun login() {
+//        val email = etEmail.text.toString()
+//        val password = etPassword.text.toString()
+//
+//        Amplify.Auth.signIn(email, password,
+//            { result ->
+//                activity?.runOnUiThread {
+//                    if (result.isSignedIn) {
+//                        Toast.makeText(context, "Login succeeded", Toast.LENGTH_SHORT).show()
+//                        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+//                    } else {
+//                        Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//            },
+//            { error ->
+//                activity?.runOnUiThread {
+//                    Toast.makeText(context, "Login failed: ${error.message}", Toast.LENGTH_SHORT).show()
+//                    Log.e("LoginFailed", error.toString())
+//                }
+//            }
+//        )
+//    }
+//
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        Amplify.Auth.handleWebUISignInResponse(data)
+//    }
+//
+//}
+
+
+// V4: both google and facebook signin with seperation of concerns
+//class LoginFragment : Fragment() {
+//
+//    private lateinit var googleSignInHandler: GoogleSignInHandler
+//    private lateinit var facebookSignInHandler: FacebookSignInHandler
+//
+//    override fun onCreateView(
+//        inflater: LayoutInflater, container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//        return inflater.inflate(R.layout.fragment_login, container, false)
+//    }
+//
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//
+//        googleSignInHandler = GoogleSignInHandler(this, findNavController())
+//        googleSignInHandler.initializeGoogleSignIn(view, getString(R.string.google_app_id), R.id.btn_google, R.id.custom_google)
+//        facebookSignInHandler = FacebookSignInHandler(this, findNavController())
+//        facebookSignInHandler.initializeFacebookLogin(view, R.id.btn_fb, R.id.custom_fb)
+//
+//        view.findViewById<View>(R.id.btn_google).setOnClickListener {
+//            googleSignInHandler.signIn()
+//        }
+//
+//        view.findViewById<View>(R.id.tv_signup).setOnClickListener {
+//            findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
+//        }
+////        view.findViewById<Button>(R.id.btn_signout).setOnClickListener {
+////            signOut()
+////        }
+//    }
+//
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        googleSignInHandler.onActivityResult(requestCode, resultCode, data)
+//        facebookSignInHandler.onActivityResult(requestCode, resultCode, data)
+//    }
+//
+////    private fun signOut() {
+////        Log.d("LoginFragment", "Sign out initiated")
+////
+////        val oneTapClient = Identity.getSignInClient(requireActivity())
+////        oneTapClient.signOut().addOnCompleteListener { task ->
+////            if (task.isSuccessful) {
+////                Log.i("Google Signout", "Signed out Google successfully")
+////            } else {
+////                Log.e("Google Signout", "Google sign-out failed", task.exception)
+////            }
+////        }
+////
+////        // Always sign out from AWS Cognito
+////        Amplify.Auth.signOut { signOutResult ->
+////            requireActivity().runOnUiThread {
+////                when (signOutResult) {
+////                    is AWSCognitoAuthSignOutResult.CompleteSignOut -> {
+////                        Toast.makeText(context, "Signed out successfully", Toast.LENGTH_SHORT).show()
+////                        Log.i("AuthQuickStart", "Signed out successfully")
+////                    }
+////                    is AWSCognitoAuthSignOutResult.PartialSignOut -> {
+////                        Log.e("AuthQuickStart", "Partial sign-out, hostedUIError: ${signOutResult.hostedUIError}")
+////                        Log.e("AuthQuickStart", "Partial sign-out, globalSignOutError: ${signOutResult.globalSignOutError}")
+////                        Log.e("AuthQuickStart", "Partial sign-out, revokeTokenError: ${signOutResult.revokeTokenError}")
+////                    }
+////                    is AWSCognitoAuthSignOutResult.FailedSignOut -> {
+////                        Toast.makeText(context, "Sign out failed: ${signOutResult.exception.message}", Toast.LENGTH_SHORT).show()
+////                        Log.e("AuthQuickStart", "Sign out Failed", signOutResult.exception)
+////                    }
+////                }
+////            }
+////        }
+////    }
+//}
 
 
 
