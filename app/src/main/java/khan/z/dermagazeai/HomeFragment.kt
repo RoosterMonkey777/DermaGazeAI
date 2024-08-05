@@ -1,20 +1,12 @@
 package khan.z.dermagazeai
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.navigation.fragment.findNavController
-import com.amplifyframework.auth.cognito.result.AWSCognitoAuthSignOutResult
-import com.amplifyframework.core.Amplify
-import com.facebook.login.LoginManager
-import com.google.android.gms.auth.api.identity.Identity
-import khan.z.dermagazeai.registration.SignInMethod
 import khan.z.dermagazeai.registration.helpers.AuthorizationUtils
 
 

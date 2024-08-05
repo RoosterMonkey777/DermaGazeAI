@@ -1,10 +1,8 @@
 package khan.z.dermagazeai.registration.helpers
 
-import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -18,8 +16,7 @@ import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
-import khan.z.dermagazeai.R
-import khan.z.dermagazeai.registration.SignInMethod
+import khan.z.dermagazeai.registration.model.SignInMethod
 
 class FacebookSignInHandler(private val fragment: Fragment, private val navController: NavController, private val destinationFragmentId: Int) {
 
