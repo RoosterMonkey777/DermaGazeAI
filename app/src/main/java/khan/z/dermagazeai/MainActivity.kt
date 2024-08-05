@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 // R.id.confirmationFragment,  R.id.signupFragment
-                R.id.startupFragment, R.id.loginFragment,  -> supportActionBar?.hide()
+                R.id.startupFragment, R.id.signupFragment, R.id.loginFragment,  -> supportActionBar?.hide()
                 else -> {
                     supportActionBar?.show()
                     setupActionBarWithNavController(navController, appBarConfiguration)

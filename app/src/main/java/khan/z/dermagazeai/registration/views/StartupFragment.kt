@@ -21,14 +21,14 @@ class StartupFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val buttonLogin: View = view.findViewById(R.id.buttonLogin)
-        //val buttonSignup: View = view.findViewById(R.id.buttonSignup)
+        val buttonSignup: View = view.findViewById(R.id.buttonSignup)
 
         buttonLogin.setOnClickListener {
             findNavController().navigate(R.id.action_startupFragment_to_loginFragment)
         }
 
-//        buttonSignup.setOnClickListener {
-//            findNavController().navigate(R.id.action_startupFragment_to_signupFragment)
-//        }
+        buttonSignup.setOnClickListener {
+            findNavController().navigate(R.id.action_startupFragment_to_signupFragment)
+        }
     }
 }
