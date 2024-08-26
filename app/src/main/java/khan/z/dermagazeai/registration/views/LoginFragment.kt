@@ -2,11 +2,17 @@ package khan.z.dermagazeai.registration.views
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.amplifyframework.auth.cognito.result.AWSCognitoAuthSignOutResult
+import com.amplifyframework.core.Amplify
+import com.amplifyframework.core.Amplify.*
+import com.google.android.gms.auth.api.identity.Identity
 import khan.z.dermagazeai.R
 import khan.z.dermagazeai.registration.helpers.EmailSignInHandler
 import khan.z.dermagazeai.registration.helpers.FacebookSignInHandler
@@ -43,8 +49,44 @@ class LoginFragment : Fragment() {
 
         view.findViewById<View>(R.id.tv_signup).setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
+            //signOut()
         }
     }
+
+    private fun signOut() {
+        Log.d("LoginFragment", "Sign out initiated")
+
+        val oneTapClient = Identity.getSignInClient(requireActivity())
+        oneTapClient.signOut().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.i("Google Signout", "Signed out Google successfully")
+            } else {
+                Log.e("Google Signout", "Google sign-out failed", task.exception)
+            }
+        }
+
+        // Always sign out from AWS Cognito
+        Auth.signOut { signOutResult ->
+            requireActivity().runOnUiThread {
+                when (signOutResult) {
+                    is AWSCognitoAuthSignOutResult.CompleteSignOut -> {
+                        Toast.makeText(context, "Signed out successfully", Toast.LENGTH_SHORT).show()
+                        Log.i("AuthQuickStart", "Signed out successfully")
+                    }
+                    is AWSCognitoAuthSignOutResult.PartialSignOut -> {
+                        Log.e("AuthQuickStart", "Partial sign-out, hostedUIError: ${signOutResult.hostedUIError}")
+                        Log.e("AuthQuickStart", "Partial sign-out, globalSignOutError: ${signOutResult.globalSignOutError}")
+                        Log.e("AuthQuickStart", "Partial sign-out, revokeTokenError: ${signOutResult.revokeTokenError}")
+                    }
+                    is AWSCognitoAuthSignOutResult.FailedSignOut -> {
+                        Toast.makeText(context, "Sign out failed: ${signOutResult.exception.message}", Toast.LENGTH_SHORT).show()
+                        Log.e("AuthQuickStart", "Sign out Failed", signOutResult.exception)
+                    }
+                }
+            }
+        }
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

@@ -21,6 +21,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
+
+
         setSupportActionBar(toolbar)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -30,8 +32,7 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                // R.id.confirmationFragment,  R.id.signupFragment
-                R.id.startupFragment, R.id.signupFragment, R.id.loginFragment,  -> supportActionBar?.hide()
+                R.id.startupFragment, R.id.signupFragment, R.id.loginFragment,  R.id.confirmationFragment-> supportActionBar?.hide()
                 else -> {
                     supportActionBar?.show()
                     setupActionBarWithNavController(navController, appBarConfiguration)
