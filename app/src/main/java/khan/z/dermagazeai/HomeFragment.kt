@@ -1,5 +1,6 @@
 package khan.z.dermagazeai
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -7,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
+import android.widget.PopupMenu
 import androidx.navigation.fragment.findNavController
 import com.amplifyframework.api.graphql.model.ModelQuery
 import com.amplifyframework.core.Amplify
@@ -18,6 +21,7 @@ import khan.z.dermagazeai.registration.helpers.AuthorizationUtils
 // CURRENT VERSION ----------------------------------------------------
 class HomeFragment : Fragment() {
 
+    private var isRotated = false
     private val userProfileManager = UserProfileManager()
 
     override fun onCreateView(
@@ -29,8 +33,30 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         Log.d("HomeFragment", "onViewCreated called")
 
+        // top left menu button
+        val menuButton: ImageButton = view.findViewById(R.id.menu_button)
+
+        menuButton.setOnClickListener {
+            val rotateAnimator = if (isRotated) {
+                ObjectAnimator.ofFloat(menuButton, "rotation", 90f, 0f) // Rotate back to 0 degrees
+            } else {
+                ObjectAnimator.ofFloat(menuButton, "rotation", 0f, 90f) // Rotate to 90 degrees
+            }
+            rotateAnimator.duration = 150
+            rotateAnimator.start()
+
+            isRotated = !isRotated // Toggle the rotation state
+
+            // Optionally, show the menu here only when rotating to 90 degrees
+            if (isRotated) {
+                //showPopupMenu(menuButton)
+            }
+        }
+
+        // find the user profile in database
         userProfileManager.fetchUserEmail(
             onSuccess = { email ->
                 Log.d("HomeFragment", "User email: $email")
@@ -62,6 +88,35 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
+//    private fun showPopupMenu(view: View) {
+//        val popup = PopupMenu(requireContext(), view)
+//        popup.menuInflater.inflate(R.menu.menu_main, popup.menu)
+//        popup.setOnMenuItemClickListener { item ->
+//            when (item.itemId) {
+//                R.id.action_faq -> {
+//                    // Handle FAQ action
+//                    true
+//                }
+//                R.id.action_about -> {
+//                    // Handle About action
+//                    true
+//                }
+//                R.id.action_signout -> {
+//                    // Handle Sign Out action
+//                    AuthorizationUtils.signOut(requireContext()) {
+//                        Log.d("HomeFragment", "User signed out, navigating to login screen")
+//                        findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
+//                    }
+//                    true
+//                }
+//                else -> false
+//            }
+//        }
+//        popup.show()
+//    }
+
+
 
     private fun navigateToUserProfileDialog() {
         requireActivity().runOnUiThread {

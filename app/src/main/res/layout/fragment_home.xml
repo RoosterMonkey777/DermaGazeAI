@@ -10,17 +10,14 @@
     <!-- Round ImageButton for menu in HomeFragment -->
     <ImageButton
         android:id="@+id/menu_button"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:scaleType="centerInside"
-        android:src="@drawable/baseline_menu_24"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/menu_button_states"
         android:contentDescription="menu"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="16dp"
-        android:backgroundTint="?attr/colorPrimary"
-        android:padding="12dp"
+        android:padding="14dp"
         android:elevation="4dp" />
 
     <Button
