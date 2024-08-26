@@ -7,6 +7,22 @@
     android:layout_height="match_parent"
     tools:context=".HomeFragment">
 
+    <!-- Round ImageButton for menu in HomeFragment -->
+    <ImageButton
+        android:id="@+id/menu_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="centerInside"
+        android:src="@drawable/baseline_menu_24"
+        android:contentDescription="menu"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="16dp"
+        android:backgroundTint="?attr/colorPrimary"
+        android:padding="12dp"
+        android:elevation="4dp" />
+
     <Button
         android:id="@+id/btn_signout"
         android:layout_width="wrap_content"
