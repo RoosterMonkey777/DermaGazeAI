@@ -48,8 +48,8 @@ class LoginFragment : Fragment() {
         emailSignInHandler.initializeEmailSignIn(view, R.id.et_email, R.id.et_password, R.id.btn_login)
 
         view.findViewById<View>(R.id.tv_signup).setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
-            //signOut()
+            //findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
+            signOut()
         }
     }
 

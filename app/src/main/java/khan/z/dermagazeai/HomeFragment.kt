@@ -11,38 +11,47 @@ import androidx.navigation.fragment.findNavController
 import com.amplifyframework.api.graphql.model.ModelQuery
 import com.amplifyframework.core.Amplify
 import com.amplifyframework.datastore.generated.model.User
+import khan.z.dermagazeai.manager.UserProfileManager
 import khan.z.dermagazeai.registration.helpers.AuthorizationUtils
 
 
 // CURRENT VERSION ----------------------------------------------------
 class HomeFragment : Fragment() {
 
+    private val userProfileManager = UserProfileManager()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         Log.d("HomeFragment", "onViewCreated called")
 
-        // Fetch the current user's email
-        Amplify.Auth.fetchUserAttributes(
-            { attributes ->
-                Log.d("HomeFragment", "User attributes fetched successfully")
-                val email = attributes.firstOrNull { it.key.keyString == "email" }?.value
-                if (email != null) {
-                    Log.d("HomeFragment", "User email: $email")
-                    checkUserProfile(email)
-                } else {
-                    Log.e("HomeFragment", "Email not found in user attributes")
-                }
+        userProfileManager.fetchUserEmail(
+            onSuccess = { email ->
+                Log.d("HomeFragment", "User email: $email")
+                userProfileManager.checkUserProfile(
+                    email,
+                    onProfileFound = { user ->
+                        Log.d("HomeFragment", "User profile found: $user")
+                        // Handle profile found scenario
+                    },
+                    onProfileNotFound = {
+                        Log.d("HomeFragment", "No user profile found, navigating to UserProfileDialogFragment")
+                        navigateToUserProfileDialog()
+                    },
+                    onError = { error ->
+                        Log.e("HomeFragment", "Failed to query user profile", error)
+                    }
+                )
             },
-            { error -> Log.e("HomeFragment", "Failed to fetch user attributes", error) }
+            onError = { error ->
+                Log.e("HomeFragment", "Failed to fetch user email", error)
+            }
         )
 
         view.findViewById<Button>(R.id.btn_signout).setOnClickListener {
@@ -54,26 +63,13 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun checkUserProfile(email: String) {
-        Log.d("HomeFragment", "Checking user profile for email: $email")
-        // Use the generated query method for fetching user by email
-        Amplify.API.query(
-            ModelQuery.list(User::class.java, User.EMAIL.eq(email)),
-            { response ->
-                val items = response.data?.items
-                if (items == null || !items.iterator().hasNext()) {
-                    Log.d("HomeFragment", "No user profile found, navigating to UserProfileDialogFragment")
-                    requireActivity().runOnUiThread {
-                        findNavController().navigate(R.id.action_homeFragment_to_userProfileDialogFragment)
-                    }
-                } else {
-                    Log.d("HomeFragment", "User profile found: ${items.firstOrNull()}")
-                }
-            },
-            { error -> Log.e("HomeFragment", "Query failed", error) }
-        )
+    private fun navigateToUserProfileDialog() {
+        requireActivity().runOnUiThread {
+            findNavController().navigate(R.id.action_homeFragment_to_userProfileDialogFragment)
+        }
     }
 }
+
 
 
 
