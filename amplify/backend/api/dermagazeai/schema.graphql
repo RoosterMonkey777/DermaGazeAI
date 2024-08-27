@@ -5,4 +5,5 @@ type User @model @auth(rules: [{ allow: public }]) {
   email: String! @index(name: "byEmail", queryField: "getUserByEmail")
   age: Int
   gender: String
+  consentGiven: Boolean! # Flag to track ToS acceptance
 }

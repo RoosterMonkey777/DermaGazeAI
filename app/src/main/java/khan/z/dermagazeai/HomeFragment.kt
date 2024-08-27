@@ -1,6 +1,7 @@
 package khan.z.dermagazeai
 
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -40,7 +41,7 @@ class HomeFragment : Fragment() {
         val menuButton: ImageButton = view.findViewById(R.id.menu_button)
         topMenuManager.setupMenuButton(menuButton)
 
-        // Find the user profile in database
+        // Check if the user needs to see the ToS dialog or User Profile dialog
         userProfileManager.fetchUserEmail(
             onSuccess = { email ->
                 Log.d("HomeFragment", "User email: $email")
@@ -48,11 +49,15 @@ class HomeFragment : Fragment() {
                     email,
                     onProfileFound = { user ->
                         Log.d("HomeFragment", "User profile found: $user")
-                        // Handle profile found scenario
+                        // User profile is complete, do nothing
                     },
                     onProfileNotFound = {
-                        Log.d("HomeFragment", "No user profile found, navigating to UserProfileDialogFragment")
-                        navigateToUserProfileDialog()
+                        Log.d("HomeFragment", "No user profile found")
+                        if (shouldShowTermsOfService()) {
+                            navigateToTermsOfServiceDialog()
+                        } else {
+                            navigateToUserProfileDialog()
+                        }
                     },
                     onError = { error ->
                         Log.e("HomeFragment", "Failed to query user profile", error)
@@ -74,6 +79,22 @@ class HomeFragment : Fragment() {
     private fun navigateToUserProfileDialog() {
         requireActivity().runOnUiThread {
             findNavController().navigate(R.id.action_homeFragment_to_userProfileDialogFragment)
+        }
+    }
+
+    private fun shouldShowTermsOfService(): Boolean {
+        // Implement the actual logic to check if ToS has been accepted
+        // For now, return true if it hasn't been accepted
+        // Example: Check if consentGiven is stored in a shared preference or in the database
+        // Assuming a shared preference check here for simplicity
+
+        val sharedPref = requireContext().getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        return !sharedPref.getBoolean("consentGiven", false)
+    }
+
+    private fun navigateToTermsOfServiceDialog() {
+        requireActivity().runOnUiThread {
+            findNavController().navigate(R.id.action_homeFragment_to_termsOfServiceDialogFragment)
         }
     }
 }

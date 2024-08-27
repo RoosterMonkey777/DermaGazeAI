@@ -16,6 +16,7 @@ import com.amplifyframework.api.graphql.model.ModelMutation
 import com.amplifyframework.core.Amplify
 import com.amplifyframework.datastore.generated.model.User
 import khan.z.dermagazeai.R
+import khan.z.dermagazeai.manager.UserProfileManager
 
 class UserProfileDialogFragment : DialogFragment() {
 
@@ -26,6 +27,7 @@ class UserProfileDialogFragment : DialogFragment() {
     private lateinit var etGender: EditText
     private lateinit var saveButton: Button
     private lateinit var cancelButton: Button
+    private val userProfileManager = UserProfileManager()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +35,7 @@ class UserProfileDialogFragment : DialogFragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_user_profile_dialog, container, false)
 
+        // Initialize UI components
         etFirstName = view.findViewById(R.id.et_firstname)
         etLastName = view.findViewById(R.id.et_lastname)
         etEmail = view.findViewById(R.id.et_email)
@@ -41,23 +44,32 @@ class UserProfileDialogFragment : DialogFragment() {
         saveButton = view.findViewById(R.id.btn_save)
         cancelButton = view.findViewById(R.id.btn_cancel)
 
-        // Fetch the current user's email
-        Amplify.Auth.fetchUserAttributes(
-            { attributes ->
-                val email = attributes.firstOrNull { it.key.keyString == "email" }?.value
-                requireActivity().runOnUiThread {
-                    etEmail.setText(email)
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Fetch the current user's email using UserProfileManager and update the UI
+        userProfileManager.fetchUserEmail(
+            onSuccess = { email ->
+                if (isAdded) {
+                    requireActivity().runOnUiThread {
+                        etEmail.setText(email)
+                    }
                 }
             },
-            { error ->
-                Log.e("UserProfileDialog", "Failed to fetch user attributes", error)
+            onError = { error ->
+                Log.e("UserProfileDialog", "Failed to fetch user email", error)
             }
         )
 
+        // Set up the save button click listener
         saveButton.setOnClickListener {
             saveUserData()
         }
 
+        // Set up the cancel button click listener
         cancelButton.setOnClickListener {
             Amplify.Auth.signOut {
                 requireActivity().runOnUiThread {
@@ -65,8 +77,6 @@ class UserProfileDialogFragment : DialogFragment() {
                 }
             }
         }
-
-        return view
     }
 
     private fun saveUserData() {
@@ -76,29 +86,21 @@ class UserProfileDialogFragment : DialogFragment() {
         val age = etAge.text.toString().toIntOrNull()
         val gender = etGender.text.toString()
 
-        val user = User.builder()
-            .firstname(firstName)
-            .lastname(lastName)
-            .email(email)
-            .age(age)
-            .gender(gender)
-            .build()
-
-        Amplify.API.mutate(
-            ModelMutation.create(user),
-            { response ->
-                if (response.hasErrors()) {
-                    Log.e("UserProfileDialog", "Failed to create user: ${response.errors.first().message}")
-                } else {
-                    requireActivity().runOnUiThread {
-                        findNavController().navigate(R.id.action_userProfileDialogFragment_to_homeFragment)
-                    }
+        userProfileManager.createUser(
+            firstName,
+            lastName,
+            email,
+            age,
+            gender,
+            true, // consentGiven is set to true
+            onSuccess = {
+                requireActivity().runOnUiThread {
+                    findNavController().navigate(R.id.action_userProfileDialogFragment_to_homeFragment)
                 }
             },
-            { error ->
+            onError = { error: Exception ->
                 Log.e("UserProfileDialog", "Failed to create user", error)
             }
         )
-
     }
 }

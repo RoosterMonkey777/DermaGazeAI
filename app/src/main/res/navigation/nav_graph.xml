@@ -5,7 +5,7 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/startupFragment">
 
-<!--startup-->
+    <!--startup-->
     <fragment
         android:id="@+id/startupFragment"
         android:name="khan.z.dermagazeai.registration.views.StartupFragment"
@@ -19,7 +19,7 @@
             app:destination="@id/signupFragment" />
     </fragment>
 
-<!--signup-->
+    <!--signup-->
     <fragment
         android:id="@+id/signupFragment"
         android:name="khan.z.dermagazeai.registration.views.SignupFragment"
@@ -36,8 +36,7 @@
             app:destination="@id/homeFragment" />
     </fragment>
 
-
-<!--confirmation    -->
+    <!--confirmation-->
     <fragment
         android:id="@+id/confirmationFragment"
         android:name="khan.z.dermagazeai.registration.views.ConfirmationFragment"
@@ -48,12 +47,10 @@
             app:destination="@id/loginFragment" />
         <action
             android:id="@+id/action_confirmationFragment_to_signupFragment"
-            app:destination="@+id/signupFragment">
-        </action>
+            app:destination="@id/signupFragment" />
     </fragment>
 
-
-<!--login-->
+    <!--login-->
     <fragment
         android:id="@+id/loginFragment"
         android:name="khan.z.dermagazeai.registration.views.LoginFragment"
@@ -66,7 +63,6 @@
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
-
 
     <!--home-->
     <fragment
@@ -88,7 +84,28 @@
         <action
             android:id="@+id/action_homeFragment_to_aboutFragment"
             app:destination="@id/aboutFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_termsOfServiceDialogFragment"
+            app:destination="@id/termsOfServiceDialogFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
     </fragment>
+
+    <!--terms of service dialog-->
+    <dialog
+        android:id="@+id/termsOfServiceDialogFragment"
+        android:name="khan.z.dermagazeai.dialogs.TermsOfServiceDialogFragment"
+        android:label="Terms of Service"
+        tools:layout="@layout/fragment_terms_of_service_dialog">
+        <action
+            android:id="@+id/action_termsOfServiceDialogFragment_to_userProfileDialogFragment"
+            app:destination="@id/userProfileDialogFragment" />
+        <action
+            android:id="@+id/action_termsOfServiceDialogFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+    </dialog>
 
     <!--user profile dialog-->
     <dialog
@@ -133,7 +150,6 @@
         android:name="khan.z.dermagazeai.medication.views.MedicationFragment"
         android:label="Medication"
         tools:layout="@layout/fragment_medication" />
-
 
     <!--user profile fragment-->
     <fragment

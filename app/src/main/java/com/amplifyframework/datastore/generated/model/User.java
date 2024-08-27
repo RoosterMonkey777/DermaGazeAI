@@ -33,12 +33,14 @@ public final class User implements Model {
   public static final QueryField EMAIL = field("User", "email");
   public static final QueryField AGE = field("User", "age");
   public static final QueryField GENDER = field("User", "gender");
+  public static final QueryField CONSENT_GIVEN = field("User", "consentGiven");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String firstname;
   private final @ModelField(targetType="String", isRequired = true) String lastname;
   private final @ModelField(targetType="String", isRequired = true) String email;
   private final @ModelField(targetType="Int") Integer age;
   private final @ModelField(targetType="String") String gender;
+  private final @ModelField(targetType="Boolean", isRequired = true) Boolean consentGiven;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
@@ -71,6 +73,10 @@ public final class User implements Model {
       return gender;
   }
   
+  public Boolean getConsentGiven() {
+      return consentGiven;
+  }
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
@@ -79,13 +85,14 @@ public final class User implements Model {
       return updatedAt;
   }
   
-  private User(String id, String firstname, String lastname, String email, Integer age, String gender) {
+  private User(String id, String firstname, String lastname, String email, Integer age, String gender, Boolean consentGiven) {
     this.id = id;
     this.firstname = firstname;
     this.lastname = lastname;
     this.email = email;
     this.age = age;
     this.gender = gender;
+    this.consentGiven = consentGiven;
   }
   
   @Override
@@ -102,6 +109,7 @@ public final class User implements Model {
               ObjectsCompat.equals(getEmail(), user.getEmail()) &&
               ObjectsCompat.equals(getAge(), user.getAge()) &&
               ObjectsCompat.equals(getGender(), user.getGender()) &&
+              ObjectsCompat.equals(getConsentGiven(), user.getConsentGiven()) &&
               ObjectsCompat.equals(getCreatedAt(), user.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), user.getUpdatedAt());
       }
@@ -116,6 +124,7 @@ public final class User implements Model {
       .append(getEmail())
       .append(getAge())
       .append(getGender())
+      .append(getConsentGiven())
       .append(getCreatedAt())
       .append(getUpdatedAt())
       .toString()
@@ -132,6 +141,7 @@ public final class User implements Model {
       .append("email=" + String.valueOf(getEmail()) + ", ")
       .append("age=" + String.valueOf(getAge()) + ", ")
       .append("gender=" + String.valueOf(getGender()) + ", ")
+      .append("consentGiven=" + String.valueOf(getConsentGiven()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
       .append("}")
@@ -157,6 +167,7 @@ public final class User implements Model {
       null,
       null,
       null,
+      null,
       null
     );
   }
@@ -167,7 +178,8 @@ public final class User implements Model {
       lastname,
       email,
       age,
-      gender);
+      gender,
+      consentGiven);
   }
   public interface FirstnameStep {
     LastnameStep firstname(String firstname);
@@ -180,7 +192,12 @@ public final class User implements Model {
   
 
   public interface EmailStep {
-    BuildStep email(String email);
+    ConsentGivenStep email(String email);
+  }
+  
+
+  public interface ConsentGivenStep {
+    BuildStep consentGiven(Boolean consentGiven);
   }
   
 
@@ -192,24 +209,26 @@ public final class User implements Model {
   }
   
 
-  public static class Builder implements FirstnameStep, LastnameStep, EmailStep, BuildStep {
+  public static class Builder implements FirstnameStep, LastnameStep, EmailStep, ConsentGivenStep, BuildStep {
     private String id;
     private String firstname;
     private String lastname;
     private String email;
+    private Boolean consentGiven;
     private Integer age;
     private String gender;
     public Builder() {
       
     }
     
-    private Builder(String id, String firstname, String lastname, String email, Integer age, String gender) {
+    private Builder(String id, String firstname, String lastname, String email, Integer age, String gender, Boolean consentGiven) {
       this.id = id;
       this.firstname = firstname;
       this.lastname = lastname;
       this.email = email;
       this.age = age;
       this.gender = gender;
+      this.consentGiven = consentGiven;
     }
     
     @Override
@@ -222,7 +241,8 @@ public final class User implements Model {
           lastname,
           email,
           age,
-          gender);
+          gender,
+          consentGiven);
     }
     
     @Override
@@ -240,9 +260,16 @@ public final class User implements Model {
     }
     
     @Override
-     public BuildStep email(String email) {
+     public ConsentGivenStep email(String email) {
         Objects.requireNonNull(email);
         this.email = email;
+        return this;
+    }
+    
+    @Override
+     public BuildStep consentGiven(Boolean consentGiven) {
+        Objects.requireNonNull(consentGiven);
+        this.consentGiven = consentGiven;
         return this;
     }
     
@@ -270,11 +297,12 @@ public final class User implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String firstname, String lastname, String email, Integer age, String gender) {
-      super(id, firstname, lastname, email, age, gender);
+    private CopyOfBuilder(String id, String firstname, String lastname, String email, Integer age, String gender, Boolean consentGiven) {
+      super(id, firstname, lastname, email, age, gender, consentGiven);
       Objects.requireNonNull(firstname);
       Objects.requireNonNull(lastname);
       Objects.requireNonNull(email);
+      Objects.requireNonNull(consentGiven);
     }
     
     @Override
@@ -290,6 +318,11 @@ public final class User implements Model {
     @Override
      public CopyOfBuilder email(String email) {
       return (CopyOfBuilder) super.email(email);
+    }
+    
+    @Override
+     public CopyOfBuilder consentGiven(Boolean consentGiven) {
+      return (CopyOfBuilder) super.consentGiven(consentGiven);
     }
     
     @Override

@@ -42,6 +42,7 @@ class UserProfileManager {
         email: String,
         age: Int?,
         gender: String,
+        consentGiven: Boolean,
         onSuccess: () -> Unit,
         onError: (Exception) -> Unit
     ) {
@@ -49,6 +50,7 @@ class UserProfileManager {
             .firstname(firstName)
             .lastname(lastName)
             .email(email)
+            .consentGiven(consentGiven)
             .age(age)
             .gender(gender)
             .build()
