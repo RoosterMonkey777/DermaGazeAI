@@ -7,22 +7,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
-import android.widget.PopupMenu
 import androidx.navigation.fragment.findNavController
-import com.amplifyframework.api.graphql.model.ModelQuery
-import com.amplifyframework.core.Amplify
-import com.amplifyframework.datastore.generated.model.User
+import khan.z.dermagazeai.manager.TopMenuManager
 import khan.z.dermagazeai.manager.UserProfileManager
-import khan.z.dermagazeai.registration.helpers.AuthorizationUtils
 
 
 // CURRENT VERSION ----------------------------------------------------
 class HomeFragment : Fragment() {
 
-    private var isRotated = false
     private val userProfileManager = UserProfileManager()
+    private lateinit var topMenuManager: TopMenuManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,27 +31,16 @@ class HomeFragment : Fragment() {
 
         Log.d("HomeFragment", "onViewCreated called")
 
-        // top left menu button
-        val menuButton: ImageButton = view.findViewById(R.id.menu_button)
-
-        menuButton.setOnClickListener {
-            val rotateAnimator = if (isRotated) {
-                ObjectAnimator.ofFloat(menuButton, "rotation", 90f, 0f) // Rotate back to 0 degrees
-            } else {
-                ObjectAnimator.ofFloat(menuButton, "rotation", 0f, 90f) // Rotate to 90 degrees
-            }
-            rotateAnimator.duration = 150
-            rotateAnimator.start()
-
-            isRotated = !isRotated // Toggle the rotation state
-
-            // Optionally, show the menu here only when rotating to 90 degrees
-            if (isRotated) {
-                //showPopupMenu(menuButton)
-            }
+        // Initialize the MenuManager
+        topMenuManager = TopMenuManager(requireContext(), this) { from, to ->
+            rotateButton(view.findViewById(R.id.menu_button), from, to)
         }
 
-        // find the user profile in database
+        // Setup the menu button
+        val menuButton: ImageButton = view.findViewById(R.id.menu_button)
+        topMenuManager.setupMenuButton(menuButton)
+
+        // Find the user profile in database
         userProfileManager.fetchUserEmail(
             onSuccess = { email ->
                 Log.d("HomeFragment", "User email: $email")
@@ -79,44 +63,13 @@ class HomeFragment : Fragment() {
                 Log.e("HomeFragment", "Failed to fetch user email", error)
             }
         )
-
-        view.findViewById<Button>(R.id.btn_signout).setOnClickListener {
-            Log.d("HomeFragment", "Sign out button clicked")
-            AuthorizationUtils.signOut(requireContext()) {
-                Log.d("HomeFragment", "User signed out, navigating to login screen")
-                findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
-            }
-        }
     }
 
-//    private fun showPopupMenu(view: View) {
-//        val popup = PopupMenu(requireContext(), view)
-//        popup.menuInflater.inflate(R.menu.menu_main, popup.menu)
-//        popup.setOnMenuItemClickListener { item ->
-//            when (item.itemId) {
-//                R.id.action_faq -> {
-//                    // Handle FAQ action
-//                    true
-//                }
-//                R.id.action_about -> {
-//                    // Handle About action
-//                    true
-//                }
-//                R.id.action_signout -> {
-//                    // Handle Sign Out action
-//                    AuthorizationUtils.signOut(requireContext()) {
-//                        Log.d("HomeFragment", "User signed out, navigating to login screen")
-//                        findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
-//                    }
-//                    true
-//                }
-//                else -> false
-//            }
-//        }
-//        popup.show()
-//    }
-
-
+    private fun rotateButton(button: ImageButton, from: Float, to: Float) {
+        val rotateAnimator = ObjectAnimator.ofFloat(button, "rotation", from, to)
+        rotateAnimator.duration = 150
+        rotateAnimator.start()
+    }
 
     private fun navigateToUserProfileDialog() {
         requireActivity().runOnUiThread {
@@ -124,6 +77,114 @@ class HomeFragment : Fragment() {
         }
     }
 }
+
+//class HomeFragment : Fragment() {
+//
+//    private var isRotated = false
+//    private val userProfileManager = UserProfileManager()
+//
+//    override fun onCreateView(
+//        inflater: LayoutInflater, container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//        return inflater.inflate(R.layout.fragment_home, container, false)
+//    }
+//
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//
+//        Log.d("HomeFragment", "onViewCreated called")
+//
+//        // top left menu button
+//        val menuButton: ImageButton = view.findViewById(R.id.menu_button)
+//
+//        menuButton.setOnClickListener {
+//            if (!isRotated) {
+//                rotateButton(menuButton, 0f, 90f)
+//                showPopupMenu(menuButton)
+//            } else {
+//                rotateButton(menuButton, 90f, 0f)
+//            }
+//        }
+//
+//
+//
+//        // find the user profile in database
+//        userProfileManager.fetchUserEmail(
+//            onSuccess = { email ->
+//                Log.d("HomeFragment", "User email: $email")
+//                userProfileManager.checkUserProfile(
+//                    email,
+//                    onProfileFound = { user ->
+//                        Log.d("HomeFragment", "User profile found: $user")
+//                        // Handle profile found scenario
+//                    },
+//                    onProfileNotFound = {
+//                        Log.d("HomeFragment", "No user profile found, navigating to UserProfileDialogFragment")
+//                        navigateToUserProfileDialog()
+//                    },
+//                    onError = { error ->
+//                        Log.e("HomeFragment", "Failed to query user profile", error)
+//                    }
+//                )
+//            },
+//            onError = { error ->
+//                Log.e("HomeFragment", "Failed to fetch user email", error)
+//            }
+//        )
+//
+//    }
+//
+//    private fun rotateButton(button: ImageButton, from: Float, to: Float) {
+//        val rotateAnimator = ObjectAnimator.ofFloat(button, "rotation", from, to)
+//        rotateAnimator.duration = 150
+//        rotateAnimator.start()
+//    }
+//
+//    private fun showPopupMenu(view: View) {
+//        val popup = PopupMenu(requireContext(), view)
+//        popup.menuInflater.inflate(R.menu.top_menu_button, popup.menu)
+//
+//        popup.setOnMenuItemClickListener { item ->
+//            when (item.itemId) {
+//                R.id.action_faq -> {
+//                    //findNavController().navigate(R.id.action_homeFragment_to_faqFragment)
+//                    true
+//                }
+//                R.id.action_about -> {
+//                    //findNavController().navigate(R.id.action_homeFragment_to_aboutFragment)
+//                    true
+//                }
+//                R.id.action_signout -> {
+//                    AuthorizationUtils.signOut(requireContext()) {
+//                        findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
+//                    }
+//                    true
+//                }
+//                else -> false
+//            }
+//        }
+//
+//        popup.setOnDismissListener {
+//            if (isRotated) {
+//                rotateButton(view as ImageButton, 90f, 0f)
+//                isRotated = false
+//            }
+//        }
+//
+//        popup.show()
+//
+//        isRotated = true
+//    }
+//
+//
+//
+//    private fun navigateToUserProfileDialog() {
+//        requireActivity().runOnUiThread {
+//            findNavController().navigate(R.id.action_homeFragment_to_userProfileDialogFragment)
+//        }
+//    }
+//}
 
 
 

@@ -46,6 +46,39 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        // Setup bottom navigation
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    if (navController.currentDestination?.id != R.id.homeFragment) {
+                        navController.navigate(R.id.homeFragment)
+                    }
+                    true
+                }
+                R.id.nav_camera -> {
+                    if (navController.currentDestination?.id != R.id.cameraFragment) {
+                        navController.navigate(R.id.cameraFragment)
+                    }
+                    true
+                }
+                R.id.nav_medication -> {
+                    if (navController.currentDestination?.id != R.id.medicationFragment) {
+                        navController.navigate(R.id.medicationFragment)
+                    }
+                    true
+                }
+                R.id.nav_profile -> {
+                    if (navController.currentDestination?.id != R.id.userProfileFragment) {
+                        navController.navigate(R.id.userProfileFragment)
+                    }
+                    true
+                }
+                else -> false
+            }
+        }
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
