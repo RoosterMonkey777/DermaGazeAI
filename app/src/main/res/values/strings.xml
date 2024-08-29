@@ -18,4 +18,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+
+    <string name="skin_type_prompt">Skin Type</string>
+    <string name="product_type_prompt">Product Type</string>
+
 </resources>

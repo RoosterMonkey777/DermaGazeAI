@@ -34,6 +34,11 @@ public final class User implements Model {
   public static final QueryField AGE = field("User", "age");
   public static final QueryField GENDER = field("User", "gender");
   public static final QueryField CONSENT_GIVEN = field("User", "consentGiven");
+  public static final QueryField SKINTYPE = field("User", "skintype");
+  public static final QueryField PRODUCT_TYPE = field("User", "productType");
+  public static final QueryField SKIN_PROBLEMS = field("User", "skinProblems");
+  public static final QueryField NOTABLE_EFFECTS = field("User", "notableEffects");
+  public static final QueryField RECOMMENDED_PRODUCTS = field("User", "recommendedProducts");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String firstname;
   private final @ModelField(targetType="String", isRequired = true) String lastname;
@@ -41,6 +46,11 @@ public final class User implements Model {
   private final @ModelField(targetType="Int") Integer age;
   private final @ModelField(targetType="String") String gender;
   private final @ModelField(targetType="Boolean", isRequired = true) Boolean consentGiven;
+  private final @ModelField(targetType="String") String skintype;
+  private final @ModelField(targetType="String") String productType;
+  private final @ModelField(targetType="String") List<String> skinProblems;
+  private final @ModelField(targetType="String") List<String> notableEffects;
+  private final @ModelField(targetType="String") List<String> recommendedProducts;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
@@ -77,6 +87,26 @@ public final class User implements Model {
       return consentGiven;
   }
   
+  public String getSkintype() {
+      return skintype;
+  }
+  
+  public String getProductType() {
+      return productType;
+  }
+  
+  public List<String> getSkinProblems() {
+      return skinProblems;
+  }
+  
+  public List<String> getNotableEffects() {
+      return notableEffects;
+  }
+  
+  public List<String> getRecommendedProducts() {
+      return recommendedProducts;
+  }
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
@@ -85,7 +115,7 @@ public final class User implements Model {
       return updatedAt;
   }
   
-  private User(String id, String firstname, String lastname, String email, Integer age, String gender, Boolean consentGiven) {
+  private User(String id, String firstname, String lastname, String email, Integer age, String gender, Boolean consentGiven, String skintype, String productType, List<String> skinProblems, List<String> notableEffects, List<String> recommendedProducts) {
     this.id = id;
     this.firstname = firstname;
     this.lastname = lastname;
@@ -93,6 +123,11 @@ public final class User implements Model {
     this.age = age;
     this.gender = gender;
     this.consentGiven = consentGiven;
+    this.skintype = skintype;
+    this.productType = productType;
+    this.skinProblems = skinProblems;
+    this.notableEffects = notableEffects;
+    this.recommendedProducts = recommendedProducts;
   }
   
   @Override
@@ -110,6 +145,11 @@ public final class User implements Model {
               ObjectsCompat.equals(getAge(), user.getAge()) &&
               ObjectsCompat.equals(getGender(), user.getGender()) &&
               ObjectsCompat.equals(getConsentGiven(), user.getConsentGiven()) &&
+              ObjectsCompat.equals(getSkintype(), user.getSkintype()) &&
+              ObjectsCompat.equals(getProductType(), user.getProductType()) &&
+              ObjectsCompat.equals(getSkinProblems(), user.getSkinProblems()) &&
+              ObjectsCompat.equals(getNotableEffects(), user.getNotableEffects()) &&
+              ObjectsCompat.equals(getRecommendedProducts(), user.getRecommendedProducts()) &&
               ObjectsCompat.equals(getCreatedAt(), user.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), user.getUpdatedAt());
       }
@@ -125,6 +165,11 @@ public final class User implements Model {
       .append(getAge())
       .append(getGender())
       .append(getConsentGiven())
+      .append(getSkintype())
+      .append(getProductType())
+      .append(getSkinProblems())
+      .append(getNotableEffects())
+      .append(getRecommendedProducts())
       .append(getCreatedAt())
       .append(getUpdatedAt())
       .toString()
@@ -142,6 +187,11 @@ public final class User implements Model {
       .append("age=" + String.valueOf(getAge()) + ", ")
       .append("gender=" + String.valueOf(getGender()) + ", ")
       .append("consentGiven=" + String.valueOf(getConsentGiven()) + ", ")
+      .append("skintype=" + String.valueOf(getSkintype()) + ", ")
+      .append("productType=" + String.valueOf(getProductType()) + ", ")
+      .append("skinProblems=" + String.valueOf(getSkinProblems()) + ", ")
+      .append("notableEffects=" + String.valueOf(getNotableEffects()) + ", ")
+      .append("recommendedProducts=" + String.valueOf(getRecommendedProducts()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
       .append("}")
@@ -168,6 +218,11 @@ public final class User implements Model {
       null,
       null,
       null,
+      null,
+      null,
+      null,
+      null,
+      null,
       null
     );
   }
@@ -179,7 +234,12 @@ public final class User implements Model {
       email,
       age,
       gender,
-      consentGiven);
+      consentGiven,
+      skintype,
+      productType,
+      skinProblems,
+      notableEffects,
+      recommendedProducts);
   }
   public interface FirstnameStep {
     LastnameStep firstname(String firstname);
@@ -206,6 +266,11 @@ public final class User implements Model {
     BuildStep id(String id);
     BuildStep age(Integer age);
     BuildStep gender(String gender);
+    BuildStep skintype(String skintype);
+    BuildStep productType(String productType);
+    BuildStep skinProblems(List<String> skinProblems);
+    BuildStep notableEffects(List<String> notableEffects);
+    BuildStep recommendedProducts(List<String> recommendedProducts);
   }
   
 
@@ -217,11 +282,16 @@ public final class User implements Model {
     private Boolean consentGiven;
     private Integer age;
     private String gender;
+    private String skintype;
+    private String productType;
+    private List<String> skinProblems;
+    private List<String> notableEffects;
+    private List<String> recommendedProducts;
     public Builder() {
       
     }
     
-    private Builder(String id, String firstname, String lastname, String email, Integer age, String gender, Boolean consentGiven) {
+    private Builder(String id, String firstname, String lastname, String email, Integer age, String gender, Boolean consentGiven, String skintype, String productType, List<String> skinProblems, List<String> notableEffects, List<String> recommendedProducts) {
       this.id = id;
       this.firstname = firstname;
       this.lastname = lastname;
@@ -229,6 +299,11 @@ public final class User implements Model {
       this.age = age;
       this.gender = gender;
       this.consentGiven = consentGiven;
+      this.skintype = skintype;
+      this.productType = productType;
+      this.skinProblems = skinProblems;
+      this.notableEffects = notableEffects;
+      this.recommendedProducts = recommendedProducts;
     }
     
     @Override
@@ -242,7 +317,12 @@ public final class User implements Model {
           email,
           age,
           gender,
-          consentGiven);
+          consentGiven,
+          skintype,
+          productType,
+          skinProblems,
+          notableEffects,
+          recommendedProducts);
     }
     
     @Override
@@ -285,6 +365,36 @@ public final class User implements Model {
         return this;
     }
     
+    @Override
+     public BuildStep skintype(String skintype) {
+        this.skintype = skintype;
+        return this;
+    }
+    
+    @Override
+     public BuildStep productType(String productType) {
+        this.productType = productType;
+        return this;
+    }
+    
+    @Override
+     public BuildStep skinProblems(List<String> skinProblems) {
+        this.skinProblems = skinProblems;
+        return this;
+    }
+    
+    @Override
+     public BuildStep notableEffects(List<String> notableEffects) {
+        this.notableEffects = notableEffects;
+        return this;
+    }
+    
+    @Override
+     public BuildStep recommendedProducts(List<String> recommendedProducts) {
+        this.recommendedProducts = recommendedProducts;
+        return this;
+    }
+    
     /**
      * @param id id
      * @return Current Builder instance, for fluent method chaining
@@ -297,8 +407,8 @@ public final class User implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String firstname, String lastname, String email, Integer age, String gender, Boolean consentGiven) {
-      super(id, firstname, lastname, email, age, gender, consentGiven);
+    private CopyOfBuilder(String id, String firstname, String lastname, String email, Integer age, String gender, Boolean consentGiven, String skintype, String productType, List<String> skinProblems, List<String> notableEffects, List<String> recommendedProducts) {
+      super(id, firstname, lastname, email, age, gender, consentGiven, skintype, productType, skinProblems, notableEffects, recommendedProducts);
       Objects.requireNonNull(firstname);
       Objects.requireNonNull(lastname);
       Objects.requireNonNull(email);
@@ -333,6 +443,31 @@ public final class User implements Model {
     @Override
      public CopyOfBuilder gender(String gender) {
       return (CopyOfBuilder) super.gender(gender);
+    }
+    
+    @Override
+     public CopyOfBuilder skintype(String skintype) {
+      return (CopyOfBuilder) super.skintype(skintype);
+    }
+    
+    @Override
+     public CopyOfBuilder productType(String productType) {
+      return (CopyOfBuilder) super.productType(productType);
+    }
+    
+    @Override
+     public CopyOfBuilder skinProblems(List<String> skinProblems) {
+      return (CopyOfBuilder) super.skinProblems(skinProblems);
+    }
+    
+    @Override
+     public CopyOfBuilder notableEffects(List<String> notableEffects) {
+      return (CopyOfBuilder) super.notableEffects(notableEffects);
+    }
+    
+    @Override
+     public CopyOfBuilder recommendedProducts(List<String> recommendedProducts) {
+      return (CopyOfBuilder) super.recommendedProducts(recommendedProducts);
     }
   }
   

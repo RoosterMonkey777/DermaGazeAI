@@ -6,4 +6,28 @@ type User @model @auth(rules: [{ allow: public }]) {
   age: Int
   gender: String
   consentGiven: Boolean! # Flag to track ToS acceptance
+
+  # Updated fields for skincare preferences
+  skintype: String
+  productType: String  # Change this field name to match SkinCareProduct
+  skinProblems: [String]
+  notableEffects: [String]
+
+  # Field to store recommended product names (as a list of strings)
+  recommendedProducts: [String]
+}
+
+type SkinCareProduct @model  @auth(rules: [{ allow: public }]){
+  id: ID!
+  productName: String!
+  brand: String
+  description: String
+  labels: Int
+  notableEffects: [String]
+  pictureSrc: String
+  price: String
+  productHref: String
+  productType: String
+  skintype: [String]
+  skinTypes: [String]
 }

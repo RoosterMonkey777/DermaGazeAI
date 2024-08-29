@@ -3,6 +3,9 @@ package khan.z.dermagazeai.manager
 import com.amplifyframework.api.graphql.model.ModelMutation
 import com.amplifyframework.api.graphql.model.ModelQuery
 import com.amplifyframework.core.Amplify
+import com.amplifyframework.datastore.generated.model.ProductCategory
+import com.amplifyframework.datastore.generated.model.SkinProblem
+import com.amplifyframework.datastore.generated.model.SkinType
 import com.amplifyframework.datastore.generated.model.User
 
 class UserProfileManager {
@@ -42,6 +45,10 @@ class UserProfileManager {
         email: String,
         age: Int?,
         gender: String,
+        skinType: String,
+        productType: String,  // Update to productType
+        skinProblems: List<String>,
+        notableEffects: List<String>,
         consentGiven: Boolean,
         onSuccess: () -> Unit,
         onError: (Exception) -> Unit
@@ -53,6 +60,10 @@ class UserProfileManager {
             .consentGiven(consentGiven)
             .age(age)
             .gender(gender)
+            .skintype(skinType)
+            .productType(productType)  // Update to productType
+            .skinProblems(skinProblems)
+            .notableEffects(notableEffects)
             .build()
 
         Amplify.API.mutate(

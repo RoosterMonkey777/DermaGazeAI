@@ -4,17 +4,21 @@ package khan.z.dermagazeai.dialogs
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Spinner
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
-import com.amplifyframework.api.graphql.model.ModelMutation
+import com.amplifyframework.api.graphql.model.ModelQuery
 import com.amplifyframework.core.Amplify
-import com.amplifyframework.datastore.generated.model.User
+import com.amplifyframework.datastore.generated.model.SkinCareProduct
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import khan.z.dermagazeai.R
 import khan.z.dermagazeai.manager.UserProfileManager
 
@@ -25,6 +29,10 @@ class UserProfileDialogFragment : DialogFragment() {
     private lateinit var etEmail: EditText
     private lateinit var etAge: EditText
     private lateinit var etGender: EditText
+    private lateinit var spinnerSkinType: Spinner
+    private lateinit var spinnerProductType: Spinner
+    private lateinit var chipGroupSkinProblems: ChipGroup
+    private lateinit var chipGroupNotableEffects: ChipGroup
     private lateinit var saveButton: Button
     private lateinit var cancelButton: Button
     private val userProfileManager = UserProfileManager()
@@ -41,8 +49,38 @@ class UserProfileDialogFragment : DialogFragment() {
         etEmail = view.findViewById(R.id.et_email)
         etAge = view.findViewById(R.id.et_age)
         etGender = view.findViewById(R.id.et_gender)
+        spinnerSkinType = view.findViewById(R.id.spinner_skin_type)
+        spinnerProductType = view.findViewById(R.id.spinner_product_type)
+        chipGroupSkinProblems = view.findViewById(R.id.chip_group_skin_problems)
+        chipGroupNotableEffects = view.findViewById(R.id.chip_group_notable_effects)
         saveButton = view.findViewById(R.id.btn_save)
         cancelButton = view.findViewById(R.id.btn_cancel)
+
+        // Populate Spinners and ChipGroup
+        populateSkinTypeSpinner()
+        populateProductCategorySpinner()
+        populateSkinProblemsChipGroup()
+
+        // Set listeners for spinners to update notable effects based on selection
+        spinnerSkinType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                updateNotableEffects()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Do nothing
+            }
+        }
+
+        spinnerProductType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                updateNotableEffects()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Do nothing
+            }
+        }
 
         return view
     }
@@ -79,12 +117,110 @@ class UserProfileDialogFragment : DialogFragment() {
         }
     }
 
+    private fun populateSkinTypeSpinner() {
+        val skinTypes = listOf("Normal", "Dry", "Oily", "Combination", "Sensitive")
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, skinTypes)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerSkinType.adapter = adapter
+    }
+
+    private fun populateProductCategorySpinner() {
+        val productCategories = listOf("Face Wash", "Toner", "Serum", "Moisturizer", "Sunscreen")
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, productCategories)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerProductType.adapter = adapter
+    }
+
+    private fun populateSkinProblemsChipGroup() {
+        val skinProblems = listOf(
+            "Dull Skin", "Acne", "Acne Scars", "Large Pores", "Blackheads",
+            "Uneven Skin Tone", "Redness", "Fine Lines and Wrinkles", "Sagging Skin", "Dark Spots"
+        )
+        skinProblems.forEach { problem ->
+            val chip = Chip(requireContext())
+            chip.text = problem
+            chip.isCheckable = true
+            chipGroupSkinProblems.addView(chip)
+        }
+    }
+    private fun updateNotableEffects() {
+        val selectedSkinType = spinnerSkinType.selectedItem?.toString()
+        val selectedProductType = spinnerProductType.selectedItem?.toString()
+
+        // Log the selected values
+        Log.d("UserProfileDialog", "Selected skin type: $selectedSkinType")
+        Log.d("UserProfileDialog", "Selected product type: $selectedProductType")
+
+        if (selectedSkinType == null || selectedProductType == null) {
+            Log.e("UserProfileDialog", "Skin type or Product type not selected.")
+            return
+        }
+
+        // Query to filter products based on selected skin type and product type
+        Amplify.API.query(
+            ModelQuery.list(
+                SkinCareProduct::class.java,
+                SkinCareProduct.SKINTYPE.contains(selectedSkinType)
+                    .and(SkinCareProduct.PRODUCT_TYPE.eq(selectedProductType))
+            ),
+            { response ->
+                val items = response.data?.items
+
+                // Log the number of items found
+                if (items != null && items.iterator().hasNext()) {
+
+                    // Log each product found for more insight
+                    items.forEach { product ->
+                        Log.d("UserProfileDialog", "Product found: ${product.productName}, notable effects: ${product.notableEffects}")
+                    }
+
+                    // Extract and log unique notable effects
+                    val notableEffects = items.flatMap { it.notableEffects ?: emptyList() }.distinct()
+                    Log.d("UserProfileDialog", "Unique notable effects: $notableEffects")
+
+                    // Update UI with notable effects
+                    requireActivity().runOnUiThread {
+                        chipGroupNotableEffects.removeAllViews()
+                        notableEffects.forEach { effect ->
+                            val chip = Chip(requireContext())
+                            chip.text = effect
+                            chip.isCheckable = true
+                            chipGroupNotableEffects.addView(chip)
+                        }
+                    }
+                } else {
+                    // No products found
+                    Log.w("UserProfileDialog", "No matching products found.")
+                }
+            },
+            { error ->
+                Log.e("UserProfileDialog", "Failed to fetch notable effects", error)
+            }
+        )
+    }
+
     private fun saveUserData() {
         val firstName = etFirstName.text.toString()
         val lastName = etLastName.text.toString()
         val email = etEmail.text.toString()
         val age = etAge.text.toString().toIntOrNull()
         val gender = etGender.text.toString()
+        val skinType = spinnerSkinType.selectedItem.toString()
+        val productCategory = spinnerProductType.selectedItem.toString()
+
+        // Get selected skin problems
+        val selectedProblems = mutableListOf<String>()
+        chipGroupSkinProblems.checkedChipIds.forEach { chipId ->
+            val chip = chipGroupSkinProblems.findViewById<Chip>(chipId)
+            selectedProblems.add(chip.text.toString())
+        }
+
+        // Get selected notable effects
+        val selectedNotableEffects = mutableListOf<String>()
+        chipGroupNotableEffects.checkedChipIds.forEach { chipId ->
+            val chip = chipGroupNotableEffects.findViewById<Chip>(chipId)
+            selectedNotableEffects.add(chip.text.toString())
+        }
 
         userProfileManager.createUser(
             firstName,
@@ -92,6 +228,10 @@ class UserProfileDialogFragment : DialogFragment() {
             email,
             age,
             gender,
+            skinType,
+            productCategory,
+            selectedProblems,
+            selectedNotableEffects,
             true, // consentGiven is set to true
             onSuccess = {
                 requireActivity().runOnUiThread {
