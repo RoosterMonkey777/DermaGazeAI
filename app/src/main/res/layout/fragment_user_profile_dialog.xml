@@ -93,21 +93,6 @@
             android:layout_marginBottom="16dp"
             android:prompt="@string/product_type_prompt" />
 
-        <!-- Skin Problems Chip Group -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Skin Problems"
-            android:layout_marginBottom="4dp" />
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_group_skin_problems"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:singleSelection="false"
-            app:selectionRequired="false"
-            app:chipSpacing="8dp" />
 
         <!-- Notable Effects Chip Group -->
         <TextView
@@ -124,6 +109,27 @@
             app:singleSelection="false"
             app:selectionRequired="false"
             app:chipSpacing="8dp" />
+
+
+
+
+        <!-- Skin Problems Chip Group -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Skin Problems"
+            android:layout_marginBottom="4dp" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group_skin_problems"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:singleSelection="false"
+            app:selectionRequired="false"
+            app:chipSpacing="8dp" />
+
+
 
         <!-- Buttons -->
         <Button

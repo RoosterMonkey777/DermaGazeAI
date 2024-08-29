@@ -31,6 +31,8 @@
             android:gravity="center"
             android:layout_marginBottom="16dp" />
 
+
+
         <!-- Email (non-editable) -->
         <TextView
             android:layout_width="wrap_content"
@@ -110,7 +112,7 @@
             android:id="@+id/spinner_skin_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="24dp"/>
 
         <!-- Product Type Spinner -->
         <TextView
@@ -123,23 +125,8 @@
             android:id="@+id/spinner_product_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="24dp"/>
 
-        <!-- Skin Problems Chip Group -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Skin Problems"
-            android:layout_marginBottom="8dp"/>
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_group_skin_problems"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:singleSelection="false"
-            app:selectionRequired="false"
-            app:chipSpacing="8dp" />
 
         <!-- Notable Effects Chip Group -->
         <TextView
@@ -157,12 +144,39 @@
             app:selectionRequired="false"
             app:chipSpacing="8dp" />
 
+
+
+        <!-- Skin Problems Chip Group -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Skin Problems"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group_skin_problems"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:singleSelection="false"
+            app:selectionRequired="false"
+            app:chipSpacing="8dp" />
+
+
+
         <!-- Update Button -->
         <Button
             android:id="@+id/btn_update"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Update"
-            android:layout_marginTop="16dp" />
+            android:layout_margin="8dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:visibility="invisible"
+            android:background="#D3D3D3"
+            android:layout_marginBottom="70dp" />
     </LinearLayout>
 </ScrollView>

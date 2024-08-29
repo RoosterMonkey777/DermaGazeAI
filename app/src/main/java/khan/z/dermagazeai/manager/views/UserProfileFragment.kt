@@ -10,10 +10,12 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
-import com.amplifyframework.datastore.generated.model.User
+import androidx.navigation.fragment.findNavController
+import com.amplifyframework.datastore.generated.model.UserProfile
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import khan.z.dermagazeai.R
@@ -33,7 +35,7 @@ class UserProfileFragment : Fragment() {
     private lateinit var updateButton: Button
 
     private val userProfileManager = UserProfileManager()
-    private var currentUser: User? = null  // To store the current user profile
+    private var currentUser: UserProfile? = null  // To store the current user profile
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,6 +68,49 @@ class UserProfileFragment : Fragment() {
         }
     }
 
+
+    private fun updateUserData() {
+        Log.d("UserProfileFragment", "updateUserData called")
+
+        val firstName = etFirstName.text.toString()
+        val lastName = etLastName.text.toString()
+        val email = tvEmail.text.toString()
+        val age = etAge.text.toString().toIntOrNull()
+        val gender = etGender.text.toString()
+        val skinType = spinnerSkinType.selectedItem.toString()
+        val productCategory = spinnerProductType.selectedItem.toString()
+        val selectedProblems = chipGroupSkinProblems.checkedChipIds.map { id ->
+            chipGroupSkinProblems.findViewById<Chip>(id).text.toString()
+        }
+        val selectedNotableEffects = chipGroupNotableEffects.checkedChipIds.map { id ->
+            chipGroupNotableEffects.findViewById<Chip>(id).text.toString()
+        }
+
+        userProfileManager.updateUser(
+            firstName,
+            lastName,
+            email,
+            age,
+            gender,
+            skinType,
+            productCategory,
+            selectedProblems,
+            selectedNotableEffects,
+            true,
+            onSuccess = {
+                requireActivity().runOnUiThread {
+                    Toast.makeText(requireContext(), "Successfully updated user", Toast.LENGTH_SHORT).show()
+                    Log.e("UserProfileDialog", "Successfully updated user")
+                    findNavController().navigate(R.id.action_userProfileFragment_to_homeFragment)
+                }
+            },
+            onError = { error: Exception ->
+                Log.e("UserProfileDialog", "Failed to update user", error)
+            }
+        )
+    }
+
+
     private fun fetchAndPopulateUserData() {
         userProfileManager.fetchUserEmail(
             onSuccess = { email ->
@@ -96,7 +141,7 @@ class UserProfileFragment : Fragment() {
         )
     }
 
-    private fun populateSpinnersAndChips(user: User) {
+    private fun populateSpinnersAndChips(user: UserProfile) {
         requireActivity().runOnUiThread {
             userProfileManager.populateSkinTypeSpinner(requireContext(), spinnerSkinType)
             spinnerSkinType.setSelection(getIndexForSpinner(spinnerSkinType, user.skintype))
@@ -118,7 +163,6 @@ class UserProfileFragment : Fragment() {
                     requireContext()
                 )
             }
-
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
@@ -131,47 +175,10 @@ class UserProfileFragment : Fragment() {
                     requireContext()
                 )
             }
-
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
     }
 
-    private fun updateUserData() {
-        currentUser?.let { user ->
-            // Create a new User object with the updated data
-            val updatedUser = User.builder()
-                .firstname(etFirstName.text.toString())
-                .lastname(etLastName.text.toString())
-                .email(user.email)  // Email is non-editable, so keep the original
-                .consentGiven(user.consentGiven)  // Keep original consentGiven value
-                .age(etAge.text.toString().toIntOrNull())
-                .gender(etGender.text.toString())
-                .skintype(spinnerSkinType.selectedItem.toString())
-                .productType(spinnerProductType.selectedItem.toString())
-                .skinProblems(chipGroupSkinProblems.checkedChipIds.map { id ->
-                    chipGroupSkinProblems.findViewById<Chip>(id).text.toString()
-                })
-                .notableEffects(chipGroupNotableEffects.checkedChipIds.map { id ->
-                    chipGroupNotableEffects.findViewById<Chip>(id).text.toString()
-                })
-
-                .recommendedProducts(user.recommendedProducts)  // Keep the original recommended products
-                .build()
-
-            // Update the user in the database
-            userProfileManager.updateUser(
-                updatedUser,
-                onSuccess = {
-                    Toast.makeText(requireContext(), "Profile updated successfully", Toast.LENGTH_SHORT).show()
-                },
-                onError = { error ->
-                    Log.e("UserProfileFragment", "Failed to update user", error)
-                }
-            )
-        } ?: run {
-            Log.e("UserProfileFragment", "User data not loaded, cannot update.")
-        }
-    }
 
     private fun getIndexForSpinner(spinner: Spinner, value: String?): Int {
         return (spinner.adapter as ArrayAdapter<String>).getPosition(value)

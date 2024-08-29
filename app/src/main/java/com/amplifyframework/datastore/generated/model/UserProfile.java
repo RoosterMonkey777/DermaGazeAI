@@ -20,25 +20,25 @@ import com.amplifyframework.core.model.query.predicate.QueryField;
 
 import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
-/** This is an auto generated class representing the User type in your schema. */
+/** This is an auto generated class representing the UserProfile type in your schema. */
 @SuppressWarnings("all")
-@ModelConfig(pluralName = "Users", type = Model.Type.USER, version = 1, authRules = {
+@ModelConfig(pluralName = "UserProfiles", type = Model.Type.USER, version = 1, authRules = {
   @AuthRule(allow = AuthStrategy.PUBLIC, operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 @Index(name = "byEmail", fields = {"email"})
-public final class User implements Model {
-  public static final QueryField ID = field("User", "id");
-  public static final QueryField FIRSTNAME = field("User", "firstname");
-  public static final QueryField LASTNAME = field("User", "lastname");
-  public static final QueryField EMAIL = field("User", "email");
-  public static final QueryField AGE = field("User", "age");
-  public static final QueryField GENDER = field("User", "gender");
-  public static final QueryField CONSENT_GIVEN = field("User", "consentGiven");
-  public static final QueryField SKINTYPE = field("User", "skintype");
-  public static final QueryField PRODUCT_TYPE = field("User", "productType");
-  public static final QueryField SKIN_PROBLEMS = field("User", "skinProblems");
-  public static final QueryField NOTABLE_EFFECTS = field("User", "notableEffects");
-  public static final QueryField RECOMMENDED_PRODUCTS = field("User", "recommendedProducts");
+public final class UserProfile implements Model {
+  public static final QueryField ID = field("UserProfile", "id");
+  public static final QueryField FIRSTNAME = field("UserProfile", "firstname");
+  public static final QueryField LASTNAME = field("UserProfile", "lastname");
+  public static final QueryField EMAIL = field("UserProfile", "email");
+  public static final QueryField AGE = field("UserProfile", "age");
+  public static final QueryField GENDER = field("UserProfile", "gender");
+  public static final QueryField CONSENT_GIVEN = field("UserProfile", "consentGiven");
+  public static final QueryField SKINTYPE = field("UserProfile", "skintype");
+  public static final QueryField PRODUCT_TYPE = field("UserProfile", "productType");
+  public static final QueryField SKIN_PROBLEMS = field("UserProfile", "skinProblems");
+  public static final QueryField NOTABLE_EFFECTS = field("UserProfile", "notableEffects");
+  public static final QueryField RECOMMENDED_PRODUCTS = field("UserProfile", "recommendedProducts");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String firstname;
   private final @ModelField(targetType="String", isRequired = true) String lastname;
@@ -115,7 +115,7 @@ public final class User implements Model {
       return updatedAt;
   }
   
-  private User(String id, String firstname, String lastname, String email, Integer age, String gender, Boolean consentGiven, String skintype, String productType, List<String> skinProblems, List<String> notableEffects, List<String> recommendedProducts) {
+  private UserProfile(String id, String firstname, String lastname, String email, Integer age, String gender, Boolean consentGiven, String skintype, String productType, List<String> skinProblems, List<String> notableEffects, List<String> recommendedProducts) {
     this.id = id;
     this.firstname = firstname;
     this.lastname = lastname;
@@ -137,21 +137,21 @@ public final class User implements Model {
       } else if(obj == null || getClass() != obj.getClass()) {
         return false;
       } else {
-      User user = (User) obj;
-      return ObjectsCompat.equals(getId(), user.getId()) &&
-              ObjectsCompat.equals(getFirstname(), user.getFirstname()) &&
-              ObjectsCompat.equals(getLastname(), user.getLastname()) &&
-              ObjectsCompat.equals(getEmail(), user.getEmail()) &&
-              ObjectsCompat.equals(getAge(), user.getAge()) &&
-              ObjectsCompat.equals(getGender(), user.getGender()) &&
-              ObjectsCompat.equals(getConsentGiven(), user.getConsentGiven()) &&
-              ObjectsCompat.equals(getSkintype(), user.getSkintype()) &&
-              ObjectsCompat.equals(getProductType(), user.getProductType()) &&
-              ObjectsCompat.equals(getSkinProblems(), user.getSkinProblems()) &&
-              ObjectsCompat.equals(getNotableEffects(), user.getNotableEffects()) &&
-              ObjectsCompat.equals(getRecommendedProducts(), user.getRecommendedProducts()) &&
-              ObjectsCompat.equals(getCreatedAt(), user.getCreatedAt()) &&
-              ObjectsCompat.equals(getUpdatedAt(), user.getUpdatedAt());
+      UserProfile userProfile = (UserProfile) obj;
+      return ObjectsCompat.equals(getId(), userProfile.getId()) &&
+              ObjectsCompat.equals(getFirstname(), userProfile.getFirstname()) &&
+              ObjectsCompat.equals(getLastname(), userProfile.getLastname()) &&
+              ObjectsCompat.equals(getEmail(), userProfile.getEmail()) &&
+              ObjectsCompat.equals(getAge(), userProfile.getAge()) &&
+              ObjectsCompat.equals(getGender(), userProfile.getGender()) &&
+              ObjectsCompat.equals(getConsentGiven(), userProfile.getConsentGiven()) &&
+              ObjectsCompat.equals(getSkintype(), userProfile.getSkintype()) &&
+              ObjectsCompat.equals(getProductType(), userProfile.getProductType()) &&
+              ObjectsCompat.equals(getSkinProblems(), userProfile.getSkinProblems()) &&
+              ObjectsCompat.equals(getNotableEffects(), userProfile.getNotableEffects()) &&
+              ObjectsCompat.equals(getRecommendedProducts(), userProfile.getRecommendedProducts()) &&
+              ObjectsCompat.equals(getCreatedAt(), userProfile.getCreatedAt()) &&
+              ObjectsCompat.equals(getUpdatedAt(), userProfile.getUpdatedAt());
       }
   }
   
@@ -179,7 +179,7 @@ public final class User implements Model {
   @Override
    public String toString() {
     return new StringBuilder()
-      .append("User {")
+      .append("UserProfile {")
       .append("id=" + String.valueOf(getId()) + ", ")
       .append("firstname=" + String.valueOf(getFirstname()) + ", ")
       .append("lastname=" + String.valueOf(getLastname()) + ", ")
@@ -210,8 +210,8 @@ public final class User implements Model {
    * @param id the id of the existing item this instance will represent
    * @return an instance of this model with only ID populated
    */
-  public static User justId(String id) {
-    return new User(
+  public static UserProfile justId(String id) {
+    return new UserProfile(
       id,
       null,
       null,
@@ -262,7 +262,7 @@ public final class User implements Model {
   
 
   public interface BuildStep {
-    User build();
+    UserProfile build();
     BuildStep id(String id);
     BuildStep age(Integer age);
     BuildStep gender(String gender);
@@ -307,10 +307,10 @@ public final class User implements Model {
     }
     
     @Override
-     public User build() {
+     public UserProfile build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
         
-        return new User(
+        return new UserProfile(
           id,
           firstname,
           lastname,
@@ -472,9 +472,9 @@ public final class User implements Model {
   }
   
 
-  public static class UserIdentifier extends ModelIdentifier<User> {
+  public static class UserProfileIdentifier extends ModelIdentifier<UserProfile> {
     private static final long serialVersionUID = 1L;
-    public UserIdentifier(String id) {
+    public UserProfileIdentifier(String id) {
       super(id);
     }
   }

@@ -1,18 +1,11 @@
 package khan.z.dermagazeai.registration.views
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.amplifyframework.api.graphql.GraphQLResponse
-import com.amplifyframework.api.graphql.model.ModelMutation
-import com.amplifyframework.api.graphql.model.ModelQuery
-import com.amplifyframework.core.Amplify
-import com.amplifyframework.datastore.generated.model.SkinCareProduct
-import com.amplifyframework.datastore.generated.model.User
 import khan.z.dermagazeai.R
 
 class StartupFragment : Fragment() {
@@ -35,6 +28,8 @@ class StartupFragment : Fragment() {
         }
 
         buttonSignup.setOnClickListener {
+
+
 
 //            val newProduct = SkinCareProduct.builder()
 //                .productName("Wardah C-Defense Energizing Creamy Wash")

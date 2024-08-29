@@ -4,4 +4,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="green">#00FF00</color>
+
+    <color name="light_red">#FFCDD2</color> <!-- Light color when unchecked -->
+    <color name="dark_red">#D32F2F</color>  <!-- Dark color when checked -->
 </resources>

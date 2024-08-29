@@ -9,11 +9,8 @@ import android.widget.Spinner
 import com.amplifyframework.api.graphql.model.ModelMutation
 import com.amplifyframework.api.graphql.model.ModelQuery
 import com.amplifyframework.core.Amplify
-import com.amplifyframework.datastore.generated.model.ProductCategory
-import com.amplifyframework.datastore.generated.model.SkinProblem
-import com.amplifyframework.datastore.generated.model.SkinType
-import com.amplifyframework.datastore.generated.model.User
 import com.amplifyframework.datastore.generated.model.SkinCareProduct
+import com.amplifyframework.datastore.generated.model.UserProfile
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 
@@ -35,7 +32,7 @@ class UserProfileManager {
         onSuccess: () -> Unit,
         onError: (Exception) -> Unit
     ) {
-        val user = User.builder()
+        val user = UserProfile.builder()
             .firstname(firstName)
             .lastname(lastName)
             .email(email)
@@ -59,25 +56,119 @@ class UserProfileManager {
             },
             { error -> onError(error) }
         )
+
+
+
+
     }
 
     fun updateUser(
-        user: User,
+        firstName: String,
+        lastName: String,
+        email: String,
+        age: Int?,
+        gender: String,
+        skinType: String,
+        productType: String,
+        skinProblems: List<String>,
+        notableEffects: List<String>,
+        consentGiven: Boolean,
         onSuccess: () -> Unit,
         onError: (Exception) -> Unit
     ) {
-        Amplify.API.mutate(
-            ModelMutation.update(user),
-            { response ->
-                if (response.hasErrors()) {
-                    onError(Exception(response.errors.first().message))
-                } else {
-                    onSuccess()
-                }
+        // First, check if the user exists
+        checkUserProfile(
+            email,
+            onProfileFound = { existingUser ->
+                // User exists, update it
+                val updatedUser = existingUser.copyOfBuilder()
+                    .firstname(firstName)
+                    .lastname(lastName)
+                    .email(email)
+                    .consentGiven(true)
+                    .age(age)
+                    .gender(gender)
+                    .skintype(skinType)
+                    .productType(productType)
+                    .skinProblems(skinProblems)
+                    .notableEffects(notableEffects)
+
+                    .build()
+
+
+                Amplify.API.mutate(
+                    ModelMutation.update(updatedUser),
+                    { updateResponse ->
+                        if (updateResponse.hasErrors()) {
+                            Log.e("UserProfileManager", "Update failed: ${updateResponse.errors.first().message}")
+                            onError(Exception(updateResponse.errors.first().message))
+                        } else {
+                            Log.d("UserProfileManager", "Update succeeded")
+                            onSuccess()
+                        }
+                    },
+                    { error ->
+                        Log.e("UserProfileManager", "Update failed: $error")
+                        onError(error)
+                    }
+                )
             },
-            { error -> onError(error) }
+            onProfileNotFound = {
+                // User doesn't exist, create a new one
+                Log.e("UserProfileManager", "No Profile Found")
+            },
+            onError = { error ->
+                Log.e("UserProfileManager", "Error checking user profile: $error")
+                onError(error)
+            }
         )
     }
+
+//    fun updateUser(
+//        firstName: String,
+//        lastName: String,
+//        email: String,
+//        age: Int?,
+//        gender: String,
+//        skinType: String,
+//        productType: String,
+//        skinProblems: List<String>,
+//        notableEffects: List<String>,
+//        consentGiven: Boolean,
+//        onSuccess: () -> Unit,
+//        onError: (Exception) -> Unit
+//    ) {
+//
+//        val user = UserProfile.builder()
+//            .firstname(firstName)
+//            .lastname(lastName)
+//            .email(email)
+//            .consentGiven(consentGiven)
+//            .age(age)
+//            .gender(gender)
+//            .skintype(skinType)
+//            .productType(productType)
+//            .skinProblems(skinProblems)
+//            .notableEffects(notableEffects)
+//            .build()
+//
+//        Amplify.API.mutate(
+//            ModelMutation.update(user),
+//            { updateResponse ->
+//                if (updateResponse.hasErrors()) {
+//                    Log.e("UserProfileManager", "Update failed: ${updateResponse.errors.first().message}")
+//                    onError(Exception(updateResponse.errors.first().message))
+//                } else {
+//                    Log.d("UserProfileManager", "Update succeeded")
+//                    onSuccess()
+//                }
+//            },
+//            { error ->
+//                Log.e("UserProfileManager", "Update failed: $error")
+//                onError(error)
+//            }
+//        )
+    //   }
 
 
 
@@ -96,9 +187,9 @@ class UserProfileManager {
         )
     }
 
-    fun checkUserProfile(email: String, onProfileFound: (User) -> Unit, onProfileNotFound: () -> Unit, onError: (Exception) -> Unit) {
+    fun checkUserProfile(email: String, onProfileFound: (UserProfile) -> Unit, onProfileNotFound: () -> Unit, onError: (Exception) -> Unit) {
         Amplify.API.query(
-            ModelQuery.list(User::class.java, User.EMAIL.eq(email)),
+            ModelQuery.list(UserProfile::class.java, UserProfile.EMAIL.eq(email)),
             { response ->
                 val items = response.data?.items
                 if (items != null && items.iterator().hasNext()) {
@@ -110,6 +201,22 @@ class UserProfileManager {
             { error -> onError(error) }
         )
     }
+
+    fun checkUserProfileID(id: String, onProfileFound: (UserProfile) -> Unit, onProfileNotFound: () -> Unit, onError: (Exception) -> Unit) {
+        Amplify.API.query(
+            ModelQuery.get(UserProfile::class.java, id),  // Query by `id` instead of `email`
+            { response ->
+                val user = response.data
+                if (user != null) {
+                    onProfileFound(user)
+                } else {
+                    onProfileNotFound()
+                }
+            },
+            { error -> onError(error) }
+        )
+    }
+
 
 
     // UI updates
