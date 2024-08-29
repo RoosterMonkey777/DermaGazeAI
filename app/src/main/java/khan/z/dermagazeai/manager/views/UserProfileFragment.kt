@@ -16,9 +16,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.amplifyframework.datastore.generated.model.UserProfile
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import khan.z.dermagazeai.R
+import khan.z.dermagazeai.activities.MainActivity
 import khan.z.dermagazeai.manager.UserProfileManager
 
 class UserProfileFragment : Fragment() {
@@ -102,6 +104,9 @@ class UserProfileFragment : Fragment() {
                     Toast.makeText(requireContext(), "Successfully updated user", Toast.LENGTH_SHORT).show()
                     Log.e("UserProfileDialog", "Successfully updated user")
                     findNavController().navigate(R.id.action_userProfileFragment_to_homeFragment)
+
+                    // Update the BottomNavigationView to highlight the Home icon
+                    (activity as? MainActivity)?.findViewById<BottomNavigationView>(R.id.bottom_navigation)?.selectedItemId = R.id.nav_home
                 }
             },
             onError = { error: Exception ->
