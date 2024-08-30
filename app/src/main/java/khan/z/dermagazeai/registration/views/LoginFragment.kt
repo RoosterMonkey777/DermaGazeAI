@@ -22,11 +22,21 @@ import khan.z.dermagazeai.registration.helpers.GoogleSignInHandler
 
 // CURRENT VERSION ----------------------------------------------------------------------------------------
 //V7: email, fb, google (seperation of concers)
+
+import androidx.lifecycle.ViewModelProvider
+
+import androidx.lifecycle.ViewModel
+
+class NavigationViewModel : ViewModel() {
+    var fromLogin: Boolean = false
+}
+
 class LoginFragment : Fragment() {
 
     private lateinit var googleSignInHandler: GoogleSignInHandler
     private lateinit var facebookSignInHandler: FacebookSignInHandler
     private lateinit var emailSignInHandler: EmailSignInHandler
+    private lateinit var navigationViewModel: NavigationViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +48,8 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        navigationViewModel = ViewModelProvider(requireActivity()).get(NavigationViewModel::class.java)
+
         googleSignInHandler = GoogleSignInHandler(this, findNavController(), R.id.action_loginFragment_to_homeFragment)
         googleSignInHandler.initializeGoogleSignIn(view, getString(R.string.google_app_id), R.id.btn_google, R.id.custom_google)
 
@@ -48,9 +60,11 @@ class LoginFragment : Fragment() {
         emailSignInHandler.initializeEmailSignIn(view, R.id.et_email, R.id.et_password, R.id.btn_login)
 
         view.findViewById<View>(R.id.tv_signup).setOnClickListener {
-            //findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
             signOut()
         }
+
+        // Set the flag when navigating from LoginFragment
+        navigationViewModel.fromLogin = true
     }
 
     private fun signOut() {
@@ -87,13 +101,14 @@ class LoginFragment : Fragment() {
         }
     }
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         googleSignInHandler.onActivityResult(requestCode, resultCode, data)
         facebookSignInHandler.onActivityResult(requestCode, resultCode, data)
     }
 }
+
+
 
 
 // V6, email, fb and googele (no seperation of concerns)

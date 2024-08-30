@@ -3,15 +3,22 @@ package khan.z.dermagazeai
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import khan.z.dermagazeai.manager.TopMenuManager
 import khan.z.dermagazeai.manager.UserProfileManager
+import khan.z.dermagazeai.registration.views.NavigationViewModel
+import java.util.Calendar
 
 
 // CURRENT VERSION ----------------------------------------------------
@@ -19,6 +26,9 @@ class HomeFragment : Fragment() {
 
     private val userProfileManager = UserProfileManager()
     private lateinit var topMenuManager: TopMenuManager
+    private lateinit var profileImageView: ImageView
+    private lateinit var greetingTextView: TextView
+    private lateinit var navigationViewModel: NavigationViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,6 +41,19 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         Log.d("HomeFragment", "onViewCreated called")
+
+        navigationViewModel = ViewModelProvider(requireActivity()).get(NavigationViewModel::class.java)
+
+        // Initialize UI elements
+        profileImageView = view.findViewById(R.id.profile_image)
+        greetingTextView = view.findViewById(R.id.greeting_message)
+
+
+        // Check the flag and reset it
+        val showGreeting = navigationViewModel.fromLogin
+        navigationViewModel.fromLogin = false
+
+
 
         // Initialize the MenuManager
         topMenuManager = TopMenuManager(requireContext(), this) { from, to ->
@@ -49,7 +72,13 @@ class HomeFragment : Fragment() {
                     email,
                     onProfileFound = { user ->
                         Log.d("HomeFragment", "User profile found: $user")
-                        // User profile is complete, do nothing
+                        requireActivity().runOnUiThread {
+                            if (showGreeting) {
+                                setDynamicGreeting(user.firstname ?: "")
+                            } else {
+                                greetingTextView.text = user.firstname ?: ""
+                            }
+                        }
                     },
                     onProfileNotFound = {
                         Log.d("HomeFragment", "No user profile found")
@@ -70,6 +99,45 @@ class HomeFragment : Fragment() {
         )
     }
 
+    private fun shouldShowGreeting(): Boolean {
+        val previousBackStackEntry = findNavController().previousBackStackEntry
+        val previousDestination = previousBackStackEntry?.destination
+
+        // Check if the previous destination was the LoginFragment
+        return previousDestination?.id == R.id.loginFragment
+    }
+
+    private fun setDynamicGreeting(firstName: String) {
+        val greeting = when (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
+            in 6..11 -> "Good Morning, $firstName"
+            in 12..17 -> "Good Afternoon, $firstName"
+            else  -> "Good Evening, $firstName"
+        }
+
+        // Ensure the UI update is performed on the main thread
+        requireActivity().runOnUiThread {
+            greetingTextView.text = greeting
+
+            // Start the fade-out animation after 3 seconds
+            Handler(Looper.getMainLooper()).postDelayed({
+                fadeOutGreeting(firstName)
+            }, 3000)
+        }
+    }
+
+    private fun fadeOutGreeting(firstName: String) {
+        requireActivity().runOnUiThread {
+            greetingTextView.animate()
+                .alpha(0f)
+                .setDuration(1000)
+                .withEndAction {
+                    // After fade-out, set the TextView to show just the user's name
+                    greetingTextView.text = firstName
+                    greetingTextView.animate().alpha(1f).duration = 1000
+                }
+        }
+    }
+
     private fun rotateButton(button: ImageButton, from: Float, to: Float) {
         val rotateAnimator = ObjectAnimator.ofFloat(button, "rotation", from, to)
         rotateAnimator.duration = 150
@@ -83,11 +151,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun shouldShowTermsOfService(): Boolean {
-        // Implement the actual logic to check if ToS has been accepted
-        // For now, return true if it hasn't been accepted
-        // Example: Check if consentGiven is stored in a shared preference or in the database
-        // Assuming a shared preference check here for simplicity
-
         val sharedPref = requireContext().getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
         return !sharedPref.getBoolean("consentGiven", false)
     }
@@ -97,7 +160,14 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_homeFragment_to_termsOfServiceDialogFragment)
         }
     }
+
+
 }
+
+
+
+
+
 
 //class HomeFragment : Fragment() {
 //

@@ -124,52 +124,6 @@ class UserProfileManager {
         )
     }
 
-//    fun updateUser(
-//        firstName: String,
-//        lastName: String,
-//        email: String,
-//        age: Int?,
-//        gender: String,
-//        skinType: String,
-//        productType: String,
-//        skinProblems: List<String>,
-//        notableEffects: List<String>,
-//        consentGiven: Boolean,
-//        onSuccess: () -> Unit,
-//        onError: (Exception) -> Unit
-//    ) {
-//
-//        val user = UserProfile.builder()
-//            .firstname(firstName)
-//            .lastname(lastName)
-//            .email(email)
-//            .consentGiven(consentGiven)
-//            .age(age)
-//            .gender(gender)
-//            .skintype(skinType)
-//            .productType(productType)
-//            .skinProblems(skinProblems)
-//            .notableEffects(notableEffects)
-//            .build()
-//
-//        Amplify.API.mutate(
-//            ModelMutation.update(user),
-//            { updateResponse ->
-//                if (updateResponse.hasErrors()) {
-//                    Log.e("UserProfileManager", "Update failed: ${updateResponse.errors.first().message}")
-//                    onError(Exception(updateResponse.errors.first().message))
-//                } else {
-//                    Log.d("UserProfileManager", "Update succeeded")
-//                    onSuccess()
-//                }
-//            },
-//            { error ->
-//                Log.e("UserProfileManager", "Update failed: $error")
-//                onError(error)
-//            }
-//        )
-    //   }
-
 
 
 
