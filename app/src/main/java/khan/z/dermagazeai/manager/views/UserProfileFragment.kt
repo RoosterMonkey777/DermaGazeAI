@@ -68,6 +68,9 @@ class UserProfileFragment : Fragment() {
         updateButton.setOnClickListener {
             updateUserData()
         }
+
+
+
     }
 
 
