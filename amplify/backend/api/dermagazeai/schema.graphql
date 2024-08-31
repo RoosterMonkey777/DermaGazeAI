@@ -31,3 +31,9 @@ type SkinCareProduct @model  @auth(rules: [{ allow: public }]){
   skintype: [String]
   skinTypes: [String]
 }
+
+
+type Mutation {
+  generateRecommendations(id: ID!): [String]
+  @function(name: "SkincareRecommenderFunction-dev")
+}

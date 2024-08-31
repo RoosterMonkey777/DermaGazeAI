@@ -21,7 +21,7 @@
       "function": {
         "SkincareRecommenderFunction": {
           "deploymentBucketName": "amplify-dermagazeai-dev-3e32a-deployment",
-          "s3Key": "amplify-builds/SkincareRecommenderFunction-68345838666972423075-build.zip"
+          "s3Key": "amplify-builds/SkincareRecommenderFunction-725341354c2b494f6755-build.zip"
         }
       }
     }

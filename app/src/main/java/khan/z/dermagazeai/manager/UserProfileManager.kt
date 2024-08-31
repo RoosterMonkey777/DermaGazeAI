@@ -6,6 +6,10 @@ import android.content.Context
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import com.amplifyframework.api.ApiException
+import com.amplifyframework.api.graphql.GraphQLRequest
+import com.amplifyframework.api.graphql.GraphQLResponse
+import com.amplifyframework.api.graphql.SimpleGraphQLRequest
 import com.amplifyframework.api.graphql.model.ModelMutation
 import com.amplifyframework.api.graphql.model.ModelQuery
 import com.amplifyframework.core.Amplify
@@ -13,6 +17,8 @@ import com.amplifyframework.datastore.generated.model.SkinCareProduct
 import com.amplifyframework.datastore.generated.model.UserProfile
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 class UserProfileManager {
 
@@ -51,15 +57,13 @@ class UserProfileManager {
                 if (response.hasErrors()) {
                     onError(Exception(response.errors.first().message))
                 } else {
-                    onSuccess()
+                    response.data?.let { createdUser ->
+                        triggerLambdaFunction(createdUser.id, onSuccess, onError)
+                    } ?: onError(Exception("User creation succeeded but no data returned"))
                 }
             },
             { error -> onError(error) }
         )
-
-
-
-
     }
 
     fun updateUser(
@@ -76,11 +80,9 @@ class UserProfileManager {
         onSuccess: () -> Unit,
         onError: (Exception) -> Unit
     ) {
-        // First, check if the user exists
         checkUserProfile(
             email,
             onProfileFound = { existingUser ->
-                // User exists, update it
                 val updatedUser = existingUser.copyOfBuilder()
                     .firstname(firstName)
                     .lastname(lastName)
@@ -92,39 +94,68 @@ class UserProfileManager {
                     .productType(productType)
                     .skinProblems(skinProblems)
                     .notableEffects(notableEffects)
-
                     .build()
-
 
                 Amplify.API.mutate(
                     ModelMutation.update(updatedUser),
                     { updateResponse ->
                         if (updateResponse.hasErrors()) {
-                            Log.e("UserProfileManager", "Update failed: ${updateResponse.errors.first().message}")
                             onError(Exception(updateResponse.errors.first().message))
                         } else {
-                            Log.d("UserProfileManager", "Update succeeded")
-                            onSuccess()
+                            updateResponse.data?.let { updatedUserProfile ->
+                                triggerLambdaFunction(updatedUserProfile.id, onSuccess, onError)
+                            } ?: onError(Exception("Update succeeded but no data returned"))
                         }
                     },
                     { error ->
-                        Log.e("UserProfileManager", "Update failed: $error")
                         onError(error)
                     }
                 )
             },
             onProfileNotFound = {
-                // User doesn't exist, create a new one
-                Log.e("UserProfileManager", "No Profile Found")
+                onError(Exception("Profile not found"))
             },
             onError = { error ->
-                Log.e("UserProfileManager", "Error checking user profile: $error")
                 onError(error)
             }
         )
     }
 
+    // Trigger the Lambda function by executing the GraphQL mutation
+    private fun triggerLambdaFunction(
+        userId: String,
+        onSuccess: () -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+        val mutation = """
+        mutation GenerateRecommendations {
+            generateRecommendations(id: "$userId")
+        }
+        """.trimIndent()
 
+        val request = SimpleGraphQLRequest<String>(
+            mutation,
+            emptyMap<String, Any>(), // No variables
+            String::class.java,  // Expected response type
+            null  // No authorization needed
+        )
+
+        Amplify.API.mutate(
+            request,
+            { response ->
+                if (response.hasErrors()) {
+                    onError(Exception(response.errors.first().message))
+                } else {
+                    Log.d("UserProfileManager", "Successfully triggered Lambda function for user ID: $userId")
+                    onSuccess()
+                }
+            },
+            { error ->
+                Log.e("UserProfileManager", "Failed to trigger Lambda function: $error")
+                onError(error)
+            }
+        )
+    }
 
 
     fun fetchUserEmail(onSuccess: (String) -> Unit, onError: (Exception) -> Unit) {
@@ -245,6 +276,8 @@ class UserProfileManager {
             }
         )
     }
+
+
 
 
 }

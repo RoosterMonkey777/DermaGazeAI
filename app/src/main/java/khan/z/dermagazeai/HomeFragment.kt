@@ -30,6 +30,9 @@ class HomeFragment : Fragment() {
     private lateinit var greetingTextView: TextView
     private lateinit var navigationViewModel: NavigationViewModel
 
+    private lateinit var tvRecommendations: TextView
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,6 +44,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         Log.d("HomeFragment", "onViewCreated called")
+
 
         navigationViewModel = ViewModelProvider(requireActivity()).get(NavigationViewModel::class.java)
 
@@ -97,6 +101,33 @@ class HomeFragment : Fragment() {
                 Log.e("HomeFragment", "Failed to fetch user email", error)
             }
         )
+
+        tvRecommendations = view.findViewById(R.id.tv_recommendations)
+
+        userProfileManager.fetchUserEmail(
+            onSuccess = { email ->
+                userProfileManager.checkUserProfile(
+                    email,
+                    onProfileFound = { user ->
+                        requireActivity().runOnUiThread {
+                            val recommendations = user.recommendedProducts
+                            tvRecommendations.text = recommendations.joinToString("\n")
+                        }
+                    },
+                    onProfileNotFound = {
+                        // Handle no profile found
+                    },
+                    onError = { error ->
+                        // Handle error
+                    }
+                )
+            },
+            onError = { error ->
+                // Handle error
+            }
+        )
+
+
     }
 
     private fun shouldShowGreeting(): Boolean {

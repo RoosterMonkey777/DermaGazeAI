@@ -231,9 +231,41 @@ def update_user_profile(user_id, recommendations):
 #     }
 
 
+# def handler(event, context):
+#     # Extract id from event (assuming it's directly provided)
+#     user_id = event['arguments']['id']  # Change to the correct path based on your event structure
+    
+#     # Retrieve the user profile by id
+#     user_profile = get_user_profile(user_id)
+#     if not user_profile:
+#         return {
+#             'statusCode': 404,
+#             'body': json.dumps({'error': 'User not found'})
+#         }
+    
+#     # Now proceed with filtering and recommendations
+#     skin_type = user_profile.get('skintype', '')
+#     product_type = user_profile.get('productType', '')
+#     notable_effects = user_profile.get('notableEffects', [])
+    
+#     products = get_filtered_products(skin_type, product_type, ' '.join(notable_effects))
+#     recommendations = recommend_products(user_profile, products)
+    
+#     update_user_profile(user_id, recommendations)
+    
+#     return {
+#         'statusCode': 200,
+#         'headers': {
+#             'Access-Control-Allow-Headers': '*',
+#             'Access-Control-Allow-Origin': '*',
+#             'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+#         },
+#         'body': json.dumps({'recommendations': recommendations})
+#     }
+
 def handler(event, context):
     # Extract id from event (assuming it's directly provided)
-    user_id = event['queryStringParameters']['id']  # Change to the correct path based on your event structure
+    user_id = event['arguments']['id']  # Correctly using 'arguments' instead of 'queryStringParameters'
     
     # Retrieve the user profile by id
     user_profile = get_user_profile(user_id)
@@ -243,7 +275,7 @@ def handler(event, context):
             'body': json.dumps({'error': 'User not found'})
         }
     
-    # Now proceed with filtering and recommendations
+    # Proceed with filtering and recommendations
     skin_type = user_profile.get('skintype', '')
     product_type = user_profile.get('productType', '')
     notable_effects = user_profile.get('notableEffects', [])
@@ -253,13 +285,5 @@ def handler(event, context):
     
     update_user_profile(user_id, recommendations)
     
-    return {
-        'statusCode': 200,
-        'headers': {
-            'Access-Control-Allow-Headers': '*',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
-        },
-        'body': json.dumps({'recommendations': recommendations})
-    }
-
+    # Return only the recommendations list
+    return recommendations
