@@ -59,5 +59,41 @@
       "providerPlugin": "awscloudformation",
       "service": "Cognito"
     }
+  },
+  "function": {
+    "SkincareRecommenderFunction": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ],
+          "category": "api",
+          "resourceName": "dermagazeai"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_SkincareRecommenderFunction_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "SkincareRecommenderFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_SkincareRecommenderFunction_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "SkincareRecommenderFunction"
+        }
+      ]
+    }
   }
 }
