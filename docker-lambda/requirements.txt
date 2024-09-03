@@ -1,0 +1,7 @@
+tensorflow==2.8.0
+keras==2.8.0
+tensorflow_hub==0.11.0
+opencv-python-headless==4.5.5.64
+Pillow==9.2.0
+protobuf==3.20.3
+scikit-learn==1.3.2
