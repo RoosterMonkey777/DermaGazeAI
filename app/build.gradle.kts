@@ -60,6 +60,7 @@ dependencies {
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(libs.amplify.auth.cognito)
     implementation(libs.amplify.core)
+    implementation(libs.aws.storage.s3)
 
     // facebook
     implementation(libs.facebook.login)

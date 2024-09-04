@@ -23,6 +23,9 @@
           "deploymentBucketName": "amplify-dermagazeai-dev-3e32a-deployment",
           "s3Key": "amplify-builds/SkincareRecommenderFunction-725341354c2b494f6755-build.zip"
         }
+      },
+      "storage": {
+        "userImages": {}
       }
     }
   }
