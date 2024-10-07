@@ -1,5 +1,6 @@
 package com.amplifyframework.datastore.generated.model;
 
+import com.amplifyframework.core.model.annotations.HasMany;
 import com.amplifyframework.core.model.temporal.Temporal;
 import com.amplifyframework.core.model.ModelIdentifier;
 
@@ -51,6 +52,7 @@ public final class UserProfile implements Model {
   private final @ModelField(targetType="String") List<String> skinProblems;
   private final @ModelField(targetType="String") List<String> notableEffects;
   private final @ModelField(targetType="String") List<String> recommendedProducts;
+  private final @ModelField(targetType="UserMedication") @HasMany(associatedWith = "userProfileID", type = UserMedication.class) List<UserMedication> medications = null;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
@@ -105,6 +107,10 @@ public final class UserProfile implements Model {
   
   public List<String> getRecommendedProducts() {
       return recommendedProducts;
+  }
+  
+  public List<UserMedication> getMedications() {
+      return medications;
   }
   
   public Temporal.DateTime getCreatedAt() {

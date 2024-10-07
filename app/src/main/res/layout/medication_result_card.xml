@@ -1,0 +1,53 @@
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:elevation="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <!-- Container for TextViews to stack them vertically -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/result_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Medication Name" />
+
+            <TextView
+                android:id="@+id/result_company"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Company Name" />
+
+            <TextView
+                android:id="@+id/result_din"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DIN" />
+
+        </LinearLayout>
+
+        <!-- Add the Plus Button aligned to the right -->
+        <ImageButton
+            android:id="@+id/expand_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_add_circle_outline_50"
+            android:contentDescription="Expand"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginEnd="15dp"/>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

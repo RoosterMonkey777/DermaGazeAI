@@ -1,0 +1,180 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <!-- Title for Medication Details -->
+        <TextView
+            android:id="@+id/medication_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medication Name"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:id="@+id/medication_company"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Company Name"
+            android:textSize="16sp"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:id="@+id/medication_din"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DIN"
+            android:textSize="16sp"
+            android:paddingBottom="16dp" />
+
+        <!-- Dosage (input field) -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dosage (mg)"
+            android:textSize="16sp"
+            android:paddingTop="16dp" />
+        <EditText
+            android:id="@+id/dosage_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter dosage in mg" />
+
+        <!-- Form (input field or dropdown) -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Form"
+            android:textSize="16sp"
+            android:paddingTop="16dp" />
+        <EditText
+            android:id="@+id/form_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter medication form (e.g., Tablet, Capsule)" />
+
+        <!-- Select Start Date -->
+        <Button
+            android:id="@+id/select_start_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Start Date" />
+
+        <!-- Select End Date -->
+        <Button
+            android:id="@+id/select_end_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select End Date"
+            android:layout_marginTop="16dp" />
+
+        <!-- Days of the Week for Medication -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Days of the Week"
+            android:textSize="16sp"
+            android:paddingTop="16dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/checkbox_monday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="M" />
+
+            <CheckBox
+                android:id="@+id/checkbox_tuesday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="T" />
+
+            <CheckBox
+                android:id="@+id/checkbox_wednesday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="W" />
+
+            <CheckBox
+                android:id="@+id/checkbox_thursday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="T" />
+
+            <CheckBox
+                android:id="@+id/checkbox_friday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="F" />
+
+            <CheckBox
+                android:id="@+id/checkbox_saturday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="S" />
+
+            <CheckBox
+                android:id="@+id/checkbox_sunday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="S" />
+
+        </LinearLayout>
+
+        <!-- Time to Take Medication -->
+        <Button
+            android:id="@+id/select_time_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Time to Take Medication"
+            android:layout_marginTop="16dp" />
+
+        <!-- Additional Notes -->
+        <EditText
+            android:id="@+id/additional_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Additional Notes (optional)"
+            android:layout_marginTop="16dp"/>
+
+        <!-- Button Layout for Save and Cancel -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="100dp"
+            android:gravity="center_horizontal">
+
+            <!-- Save Button -->
+            <Button
+                android:id="@+id/save_medication_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save"
+                android:layout_marginEnd="16dp" />
+
+            <!-- Cancel Button -->
+            <Button
+                android:id="@+id/cancel_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

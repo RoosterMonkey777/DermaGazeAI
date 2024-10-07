@@ -52,18 +52,105 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- TextView for Recommendations -->
+    <!-- Title TextView for Recommendations -->
     <TextView
-        android:id="@+id/tv_recommendations"
-        android:layout_width="match_parent"
+        android:id="@+id/title_recommendations"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Your Recommendations"
-        android:layout_marginVertical="100dp"
+        android:text="Your Skin Care Recommendations"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/menu_button"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="60dp"
+        app:layout_constraintTop_toBottomOf="@id/menu_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- ViewPager2 for swipeable Recommendations -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:layout_marginTop="10dp"
+        android:id="@+id/viewPager_recommendations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/title_recommendations"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="12dp" />
+        tools:listitem="@layout/recommended_item_product_card" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<androidx.constraintlayout.widget.ConstraintLayout-->
+<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:padding="18dp">-->
+
+<!--    &lt;!&ndash; Static Profile Picture &ndash;&gt;-->
+<!--    <ImageView-->
+<!--        android:id="@+id/profile_image"-->
+<!--        android:layout_width="64dp"-->
+<!--        android:layout_height="64dp"-->
+<!--        android:background="@drawable/circle_shape"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        android:src="@android:drawable/sym_def_app_icon"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/menu_button"-->
+<!--        android:layout_marginLeft="8dp"-->
+<!--        android:layout_marginTop="12dp" />-->
+
+<!--    &lt;!&ndash; LinearLayout containing the greeting message &ndash;&gt;-->
+<!--    <LinearLayout-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical"-->
+<!--        android:padding="14dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/menu_button"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/profile_image"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
+
+<!--        &lt;!&ndash; Dynamic Greeting Message &ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:id="@+id/greeting_message"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textColor="@android:color/black"-->
+<!--            android:textSize="18sp" />-->
+<!--    </LinearLayout>-->
+
+<!--    &lt;!&ndash; Round ImageButton for menu in HomeFragment &ndash;&gt;-->
+<!--    <ImageButton-->
+<!--        android:id="@+id/menu_button"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="16dp"-->
+<!--        android:background="@drawable/menu_button_states"-->
+<!--        android:contentDescription="menu"-->
+<!--        android:elevation="4dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    &lt;!&ndash; TextView for Recommendations &ndash;&gt;-->
+<!--    <TextView-->
+<!--        android:id="@+id/tv_recommendations"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Your Recommendations"-->
+<!--        android:layout_marginVertical="100dp"-->
+<!--        android:textSize="18sp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/menu_button"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:layout_marginTop="12dp" />-->
+
+
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
