@@ -9,15 +9,17 @@
     <fragment
         android:id="@+id/startupFragment"
         android:name="khan.z.dermagazeai.registration.views.StartupFragment"
-        android:label="fragment_startup"
+        android:label="StartupFragment"
         tools:layout="@layout/fragment_startup">
+
+        <!-- Action to navigate to LoginFragment -->
         <action
             android:id="@+id/action_startupFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
-        <action
-            android:id="@+id/action_startupFragment_to_signupFragment"
-            app:destination="@id/signupFragment" />
     </fragment>
+
+
+
 
     <!--signup-->
     <fragment

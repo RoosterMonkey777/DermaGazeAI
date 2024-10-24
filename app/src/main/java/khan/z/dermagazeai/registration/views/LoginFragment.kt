@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -26,6 +27,7 @@ import khan.z.dermagazeai.registration.helpers.GoogleSignInHandler
 import androidx.lifecycle.ViewModelProvider
 
 import androidx.lifecycle.ViewModel
+import khan.z.dermagazeai.activities.MainActivity
 
 class NavigationViewModel : ViewModel() {
     var fromLogin: Boolean = false
@@ -59,11 +61,12 @@ class LoginFragment : Fragment() {
         emailSignInHandler = EmailSignInHandler(this, findNavController())
         emailSignInHandler.initializeEmailSignIn(view, R.id.et_email, R.id.et_password, R.id.btn_login)
 
-        view.findViewById<View>(R.id.tv_signup).setOnClickListener {
-            signOut()
+        // Set click listener for "Sign Up" text view
+        view.findViewById<TextView>(R.id.tv_signup).setOnClickListener {
+            // Navigate to SignupFragment
+            findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
         }
 
-        // Set the flag when navigating from LoginFragment
         navigationViewModel.fromLogin = true
     }
 
@@ -100,6 +103,13 @@ class LoginFragment : Fragment() {
             }
         }
     }
+    private fun navigateToHome() {
+        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+
+        // After successful login, make the bottom navigation visible in MainActivity
+        (activity as MainActivity).showBottomNavigation()
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

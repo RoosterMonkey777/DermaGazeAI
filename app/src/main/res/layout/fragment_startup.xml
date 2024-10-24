@@ -20,7 +20,7 @@
         app:srcCompat="@drawable/background2" />
 
     <Button
-        android:id="@+id/buttonLogin"
+        android:id="@+id/buttonStart"
         android:layout_width="218dp"
         android:layout_height="50dp"
         android:backgroundTint="@null"
