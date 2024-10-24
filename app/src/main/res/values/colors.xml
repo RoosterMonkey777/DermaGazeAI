@@ -13,4 +13,6 @@
     <color name="pastel_teal">#FFA0DCD1</color> <!-- A soft, pastel teal -->
     <color name="soft_grey">#FFB0B0B0</color> <!-- A neutral soft grey -->
     <color name="soft_black">#FF222222</color> <!-- A softer black -->
+    <color name="grey">#e3e3e3</color>
+
 </resources>

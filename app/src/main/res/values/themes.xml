@@ -21,6 +21,11 @@
         <item name="postSplashScreenTheme">@style/Theme.DermaGazeAI</item>
     </style>
 
+    <style name="cornerImageView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">25dp</item>
+    </style>
+
 
 
 </resources>
