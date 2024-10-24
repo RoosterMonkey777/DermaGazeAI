@@ -7,4 +7,10 @@
 
     <color name="light_red">#FFCDD2</color> <!-- Light color when unchecked -->
     <color name="dark_red">#D32F2F</color>  <!-- Dark color when checked -->
+    <color name="light_blue">#FFCBDDDD</color> <!-- Light Blue -->
+    <color name="light_pink">#FFF6C1D1</color> <!-- Light Pink -->
+    <color name="pastel_purple">#FFD3BFFF</color> <!-- A soft, pastel purple -->
+    <color name="pastel_teal">#FFA0DCD1</color> <!-- A soft, pastel teal -->
+    <color name="soft_grey">#FFB0B0B0</color> <!-- A neutral soft grey -->
+    <color name="soft_black">#FF222222</color> <!-- A softer black -->
 </resources>
