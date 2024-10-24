@@ -38,7 +38,8 @@ fun OnboardingScreen(onFinished: () -> Unit) {
             when (pagerState.currentPage) {
                 0 -> listOf("", "Next")
                 1 -> listOf("Back", "Next")
-                2 -> listOf("Back", "Start")
+                2 -> listOf("Back", "Next")
+                3 -> listOf("Back", "Start")
                 else -> listOf("", "")
             }
         }
