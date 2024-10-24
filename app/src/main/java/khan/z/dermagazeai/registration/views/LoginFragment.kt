@@ -1,5 +1,6 @@
 package khan.z.dermagazeai.registration.views
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -61,6 +62,10 @@ class LoginFragment : Fragment() {
         emailSignInHandler = EmailSignInHandler(this, findNavController())
         emailSignInHandler.initializeEmailSignIn(view, R.id.et_email, R.id.et_password, R.id.btn_login)
 
+        // After successful login
+        saveLoginState()  // Save login state
+        navigateToHome()
+
         // Set click listener for "Sign Up" text view
         view.findViewById<TextView>(R.id.tv_signup).setOnClickListener {
             // Navigate to SignupFragment
@@ -71,6 +76,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun signOut() {
+        clearLoginState()  // Clear login state
         Log.d("LoginFragment", "Sign out initiated")
 
         val oneTapClient = Identity.getSignInClient(requireActivity())
@@ -109,6 +115,24 @@ class LoginFragment : Fragment() {
         // After successful login, make the bottom navigation visible in MainActivity
         (activity as MainActivity).showBottomNavigation()
     }
+
+    // Call this function after a successful login
+    private fun saveLoginState() {
+        val sharedPref = requireActivity().getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.putBoolean("isLoggedIn", true)  // Set logged-in status to true
+        editor.apply()
+    }
+
+    private fun clearLoginState() {
+        val sharedPref = requireActivity().getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.putBoolean("isLoggedIn", false)  // Set logged-in status to false
+        editor.apply()
+    }
+
+
+
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

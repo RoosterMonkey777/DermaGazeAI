@@ -1,107 +1,30 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    tools:context=".topmenu.FaqFragment">
 
-    <!-- Back Button at the top left -->
-    <ImageButton
-        android:id="@+id/back_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:scaleType="centerInside"
-        android:src="@drawable/baseline_arrow_back_50"
-        android:contentDescription="Back"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <!-- FAQ Title -->
     <TextView
         android:id="@+id/faq_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Frequently Asked Questions"
+        android:text="FAQ"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/back_button"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        android:gravity="center" />
 
-    <!-- FAQ Content in a Scrollable View -->
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewFaq"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/faq_title"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp">
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <!-- FAQ 1 -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1. What is DermaGazeAI?"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:layout_marginBottom="8dp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="DermaGazeAI is a skincare assistance tool that helps users understand skin conditions using AI-based image analysis. It allows you to take a photo of your skin lesion, analyzes the image, and provides insights into possible skin conditions and their severity."
-                android:layout_marginBottom="16dp" />
-
-            <!-- FAQ 2 -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2. How does the skin condition classification work?"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:layout_marginBottom="8dp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Our app uses a computer vision model to analyze the uploaded image of your skin lesion. The model compares it with trained data and classifies it into various skin conditions such as acne, eczema, or other skin issues. Note that the app is not a substitute for medical advice and should be used as a general guide."
-                android:layout_marginBottom="16dp" />
-
-            <!-- FAQ 3 -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="3. What happens to the photos I upload?"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:layout_marginBottom="8dp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="The photos you upload are stored temporarily for analysis and saved only if you choose to keep them as part of your assessment history. We prioritize your privacy and follow strict data protection protocols to keep your data safe."
-                android:layout_marginBottom="16dp" />
-
-            <!-- FAQ 4 -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="4. Can I share my assessment results with a dermatologist?"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:layout_marginBottom="8dp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Yes! You can save your assessment results, including images, conditions, severity, and recommendations, in your profile. You may share these results with your dermatologist if needed."
-                android:layout_marginBottom="16dp" />
-
-            <!-- Add additional FAQs as needed -->
-        </LinearLayout>
-    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
