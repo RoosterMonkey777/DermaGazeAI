@@ -1,6 +1,7 @@
 package khan.z.dermagazeai.machinelearning.views
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
@@ -35,12 +36,12 @@ class CameraFragment : Fragment() {
     private lateinit var btnPredict: Button
     private var selectedImageUri: Uri? = null
     private val REQUEST_CODE_STORAGE_PERMISSION = 100
+    private var cond: String = ""
+    private var sev: String = ""
+    private var prob: Int = 50
 
-    // Temporary storage for mock prediction data
-    private var mockCondition: String = "None"
-    private var mockSeverity: String = "Light"
-    private var mockProbability: Int = 50
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -58,6 +59,51 @@ class CameraFragment : Fragment() {
         }
 
         // Set up touch listener for the Predict button
+        btnPredict.setOnClickListener {
+            selectedImageUri?.let { uri ->
+                checkStoragePermission(uri)
+            }
+        }
+
+//        private fun checkStoragePermission(uri: Uri) {
+//        if (ContextCompat.checkSelfPermission(
+//                requireContext(),
+//                Manifest.permission.READ_EXTERNAL_STORAGE
+//            ) != PackageManager.PERMISSION_GRANTED
+//        ) {
+//            // Request permission
+//            ActivityCompat.requestPermissions(
+//                requireActivity(),
+//                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+//                REQUEST_CODE_STORAGE_PERMISSION
+//            )
+//        } else {
+//            // Permission already granted, proceed with file operations
+//            uploadImageToS3(uri)
+//        }
+//    }
+//
+//    // Handle the user's response to the permission request
+//    override fun onRequestPermissionsResult(
+//        requestCode: Int,
+//        permissions: Array<out String>,
+//        grantResults: IntArray
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         btnPredict.setOnTouchListener { view, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 val width = view.width
@@ -66,23 +112,23 @@ class CameraFragment : Fragment() {
                 val y = event.y
 
                 // Determine the condition based on the x-coordinate
-                mockCondition = when {
+                cond = when {
                     x < width / 3 -> "Eczema"      // Left third of the button
                     x > 2 * width / 3 -> "Acne"    // Right third of the button
                     else -> "None"                 // Center third of the button (Clean)
                 }
 
                 // Determine the severity based on the y-coordinate
-                mockSeverity = when {
-                    y < height / 2 && mockCondition == "Eczema" -> "Heavy" // Top half for Eczema
-                    y >= height / 2 && mockCondition == "Eczema" -> "Light" // Bottom half for Eczema
-                    y < height / 2 && mockCondition == "Acne" -> "Heavy"    // Top half for Acne
-                    y >= height / 2 && mockCondition == "Acne" -> "Light"   // Bottom half for Acne
+                sev = when {
+                    y < height / 2 && cond == "Eczema" -> "Heavy" // Top half for Eczema
+                    y >= height / 2 && cond == "Eczema" -> "Light" // Bottom half for Eczema
+                    y < height / 2 && cond == "Acne" -> "Heavy"    // Top half for Acne
+                    y >= height / 2 && cond == "Acne" -> "Light"   // Bottom half for Acne
                     else -> "Light" // Default to Light for Clean or other cases
                 }
 
                 // Set the probability within the 85–99% range
-                mockProbability = (85..99).random()
+                prob = (85..99).random()
 
                 // Call checkStoragePermission to proceed with image upload and display the mock data
                 selectedImageUri?.let { uri ->
@@ -162,7 +208,7 @@ class CameraFragment : Fragment() {
 
     private fun navigateToResultFragment(imageUri: Uri) {
         val action = CameraFragmentDirections.actionCameraFragmentToResultsFragment(
-            imageUri.toString(), mockCondition, mockSeverity, mockProbability
+            imageUri.toString(), cond, sev, prob
         )
         findNavController().navigate(action)
     }
