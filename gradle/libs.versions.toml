@@ -22,6 +22,9 @@ desugarJdkLibs = "2.0.4"
 facebookLogin = "latest.release"
 playServicesAuth = "21.2.0"
 
+# glide
+glide = "4.12.0"
+
 
 
 [libraries]
@@ -50,7 +53,11 @@ amplify-core = { module = "com.amplifyframework:core", version.ref = "amplify" }
 facebook-login = { module = "com.facebook.android:facebook-login", version.ref = "facebookLogin" }
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
 
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+
+
 

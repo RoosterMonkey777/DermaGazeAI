@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -54,6 +55,7 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
 
+
     // amplify
     implementation(libs.amplify.api)
     implementation(libs.amplify.datastore)
@@ -67,5 +69,8 @@ dependencies {
 
     // google
     implementation(libs.play.services.auth)
+
+    // glide
+    implementation(libs.glide)
 
 }

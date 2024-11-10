@@ -1,0 +1,83 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- Back Button -->
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Back"
+        android:src="@drawable/baseline_arrow_back_50"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <!-- Medication Name -->
+    <TextView
+        android:id="@+id/medication_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Medication Name"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/back_button"
+        app:layout_constraintStart_toStartOf="parent"
+        android:paddingBottom="8dp"/>
+
+    <!-- Medication Company -->
+    <TextView
+        android:id="@+id/medication_company"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Company Name"
+        android:textSize="16sp"
+        android:paddingBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@id/medication_name"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <!-- Medication DIN -->
+    <TextView
+        android:id="@+id/medication_din"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DIN"
+        android:textSize="16sp"
+        android:paddingBottom="16dp"
+        app:layout_constraintTop_toBottomOf="@id/medication_company"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <!-- Dosage -->
+    <TextView
+        android:id="@+id/dosage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dosage"
+        android:paddingBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@id/medication_din"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <!-- Form -->
+    <TextView
+        android:id="@+id/form"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Form"
+        app:layout_constraintTop_toBottomOf="@id/dosage"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+    <!-- Calendar View -->
+    <CalendarView
+        android:id="@+id/calendar_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/form"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,7 +15,70 @@ type UserProfile @model @auth(rules: [{ allow: public }]) {
 
   # Field to store recommended product names (as a list of strings)
   recommendedProducts: [String]
+
+  assessments: [SkinAssessment] @hasMany(indexName: "byUserProfile", fields: ["id"])
+
+  medications: [UserMedication] @hasMany(indexName: "byUserProfile", fields: ["id"])
+
 }
+
+
+type Medication @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  drug_code: Int!
+  drug_identification_number: String! @index(name: "byDIN", queryField: "getMedicationByDIN")
+  brand_name: String!
+  class_name: String
+  company_name: String
+  last_update_date: String
+  number_of_ais: String
+  ai_group_no: String
+  descriptor: String
+}
+
+#type UserMedication @model @auth(rules: [{ allow: public }]) {
+#  id: ID!
+#  userProfileID: ID! @index(name: "byUserProfile", queryField: "getUserMedicationsByUser")
+#  medicationID: ID! @index(name: "byMedication", queryField: "getUserMedicationsByMedication")
+#
+#  dosage: String!
+#  form: String!
+#  startDate: String!
+#  endDate: String!
+#  daysOfWeek: [String]!
+#  time: String!
+#  additionalNotes: String
+#}
+
+type UserMedication @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  userProfileID: ID! @index(name: "byUserProfile", queryField: "getUserMedicationsByUser")
+  medicationID: ID! @index(name: "byMedication", queryField: "getUserMedicationsByMedication")
+  medicationName: String! # Store medication name directly
+  companyName: String! # Store company name directly
+  dosage: String! # Dosage information
+  form: String!
+  startDate: String # Optional start date
+  endDate: String # Optional end date
+  daysOfWeek: [String] # Optional, days of the week
+  time: String # Optional time
+}
+
+type SkinAssessment @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  userProfileID: ID! @index(name: "byUserProfile", queryField: "getAssessmentsByUser")
+  imageUri: String! # URI for the stored image in S3
+  condition: String! # Predicted skin condition, e.g., "Eczema", "Acne", "None"
+  severity: String! # Severity of the condition, e.g., "Heavy" or "Light"
+  probability: Int! # Probability of the prediction in percentage
+}
+
+
+
+
+
+
+
 
 type SkinCareProduct @model  @auth(rules: [{ allow: public }]){
   id: ID!
