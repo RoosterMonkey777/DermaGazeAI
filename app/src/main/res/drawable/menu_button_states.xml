@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Green color when pressed -->
-    <item
-        android:state_pressed="true"
-        android:drawable="@drawable/circle_pressed" /> <!-- Green shade when pressed -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Default lighter green color -->
+    <!-- Circle Background -->
+    <item>
+        <shape android:shape="oval">
+            <!-- Use a light blue color from the theme for the background -->
+            <solid android:color="@color/primaryLight" />
+            <!-- Use a slightly darker tone for the outline to provide subtle contrast -->
+            <stroke
+                android:width="2dp"
+                android:color="@color/onPrimaryContainerLight" /> <!-- Replace with dark complementary color -->
+            <size
+                android:width="40dp"
+                android:height="40dp" /> <!-- Adjusted to match button size -->
+        </shape>
+    </item>
+
+    <!-- Centered Icon -->
     <item
-        android:drawable="@drawable/circle_default" /> <!-- Light green or white shade by default -->
-</selector>
+        android:drawable="@drawable/baseline_menu_24"
+        android:gravity="center" />
+</layer-list>

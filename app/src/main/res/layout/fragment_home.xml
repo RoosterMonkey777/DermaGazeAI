@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/primaryLight">
 
     <!-- Header Section -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -68,13 +68,15 @@
         app:layout_constraintTop_toBottomOf="@id/header_section"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/cardview_shadow_start_color"
         app:layout_constraintBottom_toBottomOf="parent"
         android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@drawable/white_halo">
 
             <!-- Banner Section -->
             <androidx.constraintlayout.widget.ConstraintLayout

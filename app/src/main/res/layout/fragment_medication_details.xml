@@ -2,13 +2,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="#FDF7FF"> <!-- Background color -->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@drawable/rounded_background"
+        android:elevation="4dp">
 
         <!-- Title for Medication Details -->
         <TextView
@@ -18,15 +21,18 @@
             android:text="Medication Name"
             android:textStyle="bold"
             android:textSize="20sp"
+            android:textColor="#1D1A22"
             android:paddingBottom="8dp" />
 
+        <!-- Medication Company and DIN Section -->
         <TextView
             android:id="@+id/medication_company"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Company Name"
             android:textSize="16sp"
-            android:paddingBottom="8dp" />
+            android:textColor="#494553"
+            android:paddingBottom="4dp" />
 
         <TextView
             android:id="@+id/medication_din"
@@ -34,48 +40,66 @@
             android:layout_height="wrap_content"
             android:text="DIN"
             android:textSize="16sp"
+            android:textColor="#494553"
             android:paddingBottom="16dp" />
 
-        <!-- Dosage (input field) -->
+        <!-- Dosage Input -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Dosage (mg)"
             android:textSize="16sp"
+            android:textColor="#1D1A22"
             android:paddingTop="16dp" />
+
         <EditText
             android:id="@+id/dosage_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter dosage in mg" />
+            android:hint="Enter dosage in mg"
+            android:background="@drawable/edittext_background"
+            android:textColor="#1D1A22"
+            android:padding="12dp" />
 
-        <!-- Form (input field or dropdown) -->
+        <!-- Medication Form Input -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Form"
             android:textSize="16sp"
+            android:textColor="#1D1A22"
             android:paddingTop="16dp" />
+
         <EditText
             android:id="@+id/form_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter medication form (e.g., Tablet, Capsule)" />
+            android:hint="Enter medication form (e.g., Tablet, Capsule)"
+            android:background="@drawable/edittext_background"
+            android:textColor="#1D1A22"
+            android:padding="12dp" />
 
-        <!-- Select Start Date -->
+        <!-- Select Start Date Button -->
         <Button
             android:id="@+id/select_start_date"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Select Start Date" />
+            android:text="Select Start Date"
+            android:backgroundTint="#CBDDDD"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="16dp"
+            android:drawableStart="@drawable/ic_calendar" />
 
-        <!-- Select End Date -->
+        <!-- Select End Date Button -->
         <Button
             android:id="@+id/select_end_date"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Select End Date"
-            android:layout_marginTop="16dp" />
+            android:backgroundTint="#CBDDDD"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="8dp"
+            android:drawableStart="@drawable/ic_calendar" />
 
         <!-- Days of the Week for Medication -->
         <TextView
@@ -83,98 +107,117 @@
             android:layout_height="wrap_content"
             android:text="Days of the Week"
             android:textSize="16sp"
-            android:paddingTop="16dp"/>
+            android:textColor="#1D1A22"
+            android:paddingTop="16dp" />
 
+        <!-- Days Checkboxes -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingTop="8dp">
 
             <CheckBox
                 android:id="@+id/checkbox_monday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="M" />
-
+                android:text="M"
+                android:textColor="#1D1A22" />
             <CheckBox
                 android:id="@+id/checkbox_tuesday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="T" />
+                android:text="T"
+                android:textColor="#1D1A22"/>
 
             <CheckBox
                 android:id="@+id/checkbox_wednesday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="W" />
+                android:text="W"
+                android:textColor="#1D1A22"/>
 
             <CheckBox
                 android:id="@+id/checkbox_thursday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="T" />
+                android:text="T"
+                android:textColor="#1D1A22"/>
 
             <CheckBox
                 android:id="@+id/checkbox_friday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="F" />
+                android:text="F"
+                android:textColor="#1D1A22"/>
 
             <CheckBox
                 android:id="@+id/checkbox_saturday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="S" />
+                android:text="S"
+                android:textColor="#1D1A22"/>
 
             <CheckBox
                 android:id="@+id/checkbox_sunday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="S" />
+                android:text="S"
+                android:textColor="#1D1A22"/>
 
         </LinearLayout>
 
-        <!-- Time to Take Medication -->
+        <!-- Time to Take Medication Button -->
         <Button
             android:id="@+id/select_time_button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Select Time to Take Medication"
-            android:layout_marginTop="16dp" />
+            android:backgroundTint="#F6C1D1"
+            android:textColor="#342957"
+            android:layout_marginTop="16dp"
+            android:drawableStart="@drawable/ic_clock" />
 
-        <!-- Additional Notes -->
+        <!-- Additional Notes Section -->
         <EditText
             android:id="@+id/additional_notes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Additional Notes (optional)"
-            android:layout_marginTop="16dp"/>
+            android:background="@drawable/edittext_background"
+            android:textColor="#1D1A22"
+            android:padding="12dp"
+            android:layout_marginTop="16dp" />
 
-        <!-- Button Layout for Save and Cancel -->
+        <!-- Save and Cancel Buttons -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="24dp"
-            android:layout_marginBottom="100dp"
             android:gravity="center_horizontal">
 
             <!-- Save Button -->
             <Button
                 android:id="@+id/save_medication_button"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Save"
-                android:layout_marginEnd="16dp" />
+                android:backgroundTint="#D3BFFF"
+                android:textColor="#FFFFFF"
+                android:layout_marginEnd="8dp" />
 
             <!-- Cancel Button -->
             <Button
                 android:id="@+id/cancel_button"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Cancel" />
+                android:layout_weight="1"
+                android:text="Cancel"
+                android:backgroundTint="#E57373"
+                android:textColor="#FFFFFF" />
         </LinearLayout>
 
     </LinearLayout>
-
 </ScrollView>
