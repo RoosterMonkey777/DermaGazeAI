@@ -4,6 +4,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,6 +60,11 @@ class MedicationAdapter(
 
         private fun calculateNextMedicationTime(medication: UserMedication): String {
             val daysOfWeek = medication.daysOfWeek ?: emptyList()
+            if (daysOfWeek.isEmpty()) {
+                Log.e("MedicationAdapter", "Days of the week are not specified for medication: ${medication.medicationName}")
+                return "No upcoming doses"
+            }
+
             val medicationTime = medication.time ?: "08:00" // Default time if not set
 
             // Parse startDate and endDate
@@ -90,7 +96,17 @@ class MedicationAdapter(
                 calendar.time = startDate
             }
 
-            val medicationTimeParts = medicationTime.split(":").map { it.toInt() }
+            // Validate and parse medicationTime
+            val medicationTimeParts = medicationTime.split(":").mapNotNull { part ->
+                part.toIntOrNull() // Safely parse each part, return null if invalid
+            }
+
+            if (medicationTimeParts.size != 2) {
+                // Log error and return null if time format is invalid
+                Log.e("MedicationAdapter", "Invalid medication time format: $medicationTime")
+                return null
+            }
+
             val medicationHour = medicationTimeParts[0]
             val medicationMinute = medicationTimeParts[1]
 
@@ -118,6 +134,7 @@ class MedicationAdapter(
 
             return null // No valid days found within the period
         }
+
 
         private fun dayOfWeekToString(dayOfWeek: Int): String {
             return when (dayOfWeek) {
