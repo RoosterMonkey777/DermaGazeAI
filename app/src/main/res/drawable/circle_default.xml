@@ -3,21 +3,14 @@
 
     <!-- Circle Background -->
     <item>
-        <shape xmlns:android="http://schemas.android.com/apk/res/android"
-            android:shape="oval">
-            <solid android:color="#FFFFFF" /> <!-- White fill color -->
-            <stroke
-                android:width="2dp"
-                android:color="#000000" /> <!-- Black outline -->
-            <size
-                android:width="40dp"
-            android:height="40dp"/> <!-- Match the ImageButton size -->
+        <shape>
+            <solid android:color="@color/primaryLight" /> <!-- Light blue tone -->
+            <corners android:radius="50dp" />
         </shape>
-
     </item>
 
     <!-- Centered Icon -->
     <item
         android:drawable="@drawable/baseline_menu_24"
-        android:gravity="center"/>
+        android:gravity="center" />
 </layer-list>

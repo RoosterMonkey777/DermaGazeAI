@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Green color when pressed -->
     <item
         android:state_pressed="true"
-        android:drawable="@drawable/circle_pressed" /> <!-- Darker color when pressed -->
+        android:drawable="@drawable/circle_pressed" /> <!-- Green shade when pressed -->
+
+    <!-- Default lighter green color -->
     <item
-        android:drawable="@drawable/circle_default" /> <!-- Black color by default -->
+        android:drawable="@drawable/circle_default" /> <!-- Light green or white shade by default -->
 </selector>

@@ -1,13 +1,11 @@
 package khan.z.dermagazeai.registration.views
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -25,6 +23,96 @@ import khan.z.dermagazeai.registration.helpers.GoogleSignInHandler
 // CURRENT VERSION ----------------------------------------------------------------------------------------
 //V7: email, fb, google (seperation of concers)
 
+import androidx.lifecycle.ViewModelProvider
+
+import androidx.lifecycle.ViewModel
+
+class NavigationViewModel : ViewModel() {
+    var fromLogin: Boolean = false
+}
+
+class LoginFragment : Fragment() {
+
+    private lateinit var googleSignInHandler: GoogleSignInHandler
+    private lateinit var facebookSignInHandler: FacebookSignInHandler
+    private lateinit var emailSignInHandler: EmailSignInHandler
+    private lateinit var navigationViewModel: NavigationViewModel
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_login, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        navigationViewModel = ViewModelProvider(requireActivity()).get(NavigationViewModel::class.java)
+
+        googleSignInHandler = GoogleSignInHandler(this, findNavController(), R.id.action_loginFragment_to_homeFragment)
+        googleSignInHandler.initializeGoogleSignIn(view, getString(R.string.google_app_id), R.id.btn_google, R.id.custom_google)
+
+        facebookSignInHandler = FacebookSignInHandler(this, findNavController(), R.id.action_loginFragment_to_homeFragment)
+        facebookSignInHandler.initializeFacebookLogin(view, R.id.btn_fb, R.id.custom_fb)
+
+        emailSignInHandler = EmailSignInHandler(this, findNavController())
+        emailSignInHandler.initializeEmailSignIn(view, R.id.et_email, R.id.et_password, R.id.btn_login)
+
+        view.findViewById<View>(R.id.tv_signup).setOnClickListener {
+            signOut()
+        }
+
+        // Set the flag when navigating from LoginFragment
+        navigationViewModel.fromLogin = true
+    }
+
+    private fun signOut() {
+        Log.d("LoginFragment", "Sign out initiated")
+
+        val oneTapClient = Identity.getSignInClient(requireActivity())
+        oneTapClient.signOut().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.i("Google Signout", "Signed out Google successfully")
+            } else {
+                Log.e("Google Signout", "Google sign-out failed", task.exception)
+            }
+        }
+
+        // Always sign out from AWS Cognito
+        Auth.signOut { signOutResult ->
+            requireActivity().runOnUiThread {
+                when (signOutResult) {
+                    is AWSCognitoAuthSignOutResult.CompleteSignOut -> {
+                        Toast.makeText(context, "Signed out successfully", Toast.LENGTH_SHORT).show()
+                        Log.i("AuthQuickStart", "Signed out successfully")
+                    }
+                    is AWSCognitoAuthSignOutResult.PartialSignOut -> {
+                        Log.e("AuthQuickStart", "Partial sign-out, hostedUIError: ${signOutResult.hostedUIError}")
+                        Log.e("AuthQuickStart", "Partial sign-out, globalSignOutError: ${signOutResult.globalSignOutError}")
+                        Log.e("AuthQuickStart", "Partial sign-out, revokeTokenError: ${signOutResult.revokeTokenError}")
+                    }
+                    is AWSCognitoAuthSignOutResult.FailedSignOut -> {
+                        Toast.makeText(context, "Sign out failed: ${signOutResult.exception.message}", Toast.LENGTH_SHORT).show()
+                        Log.e("AuthQuickStart", "Sign out Failed", signOutResult.exception)
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        googleSignInHandler.onActivityResult(requestCode, resultCode, data)
+        facebookSignInHandler.onActivityResult(requestCode, resultCode, data)
+    }
+}
+
+
+// CURRENT VERSION ----------------------------------------------------------------------------------------
+//V7: email, fb, google (seperation of concers)
+
+/*
 import androidx.lifecycle.ViewModelProvider
 
 import androidx.lifecycle.ViewModel
@@ -141,6 +229,7 @@ class LoginFragment : Fragment() {
         facebookSignInHandler.onActivityResult(requestCode, resultCode, data)
     }
 }
+*/
 
 
 

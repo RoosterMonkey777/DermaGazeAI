@@ -1,74 +1,137 @@
-<LinearLayout
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@drawable/bkg3"
+    android:padding="16dp"
+    >
 
-    <!-- Title -->
-    <TextView
-        android:id="@+id/search_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Search Medication"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal" />
-
-    <!-- Radio Buttons for DIN/Name -->
-    <RadioGroup
-        android:id="@+id/search_radio_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal"
-        android:padding="16dp">
-
-        <RadioButton
-            android:id="@+id/radio_search_by_din"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="DIN"
-            android:checked="true" /> <!-- Set DIN as default -->
-
-        <RadioButton
-            android:id="@+id/radio_search_by_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Name" />
-    </RadioGroup>
-
-    <!-- TextField for DIN/Name input -->
-    <EditText
-        android:id="@+id/search_input"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter DIN or Name" />
+        android:orientation="vertical">
 
-    <!-- Search Button -->
-    <Button
-        android:id="@+id/search_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Search"
-        android:layout_gravity="center_horizontal"
-        android:paddingTop="16dp" />
-
-    <!-- Scrollable area for results -->
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="16dp">
-
-        <!-- This LinearLayout will hold the dynamically added cards -->
-        <LinearLayout
-            android:id="@+id/results_container"
+        <!-- Title Section with Logo -->
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
-        </LinearLayout>
 
-    </ScrollView>
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="@string/medication_icon_desc"
+                android:src="@drawable/medication_icon_t" />
 
-</LinearLayout>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/search_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="8dp"
+                android:background="@color/primaryLight"
+                android:text="Search Medication"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!-- Divider Line -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="16dp"
+            android:background="@color/outlineLight" />
+
+        <!-- Radio Buttons for DIN/Name Selection with Icon -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/search_radio_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/radio_search_by_din"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/secondaryLight"
+                android:checked="true"
+                android:text="DIN"
+                android:textColor="@color/onPrimaryContainerLight" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/radio_search_by_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/secondaryLight"
+                android:text="Name"
+                android:textColor="@color/onPrimaryContainerLight" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!-- Search Input Field with Icon and Rounded Background -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/edittext_background_rounded"
+            android:elevation="2dp"
+            android:orientation="horizontal"
+            android:padding="12dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_search"
+                app:tint="@color/tertiaryLight" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/search_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:hint="Enter DIN or Name"
+                android:textColorHint="@color/soft_grey"
+                android:padding="8dp"
+                android:textColor="@color/onBackgroundLight" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!-- Search Button with Modern Style -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/rounded_background_button"
+            android:backgroundTint="@color/primaryLight"
+            android:elevation="4dp"
+            android:paddingTop="16dp"
+            android:text="Search"
+            android:textColor="@color/onPrimaryLight" />
+
+        <!-- Scrollable area for results with modern background -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_background_light"
+            android:elevation="2dp"
+            android:padding="8dp">
+
+            <!-- Container for Dynamically Added Results -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/results_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
+    </LinearLayout>
+</ScrollView>

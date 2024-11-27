@@ -1,18 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Basic Colors -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-
     <color name="green">#00FF00</color>
 
+    <!-- Custom Colors -->
     <color name="light_red">#FFCDD2</color> <!-- Light color when unchecked -->
-    <color name="dark_red">#D32F2F</color>  <!-- Dark color when checked -->
+    <color name="dark_red">#D32F2F</color> <!-- Dark color when checked -->
     <color name="light_blue">#FFCBDDDD</color> <!-- Light Blue -->
     <color name="light_pink">#FFF6C1D1</color> <!-- Light Pink -->
     <color name="pastel_purple">#FFD3BFFF</color> <!-- A soft, pastel purple -->
     <color name="pastel_teal">#FFA0DCD1</color> <!-- A soft, pastel teal -->
     <color name="soft_grey">#FFB0B0B0</color> <!-- A neutral soft grey -->
     <color name="soft_black">#FF222222</color> <!-- A softer black -->
+    <color name="lightGrey">#e9e9e9</color>
     <color name="grey">#e3e3e3</color>
+
+    <!-- Light Theme Colors -->
+    <color name="primaryLight">#FFCBDDDD</color> <!-- Light blue tone -->
+    <color name="onPrimaryLight">#FFFFFFFF</color>
+    <color name="primaryContainerLight">#FFCBDDDD</color>
+    <color name="onPrimaryContainerLight">#FFFFFFFF</color>
+
+    <color name="secondaryLight">#FFF6C1D1</color> <!-- Light pink tone -->
+    <color name="onSecondaryLight">#FFFFFFFF</color>
+    <color name="secondaryContainerLight">#FFF6C1D1</color>
+    <color name="onSecondaryContainerLight">#FF342957</color> <!-- Darker complementary tone -->
+
+    <color name="tertiaryLight">#FFD3BFFF</color> <!-- Pastel Purple -->
+    <color name="onTertiaryLight">#FFFFFFFF</color>
+    <color name="tertiaryContainerLight">#FFA78BB9</color>
+    <color name="onTertiaryContainerLight">#FFFFFFFF</color>
+
+    <color name="errorLight">#FFE57373</color> <!-- Softer error red -->
+    <color name="onErrorLight">#FFFFFFFF</color>
+    <color name="errorContainerLight">#FFFFDAD6</color>
+    <color name="onErrorContainerLight">#FF410002</color>
+
+    <color name="backgroundLight">#FFFDF7FF</color> <!-- Light, clean background -->
+    <color name="onBackgroundLight">#FF1D1A22</color> <!-- Dark for contrast -->
+    <color name="surfaceLight">#FFFDF7FF</color>
+    <color name="onSurfaceLight">#FF1D1A22</color>
+    <color name="surfaceVariantLight">#FFE7DFF2</color> <!-- Light pastel tone for surface variant -->
+    <color name="onSurfaceVariantLight">#FF494553</color>
+    <color name="outlineLight">#FF7A7584</color>
+    <color name="outlineVariantLight">#FFCAC4D5</color>
+    <color name="scrimLight">#FF000000</color>
+    <color name="inverseSurfaceLight">#FF322F37</color>
+    <color name="inverseOnSurfaceLight">#FFF5EEFA</color>
+    <color name="inversePrimaryLight">#FFCDBDFF</color> <!-- Light blue for inverse primary -->
+
+    <!-- Dark Theme Colors -->
+    <color name="primaryDark">#FFCBDDDD</color> <!-- Light blue for dark theme -->
+    <color name="onPrimaryDark">#FF370095</color> <!-- Deep tone for contrast -->
+    <color name="primaryContainerDark">#FF5A8CA1</color> <!-- Slightly darker light blue -->
+    <color name="onPrimaryContainerDark">#FFFFFFFF</color>
+
+    <color name="secondaryDark">#FFF6C1D1</color> <!-- Light pink in dark theme -->
+    <color name="onSecondaryDark">#FF342957</color>
+    <color name="secondaryContainerDark">#FF5E5167</color> <!-- Complementary darker tone for dark theme -->
+    <color name="onSecondaryContainerDark">#FFF6C1D1</color>
+
+    <color name="tertiaryDark">#FFD3BFFF</color> <!-- Pastel purple for dark theme -->
+    <color name="onTertiaryDark">#FF5F004E</color> <!-- Contrast color for text -->
+    <color name="tertiaryContainerDark">#FF7A5073</color> <!-- Slightly darker for container -->
+    <color name="onTertiaryContainerDark">#FFFFFFFF</color>
+
+    <color name="errorDark">#FFFFB4AB</color> <!-- Softer error color for dark theme -->
+    <color name="onErrorDark">#FF690005</color>
+    <color name="errorContainerDark">#FF93000A</color>
+    <color name="onErrorContainerDark">#FFFFDAD6</color>
+
+    <color name="backgroundDark">#FF14121A</color> <!-- Dark background -->
+    <color name="onBackgroundDark">#FFE6E0EB</color>
+    <color name="surfaceDark">#FF14121A</color>
+    <color name="onSurfaceDark">#FFE6E0EB</color>
+    <color name="surfaceVariantDark">#FF494553</color>
+    <color name="onSurfaceVariantDark">#FFCAC4D5</color>
+    <color name="outlineDark">#FF948E9F</color>
+    <color name="outlineVariantDark">#FF494553</color>
+    <color name="scrimDark">#FF000000</color>
+    <color name="inverseSurfaceDark">#FFE6E0EB</color>
+    <color name="inverseOnSurfaceDark">#FF322F37</color>
+    <color name="inversePrimaryDark">#FF7A509A</color> <!-- Darker complementary inverse for primary -->
+
+    <color name="darkPurple">#6735a4</color>
 
 </resources>

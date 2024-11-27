@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -23,11 +24,13 @@ import com.amplifyframework.core.Amplify
 import com.amplifyframework.datastore.generated.model.SkinAssessment
 import com.amplifyframework.datastore.generated.model.SkinCareProduct
 import khan.z.dermagazeai.machinelearning.views.SkinAssessmentAdapter
+import khan.z.dermagazeai.manager.BannerAdapter
 import khan.z.dermagazeai.manager.TopMenuManager
 import khan.z.dermagazeai.manager.UserProfileManager
 import khan.z.dermagazeai.medication.views.RecommendationPagerAdapter
 import khan.z.dermagazeai.registration.views.NavigationViewModel
 import java.util.Calendar
+
 
 
 class HomeFragment : Fragment() {
@@ -41,6 +44,11 @@ class HomeFragment : Fragment() {
     private lateinit var recommendationPagerAdapter: RecommendationPagerAdapter
     private lateinit var assessmentRecyclerView: RecyclerView
     private lateinit var skinAssessmentAdapter: SkinAssessmentAdapter
+    private lateinit var bannerAdapter: BannerAdapter
+    private lateinit var bannerProgressBar: ProgressBar
+    private lateinit var recommendationProgressBar: ProgressBar
+    private lateinit var assessmentProgressBar: ProgressBar
+    private lateinit var bannerViewPager: ViewPager2
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,6 +70,12 @@ class HomeFragment : Fragment() {
         viewPager = view.findViewById(R.id.viewPager_recommendations)
         assessmentRecyclerView = view.findViewById(R.id.recyclerView_assessmentHistory)
         assessmentRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        bannerViewPager = view.findViewById(R.id.viewPagerSlider)
+        bannerProgressBar = view.findViewById(R.id.progressBarBanner)
+        recommendationProgressBar = view.findViewById(R.id.progressBarRecommendations)
+        assessmentProgressBar = view.findViewById(R.id.progressBarAssessmentHistory)
+
+        setupBanner()
 
         // Check the flag and reset it
         val showGreeting = navigationViewModel.fromLogin
@@ -96,6 +110,7 @@ class HomeFragment : Fragment() {
                         // Fetch and display Skin Assessments in RecyclerView
                         fetchSkinAssessments(user.id) { assessments ->
                             requireActivity().runOnUiThread {
+                                assessmentProgressBar.visibility = View.GONE // Hide progress bar
                                 skinAssessmentAdapter = SkinAssessmentAdapter(assessments)
                                 assessmentRecyclerView.adapter = skinAssessmentAdapter
                             }
@@ -126,6 +141,21 @@ class HomeFragment : Fragment() {
 
         // Check if the previous destination was the LoginFragment
         return previousDestination?.id == R.id.loginFragment
+    }
+
+    private fun setupBanner() {
+        val bannerImages = listOf(
+            R.drawable.banner, //
+            R.drawable.pills,
+            R.drawable.doctor
+        )
+
+        // Initialize the BannerAdapter
+        bannerAdapter = BannerAdapter(bannerImages)
+        bannerViewPager.adapter = bannerAdapter
+
+        // Hide the progress bar when the banner images are set
+        bannerProgressBar.visibility = View.GONE
     }
 
     private fun setDynamicGreeting(firstName: String) {
@@ -189,6 +219,7 @@ class HomeFragment : Fragment() {
                 fetchRecommendedProducts(recommendedProductNames) { products ->
                     // Switch to the main thread before setting up the ViewPager
                     requireActivity().runOnUiThread {
+                        recommendationProgressBar.visibility = View.GONE // Hide progress bar
                         setupViewPager(products)
                     }
                 }
