@@ -2,16 +2,33 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:elevation="4dp"
-    android:padding="8dp">
+    android:layout_margin="16dp"
+    android:padding="16dp"
+    android:backgroundTint="@color/backgroundLight">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="8dp">
 
+        <!-- Title -->
+        <TextView
+            android:id="@+id/assessment_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Assessment Results"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/primaryDark"
+            android:layout_marginBottom="8dp" />
 
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/outlineLight"
+            android:layout_marginBottom="12dp" />
 
         <!-- Condition -->
         <TextView
@@ -20,20 +37,44 @@
             android:layout_height="wrap_content"
             android:text="Condition: Acne"
             android:textStyle="bold"
-            android:layout_marginTop="8dp" />
+            android:textSize="16sp"
+            android:textColor="@color/secondaryDark"
+            android:layout_marginBottom="8dp" />
 
         <!-- Severity -->
         <TextView
             android:id="@+id/assessment_severity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Severity: Light" />
+            android:text="Severity: Light"
+            android:textSize="14sp"
+            android:textColor="@color/onSurfaceLight"
+            android:layout_marginBottom="8dp" />
 
         <!-- Probability -->
-        <TextView
-            android:id="@+id/assessment_probability"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Probability: 85%" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/assessment_probability_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Probability:"
+                android:textSize="14sp"
+                android:textColor="@color/onSurfaceLight" />
+
+            <TextView
+                android:id="@+id/assessment_probability"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="85%"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:textColor="@color/secondaryDark"
+                android:layout_marginStart="4dp" />
+        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

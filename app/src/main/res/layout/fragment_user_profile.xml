@@ -209,6 +209,24 @@
                 android:padding="12dp"
                 android:layout_marginBottom="24dp" />
 
+            <!-- Skin Problems Chip Group -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Skin Problems"
+                android:textSize="16sp"
+                android:textColor="@color/primaryDark"
+                android:layout_marginBottom="4dp" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_skin_problems"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:singleSelection="false"
+                app:selectionRequired="false"
+                app:chipSpacing="8dp" />
+
             <!-- Update Button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_update"
