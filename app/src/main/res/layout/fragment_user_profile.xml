@@ -1,276 +1,225 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f6f2f3">
+    android:background="@color/backgroundLight"
+    android:padding="16dp">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
+            <!-- Profile Header -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="48dp"
-                >
-
-                <View
-                    android:id="@+id/view3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="260dp"
-                    android:background="@drawable/grey_bg"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/textView10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:text="Good Morning"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="wrap_content"
+                android:background="@drawable/profile_header_background"
+                android:padding="16dp"
+                android:layout_marginBottom="24dp">
 
                 <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/imageView4"
-                    android:layout_width="135dp"
-                    android:layout_height="185dp"
+                    android:id="@+id/profile_image"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp"
                     android:scaleType="centerCrop"
-                    android:elevation="3dp"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginBottom="-32dp"
                     app:shapeAppearanceOverlay="@style/cornerImageView"
-                    app:layout_constraintBottom_toBottomOf="@+id/view3"
+                    android:src="@drawable/profile"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:srcCompat="@drawable/profile" />
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
                 <TextView
-                    android:id="@+id/textView11"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/user_name"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:text="Bayan\nAhmadi"
-                    android:textColor="@color/black"
+                    android:text="Bayan Ahmadi"
+                    android:textSize="24sp"
                     android:textStyle="bold"
-                    android:textSize="30sp"
-                    app:layout_constraintStart_toEndOf="@+id/imageView4"
-                    app:layout_constraintTop_toTopOf="@+id/imageView4" />
-
-                <ImageView
-                    android:id="@+id/imageView5"
-                    android:layout_width="50dp"
-                    android:layout_height="62dp"
-                    android:layout_marginEnd="48dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/view3"
+                    android:textColor="@color/onBackgroundLight"
+                    app:layout_constraintTop_toTopOf="@+id/profile_image"
+                    app:layout_constraintStart_toEndOf="@+id/profile_image"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view3"
-                    app:srcCompat="@drawable/profile_btn" />
+                    android:paddingStart="16dp" />
 
-                <ImageView
-                    android:id="@+id/imageView6"
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/user_greeting"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="@+id/view3"
-                    app:layout_constraintEnd_toStartOf="@+id/imageView5"
-                    app:layout_constraintStart_toEndOf="@+id/imageView4"
-                    app:layout_constraintTop_toBottomOf="@+id/view3"
-                    app:srcCompat="@drawable/fav" />
+                    android:text="Good Morning!"
+                    android:textSize="18sp"
+                    android:textColor="@color/onPrimaryContainerLight"
+                    app:layout_constraintTop_toBottomOf="@id/user_name"
+                    app:layout_constraintStart_toEndOf="@+id/profile_image"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:paddingStart="16dp" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <!-- Form Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit User Profile"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="8dp" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Please fill out any changes below."
+                android:textSize="14sp"
+                android:textColor="@color/soft_grey"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16dp" />
 
-            <LinearLayout
+            <!-- Email Section (Non-editable) -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:textSize="16sp"
+                android:textColor="@color/primaryDark"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:id="@+id/tv_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:background="@drawable/non_editable_bg"
+                android:padding="12dp"
+                android:textSize="16sp"
+                android:textColor="@color/onBackgroundLight"
+                android:layout_marginBottom="16dp"/>
 
-                <!-- Title and Description -->
-                <TextView
-                    android:id="@+id/tv_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Edit User Profile"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    android:layout_marginBottom="8dp" />
+            <!-- First Name Field -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="First Name"
+                android:textSize="16sp"
+                android:textColor="@color/primaryDark"
+                android:layout_marginBottom="4dp" />
 
-                <TextView
-                    android:id="@+id/tv_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Please fill out any changes below."
-                    android:textSize="14sp"
-                    android:gravity="center"
-                    android:layout_marginBottom="16dp" />
+            <EditText
+                android:id="@+id/et_firstname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_background"
+                android:padding="12dp"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp" />
 
+            <!-- Last Name Field -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Last Name"
+                android:textSize="16sp"
+                android:textColor="@color/primaryDark"
+                android:layout_marginBottom="4dp" />
 
+            <EditText
+                android:id="@+id/et_lastname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_background"
+                android:padding="12dp"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp" />
 
-                <!-- Email (non-editable) -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Email"
-                    android:layout_marginBottom="8dp"/>
+            <!-- Age Field -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Age"
+                android:textSize="16sp"
+                android:textColor="@color/primaryDark"
+                android:layout_marginBottom="4dp" />
 
-                <TextView
-                    android:id="@+id/tv_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:background="@drawable/non_editable_bg"
-                    android:padding="8dp"/>
+            <EditText
+                android:id="@+id/et_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_background"
+                android:padding="12dp"
+                android:textSize="16sp"
+                android:inputType="number"
+                android:layout_marginBottom="16dp" />
 
-                <!-- First Name -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="First Name"
-                    android:layout_marginBottom="8dp"/>
+            <!-- Gender Field -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gender"
+                android:textSize="16sp"
+                android:textColor="@color/primaryDark"
+                android:layout_marginBottom="4dp" />
 
-                <EditText
-                    android:id="@+id/et_firstname"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"/>
+            <EditText
+                android:id="@+id/et_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_background"
+                android:padding="12dp"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp" />
 
-                <!-- Last Name -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Last Name"
-                    android:layout_marginBottom="8dp"/>
+            <!-- Skin Type Spinner -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Skin Type"
+                android:textSize="16sp"
+                android:textColor="@color/primaryDark"
+                android:layout_marginBottom="4dp" />
 
-                <EditText
-                    android:id="@+id/et_lastname"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"/>
+            <Spinner
+                android:id="@+id/spinner_skin_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/spinner_background"
+                android:padding="12dp"
+                android:layout_marginBottom="16dp" />
 
-                <!-- Age -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Age"
-                    android:layout_marginBottom="8dp"/>
+            <!-- Product Type Spinner -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Product Type"
+                android:textSize="16sp"
+                android:textColor="@color/primaryDark"
+                android:layout_marginBottom="4dp" />
 
-                <EditText
-                    android:id="@+id/et_age"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:layout_marginBottom="16dp"/>
+            <Spinner
+                android:id="@+id/spinner_product_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/spinner_background"
+                android:padding="12dp"
+                android:layout_marginBottom="24dp" />
 
-                <!-- Gender -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Gender"
-                    android:layout_marginBottom="8dp"/>
-
-                <EditText
-                    android:id="@+id/et_gender"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"/>
-
-                <!-- Skin Type Spinner -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Skin Type"
-                    android:layout_marginBottom="8dp"/>
-
-                <Spinner
-                    android:id="@+id/spinner_skin_type"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"/>
-
-                <!-- Product Type Spinner -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Product Type"
-                    android:layout_marginBottom="8dp"/>
-
-                <Spinner
-                    android:id="@+id/spinner_product_type"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"/>
-
-
-                <!-- Notable Effects Chip Group -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Notable Effects"
-                    android:layout_marginBottom="8dp"/>
-
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chip_group_notable_effects"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    app:singleSelection="false"
-                    app:selectionRequired="false"
-                    app:chipSpacing="8dp" />
-
-
-
-                <!-- Skin Problems Chip Group -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Skin Problems"
-                    android:layout_marginBottom="8dp"/>
-
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chip_group_skin_problems"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
-                    app:singleSelection="false"
-                    app:selectionRequired="false"
-                    app:chipSpacing="8dp" />
-
-
-
-                <!-- Update Button -->
-                <Button
-                    android:id="@+id/btn_update"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Update"
-                    android:layout_margin="8dp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:visibility="invisible"
-                    android:background="#D3D3D3"
-                    android:layout_marginBottom="70dp" />
-            </LinearLayout>
-
+            <!-- Update Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_update"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Update"
+                android:textSize="18sp"
+                android:backgroundTint="@color/secondaryLight"
+                android:textColor="@color/onSecondaryLight"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="12dp" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

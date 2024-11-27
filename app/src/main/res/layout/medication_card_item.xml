@@ -1,54 +1,67 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="8dp"
-    android:elevation="4dp"
-    app:cardCornerRadius="14dp">
+    android:elevation="6dp"
+    app:cardCornerRadius="16dp"
+    app:cardBackgroundColor="@color/primaryContainerLight">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="20dp">
 
-        <!-- Medication details -->
+        <!-- Medication Details Section -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Medication name, dosage, and company -->
+            <!-- Medication Name -->
             <TextView
                 android:id="@+id/medication_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Medication Name"
+                android:textColor="@color/onPrimaryContainerLight"
                 android:textStyle="bold"
-                android:text="Medication Name" />
+                android:textSize="18sp"
+                android:paddingBottom="4dp" />
 
+            <!-- Company Name -->
             <TextView
                 android:id="@+id/medication_company"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Company" />
+                android:text="Company"
+                android:textColor="@color/onPrimaryContainerLight"
+                android:textSize="14sp"
+                android:paddingBottom="4dp" />
 
+            <!-- Dosage Information -->
             <TextView
                 android:id="@+id/medication_dosage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Dosage" />
+                android:text="Dosage"
+                android:textColor="@color/onPrimaryContainerLight"
+                android:textSize="14sp"
+                android:paddingBottom="8dp" />
 
-            <!-- Next medication time underneath -->
+            <!-- Next Medication Time -->
             <TextView
                 android:id="@+id/next_medication_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Next: 8:00 AM"
-                android:textColor="#FF5722"
+                android:textColor="@color/secondaryLight"
                 android:textStyle="bold"
+                android:textSize="16sp"
                 android:layout_marginTop="8dp" />
-
         </LinearLayout>
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>
-

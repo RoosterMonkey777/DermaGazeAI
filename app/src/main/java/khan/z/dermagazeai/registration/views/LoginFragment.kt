@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -59,8 +60,12 @@ class LoginFragment : Fragment() {
         emailSignInHandler = EmailSignInHandler(this, findNavController())
         emailSignInHandler.initializeEmailSignIn(view, R.id.et_email, R.id.et_password, R.id.btn_login)
 
-        view.findViewById<View>(R.id.tv_signup).setOnClickListener {
+        view.findViewById<View>(R.id.tv_already_have_account).setOnClickListener {
             signOut()
+        }
+
+        view.findViewById<TextView>(R.id.tv_signup).setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
         }
 
         // Set the flag when navigating from LoginFragment

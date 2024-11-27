@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,27 +5,37 @@
     android:layout_height="match_parent"
     android:background="@drawable/bkg4">
 
-    <!-- Semi-transparent Overlay for Background -->
+    <!-- Semi-transparent Overlay -->
     <View
         android:id="@+id/overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#80FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="#80FFFFFF" />
+
+    <!-- Back Button -->
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="12dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/back"
+        android:contentDescription="@string/back_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Wrapper Layout with Rounded Background -->
+    <!-- Content Wrapper -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_background"
         android:orientation="vertical"
         android:padding="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/rounded_background"
+        android:elevation="8dp"
+        app:layout_constraintTop_toBottomOf="@id/back_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <!-- Title -->
         <TextView
@@ -39,7 +48,7 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
-        <!-- Logo ImageView -->
+        <!-- Logo -->
         <ImageView
             android:id="@+id/ic_logo"
             android:layout_width="100dp"
@@ -60,7 +69,7 @@
             android:textColor="@color/onSurfaceLight"
             android:textSize="16sp" />
 
-        <!-- Features List -->
+        <!-- Features -->
         <TextView
             android:id="@+id/about_features"
             android:layout_width="match_parent"
@@ -69,7 +78,7 @@
             android:textColor="@color/primaryDark"
             android:textSize="16sp" />
 
-        <!-- Contact Information -->
+        <!-- Contact Info -->
         <TextView
             android:id="@+id/about_contact"
             android:layout_width="match_parent"
@@ -78,8 +87,6 @@
             android:text="For more information, visit our website or contact support."
             android:textColor="@color/secondaryDark"
             android:textSize="14sp" />
-
-
 
         <!-- Website Button -->
         <Button
@@ -91,7 +98,5 @@
             android:backgroundTint="@color/primaryContainerLight"
             android:text="Visit Website"
             android:textColor="@color/onPrimaryLight" />
-
-
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

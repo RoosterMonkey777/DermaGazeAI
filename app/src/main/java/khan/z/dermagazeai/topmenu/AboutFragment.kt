@@ -10,26 +10,18 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import khan.z.dermagazeai.R
 
-class AboutFragment : Fragment() {
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_about, container, false)
-    }
+class AboutFragment : Fragment(R.layout.fragment_about) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Find the back button and set the click listener
+        // Back Button
         val backButton: ImageButton = view.findViewById(R.id.back_button)
         backButton.setOnClickListener {
-            findNavController().navigateUp() // Navigate back to the previous fragment
+            findNavController().navigateUp()
         }
 
-        // Hide the BottomNavigationView
+        // Hide BottomNavigationView
         val bottomNavigationView: BottomNavigationView = requireActivity().findViewById(R.id.bottom_navigation)
         bottomNavigationView.visibility = View.GONE
     }
@@ -37,7 +29,7 @@ class AboutFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
-        // Restore the BottomNavigationView visibility
+        // Restore BottomNavigationView
         val bottomNavigationView: BottomNavigationView = requireActivity().findViewById(R.id.bottom_navigation)
         bottomNavigationView.visibility = View.VISIBLE
     }

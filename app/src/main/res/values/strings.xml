@@ -28,8 +28,9 @@
     <string name="faq_icon_desc">Frequently Asked Questions Icon</string>
     <string name="expand_description">Expand FAQ answer</string>
     <string name="collapse_description">Collapse FAQ answer</string>
-
-
+    <string name="app_logo">DermaGazeAI</string>
+    <string name="back_button">back button</string>
+    <string name="product_image_desc">Product Description</string>
 
 
 </resources>

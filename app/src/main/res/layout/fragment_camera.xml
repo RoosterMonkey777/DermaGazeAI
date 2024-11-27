@@ -4,8 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    >
+    android:background="@color/backgroundLight">
 
+    <!-- Title -->
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
@@ -13,50 +14,65 @@
         android:text="Skin Condition Predictor"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_gravity="center"/>
+        android:textColor="@color/onBackgroundLight"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp" />
 
+    <!-- Description -->
     <TextView
         android:id="@+id/tvDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Upload an image of your skin lesion and get a prediction"
         android:textSize="16sp"
-        android:layout_marginTop="8dp"
+        android:textColor="@color/onSurfaceLight"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp" />
 
-        />
-
+    <!-- Image Preview -->
     <ImageView
         android:id="@+id/imgPreview"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_gravity="center"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:scaleType="centerCrop"
-        android:background="@android:color/darker_gray" />
+        android:background="@drawable/ic_camera" />
 
-    <Button
+    <!-- Take Picture Button -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCamera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Take a Picture"
         android:layout_gravity="center"
-        android:layout_marginTop="16dp" />
+        android:layout_marginBottom="16dp"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:icon="@drawable/ic_camera"
+        android:iconTint="@color/primaryLight"
+        android:textColor="@color/primaryLight" />
 
-    <Button
+    <!-- Predict Button -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnPredict"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Predict"
         android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:enabled="false" />
+        android:layout_marginBottom="24dp"
+        android:enabled="false"
+        android:backgroundTint="@color/secondaryLight"
+        android:textColor="@color/onSecondaryLight" />
 
+    <!-- Prediction Results -->
     <TextView
         android:id="@+id/tvResults"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Prediction results will appear here"
         android:textSize="16sp"
-        android:layout_marginTop="24dp"
+        android:textColor="@color/onSurfaceLight"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
         android:visibility="gone" />
 </LinearLayout>

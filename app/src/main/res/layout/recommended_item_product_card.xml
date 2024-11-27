@@ -1,11 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="8dp"
-    android:elevation="6dp"
-    app:cardCornerRadius="14dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="12dp"
+    android:elevation="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardBackgroundColor="@color/primaryContainerLight">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -13,12 +14,14 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+                <!-- Product Image with Rounded Corners -->
                 <ImageView
                     android:id="@+id/product_image"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:scaleType="centerCrop"
-                    android:contentDescription="Product Image" />
+                    android:contentDescription="@string/product_image_desc"
+                    android:background="@drawable/rounded_image_background" />
 
                 <!-- Product Name -->
                 <TextView
@@ -27,8 +30,10 @@
                     android:layout_height="wrap_content"
                     android:text="Product Name"
                     android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:layout_marginTop="8dp"/>
+                    android:textSize="18sp"
+                    android:textColor="@color/onPrimaryContainerLight"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="4dp" />
 
                 <!-- Product Price -->
                 <TextView
@@ -36,15 +41,29 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Price"
-                    android:textSize="14sp"
-                    android:layout_marginTop="4dp" />
+                    android:textSize="16sp"
+                    android:textColor="@color/onPrimaryContainerLight"
+                    android:layout_marginBottom="8dp" />
 
-
+                <!-- Action Button to Add to Cart or Purchase
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/add_to_cart_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:backgroundTint="@color/secondaryLight"
+                    android:text="Add to Cart"
+                    android:textColor="@color/onSecondaryLight"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:layout_marginTop="12dp"
+                    android:elevation="2dp" />-->
 
         </LinearLayout>
 </androidx.cardview.widget.CardView>
 
-<!--<?xml version="1.0" encoding="utf-8"?>-->
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
 <!--<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"-->
 <!--    android:layout_width="match_parent"-->
 <!--    android:layout_height="match_parent"-->

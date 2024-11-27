@@ -7,20 +7,22 @@
     android:background="@color/white">
 
     <!-- Background ImageView -->
+
+    <!-- Confirmation Code Input Field -->
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:scaleType="fitCenter"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:scaleType="fitEnd"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_confirmation" />
 
-    <!-- Confirmation Code Input Field -->
     <EditText
         android:id="@+id/confirmation_code_edit_text"
-        android:layout_width="0dp"
+        android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_edittext_background"

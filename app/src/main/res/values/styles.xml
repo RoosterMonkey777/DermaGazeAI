@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Custom dialog theme that extends the Material Alert Dialog theme -->
+    <style name="CustomDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <!-- Customize the theme if needed, e.g., button styles, text colors, etc. -->
+    </style>
+
+    <style name="CustomButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">8dp</item>
+        <item name="backgroundTint">@color/secondaryLight</item>
+        <item name="android:textColor">@color/onSecondaryLight</item>
+    </style>
+
+</resources>

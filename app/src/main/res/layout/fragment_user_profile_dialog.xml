@@ -1,14 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/backgroundLight"
+    android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="@drawable/rounded_background">
 
         <!-- Title and Description -->
         <TextView
@@ -16,8 +18,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="User Profile"
-            android:textSize="18sp"
+            android:textSize="24sp"
             android:textStyle="bold"
+            android:textColor="@color/onBackgroundLight"
             android:gravity="center"
             android:layout_marginBottom="8dp" />
 
@@ -27,78 +30,117 @@
             android:layout_height="wrap_content"
             android:text="Please fill out the information below."
             android:textSize="14sp"
+            android:textColor="@color/onSurfaceLight"
             android:gravity="center"
             android:layout_marginBottom="16dp" />
 
-        <EditText
-            android:id="@+id/et_email"
+        <!-- Non-Editable Email -->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email"
-            android:enabled="false"/>
+            app:endIconMode="none">
 
-        <EditText
-            android:id="@+id/et_firstname"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:textColor="@color/onSurfaceLight" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Editable Fields -->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="First Name"/>
+            android:hint="First Name"
+            app:endIconMode="clear_text">
 
-        <EditText
-            android:id="@+id/et_lastname"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_firstname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Last Name"/>
+            android:hint="Last Name"
+            app:endIconMode="clear_text"
+            android:layout_marginBottom="16dp">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_lastname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-
-        <EditText
-            android:id="@+id/et_age"
+        <!-- Age and Gender Fields -->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Age"
-            android:inputType="number"/>
+            app:endIconMode="clear_text"
+            android:layout_marginBottom="16dp">
 
-        <EditText
-            android:id="@+id/et_gender"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Gender"
-            android:layout_marginBottom="8dp"/>
+            app:endIconMode="clear_text"
+            android:layout_marginBottom="16dp">
 
-        <!-- Skin Type Spinner -->
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Skin Type and Product Type Spinners -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Skin Type"
+            android:textSize="16sp"
+            android:textColor="@color/onBackgroundLight"
             android:layout_marginBottom="4dp" />
 
         <Spinner
             android:id="@+id/spinner_skin_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:prompt="@string/skin_type_prompt" />
+            android:background="@drawable/spinner_background"
+            android:layout_marginBottom="16dp" />
 
-        <!-- Product Type Spinner -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Product Type"
+            android:textSize="16sp"
+            android:textColor="@color/onBackgroundLight"
             android:layout_marginBottom="4dp" />
 
         <Spinner
             android:id="@+id/spinner_product_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:prompt="@string/product_type_prompt" />
+            android:background="@drawable/spinner_background"
+            android:layout_marginBottom="16dp" />
 
-
-        <!-- Notable Effects Chip Group -->
+        <!-- Notable Effects and Skin Problems Chip Groups -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Notable Effects"
+            android:textSize="16sp"
+            android:textColor="@color/onBackgroundLight"
             android:layout_marginBottom="4dp" />
 
         <com.google.android.material.chip.ChipGroup
@@ -106,18 +148,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            app:singleSelection="false"
-            app:selectionRequired="false"
-            app:chipSpacing="8dp" />
+            app:singleSelection="false" />
 
-
-
-
-        <!-- Skin Problems Chip Group -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Skin Problems"
+            android:textSize="16sp"
+            android:textColor="@color/onBackgroundLight"
             android:layout_marginBottom="4dp" />
 
         <com.google.android.material.chip.ChipGroup
@@ -125,25 +163,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            app:singleSelection="false"
-            app:selectionRequired="false"
-            app:chipSpacing="8dp" />
+            app:singleSelection="false" />
 
-
-
-        <!-- Buttons -->
-        <Button
-            android:id="@+id/btn_save"
+        <!-- Save and Cancel Buttons -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save"
-            android:layout_marginTop="16dp" />
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="16dp">
 
-        <Button
-            android:id="@+id/btn_cancel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Cancel"
-            android:layout_marginTop="8dp" />
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Save"
+                android:backgroundTint="@color/secondaryLight"
+                android:textColor="@color/onSecondaryLight"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Cancel"
+                android:backgroundTint="@color/errorLight"
+                android:textColor="@color/onErrorLight"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

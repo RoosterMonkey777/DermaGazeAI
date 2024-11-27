@@ -6,13 +6,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.TextView
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import khan.z.dermagazeai.R
 import khan.z.dermagazeai.registration.helpers.FacebookSignInHandler
 import khan.z.dermagazeai.registration.helpers.GoogleSignInHandler
 import khan.z.dermagazeai.registration.helpers.EmailSignUpHandler
-
+import khan.z.dermagazeai.dialogs.TermsOfServiceDialogFragment
 
 //V3: email signup and google, fb
 // V2 : Seperation of concerns
@@ -32,6 +34,25 @@ class SignupFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initializeHandlers(view)
+
+        view.findViewById<TextView>(R.id.tv_login).setOnClickListener {
+            findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
+        }
+
+        view.findViewById<View>(R.id.btn_signup).setOnClickListener {
+            val checkboxAgree = view.findViewById<CheckBox>(R.id.checkbox_agree)
+            if (checkboxAgree.isChecked) {
+                showTermsOfServiceDialog()
+            } else {
+                // Show a message prompting the user to agree to the terms
+                // You can use Toast or Snackbar for better UX
+                showToast("Please agree to the terms of service")
+            }
+        }
+    }
+
+    private fun initializeHandlers(view: View) {
         googleSignInHandler = GoogleSignInHandler(this, findNavController(), R.id.action_signupFragment_to_homeFragment)
         googleSignInHandler.initializeGoogleSignIn(view, getString(R.string.google_app_id), R.id.btn_google, R.id.custom_google)
 
@@ -40,16 +61,21 @@ class SignupFragment : Fragment() {
 
         signupHandlerEmail = EmailSignUpHandler(this, findNavController())
         signupHandlerEmail.initializeSignup(view, R.id.et_email, R.id.et_password, R.id.et_confirm_password, R.id.btn_signup)
+    }
 
-        view.findViewById<TextView>(R.id.tv_login).setOnClickListener {
-            findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
-        }
+    private fun showTermsOfServiceDialog() {
+        val termsDialog = TermsOfServiceDialogFragment()
+        termsDialog.show(parentFragmentManager, "TermsOfServiceDialog")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         googleSignInHandler.onActivityResult(requestCode, resultCode, data)
         facebookSignInHandler.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 }
 

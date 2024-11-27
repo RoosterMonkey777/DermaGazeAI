@@ -88,4 +88,7 @@
 
     <color name="darkPurple">#6735a4</color>
 
+    <color name="bottom_nav_icon_tint">#FFFFFF</color> <!-- White color for icons -->
+    <color name="bottom_nav_text_tint">#FFFFFF</color> <!-- White color for text -->
+
 </resources>

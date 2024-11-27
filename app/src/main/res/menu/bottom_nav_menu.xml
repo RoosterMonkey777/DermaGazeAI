@@ -1,22 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- res/menu/bottom_nav_menu.xml -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Home Menu Item -->
     <item
         android:id="@+id/nav_home"
         android:icon="@drawable/baseline_home_24"
-        android:title="Home" />
+        android:title="Home"
+        android:iconTint="?attr/colorOnSurface" /> <!-- Using theme attribute for dynamic coloring -->
 
+    <!-- Camera Menu Item -->
     <item
         android:id="@+id/nav_camera"
         android:icon="@drawable/baseline_photo_camera_24"
-        android:title="Camera" />
+        android:title="Camera"
+        android:iconTint="@color/green"
+        android:titleTextColor="@color/green" />
 
+    <!-- Medication Menu Item -->
     <item
         android:id="@+id/nav_medication"
         android:icon="@drawable/baseline_medication_24"
-        android:title="Medication" />
+        android:title="Medication"
+        android:iconTint="?attr/colorOnSurface" /> <!-- Using theme attribute for consistency -->
 
+    <!-- Profile Menu Item -->
     <item
         android:id="@+id/nav_profile"
         android:icon="@drawable/baseline_person_24"
-        android:title="Profile" />
+        android:title="Profile"
+        android:iconTint="?attr/colorOnSurface" /> <!-- Using theme attribute for dynamic coloring -->
+
 </menu>

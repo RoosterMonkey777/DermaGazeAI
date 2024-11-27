@@ -19,37 +19,53 @@ class TermsOfServiceDialogFragment : DialogFragment() {
     private lateinit var btnAccept: Button
     private lateinit var btnDecline: Button
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.CustomDialogTheme)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_terms_of_service_dialog, container, false)
+        initializeViews(view)
+        setupListeners()
+        return view
+    }
 
+    private fun initializeViews(view: View) {
         checkboxAgree = view.findViewById(R.id.checkbox_agree)
         btnAccept = view.findViewById(R.id.btn_accept)
         btnDecline = view.findViewById(R.id.btn_decline)
+        btnAccept.isEnabled = false
+    }
 
-        // Enable Accept button only when checkbox is checked
+    private fun setupListeners() {
         checkboxAgree.setOnCheckedChangeListener { _, isChecked ->
             btnAccept.isEnabled = isChecked
         }
 
         btnAccept.setOnClickListener {
-            // Proceed to UserProfileDialogFragment, but don't save consentGiven yet
             findNavController().navigate(R.id.action_termsOfServiceDialogFragment_to_userProfileDialogFragment)
-           // dismiss()
+            dismiss()
         }
 
         btnDecline.setOnClickListener {
-            // Use the AuthorizationUtils to handle sign out
             AuthorizationUtils.signOut(requireContext()) {
-                // Navigate back to login screen after sign out
                 requireActivity().runOnUiThread {
                     findNavController().navigate(R.id.action_termsOfServiceDialogFragment_to_loginFragment)
                 }
             }
         }
+    }
 
-        return view
+    override fun onCancel(dialog: android.content.DialogInterface) {
+        super.onCancel(dialog)
+        AuthorizationUtils.signOut(requireContext()) {
+            requireActivity().runOnUiThread {
+                findNavController().navigate(R.id.action_termsOfServiceDialogFragment_to_loginFragment)
+            }
+        }
     }
 }
