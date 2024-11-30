@@ -145,9 +145,9 @@ class HomeFragment : Fragment() {
 
     private fun setupBanner() {
         val bannerImages = listOf(
-            R.drawable.banner, //
-            R.drawable.pills,
-            R.drawable.doctor
+            R.drawable.banner1, //
+            R.drawable.banner2,
+            R.drawable.banner3
         )
 
         // Initialize the BannerAdapter
