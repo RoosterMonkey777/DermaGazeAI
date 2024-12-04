@@ -62,6 +62,9 @@ class HomeFragment : Fragment() {
 
         Log.d("HomeFragment", "onViewCreated called")
 
+        // Ensure the user is authenticated before loading the home screen
+        checkAuthenticationStatus()
+
         navigationViewModel = ViewModelProvider(requireActivity()).get(NavigationViewModel::class.java)
 
         // Initialize UI elements
@@ -131,6 +134,22 @@ class HomeFragment : Fragment() {
         )
     }
 
+    private fun checkAuthenticationStatus() {
+        Amplify.Auth.fetchAuthSession(
+            { session ->
+                if (!session.isSignedIn) {
+                    requireActivity().runOnUiThread {
+                        Log.w("HomeFragment", "User is not authenticated. Redirecting to login.")
+                        findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
+                    }
+                }
+            },
+            { error ->
+                Log.e("HomeFragment", "Failed to fetch authentication session: ${error.message}")
+            }
+        )
+    }
+
     private fun setupBanner() {
         val bannerImages = listOf(
             R.drawable.banner1,
@@ -153,11 +172,8 @@ class HomeFragment : Fragment() {
             else -> "Good Evening, $firstName"
         }
 
-        // Ensure the UI update is performed on the main thread
         requireActivity().runOnUiThread {
             greetingTextView.text = greeting
-
-            // Start the fade-out animation after 3 seconds
             Handler(Looper.getMainLooper()).postDelayed({
                 fadeOutGreeting(firstName)
             }, 3000)
@@ -170,7 +186,6 @@ class HomeFragment : Fragment() {
                 .alpha(0f)
                 .setDuration(1000)
                 .withEndAction {
-                    // After fade-out, set the TextView to show just the user's name
                     greetingTextView.text = firstName
                     greetingTextView.animate().alpha(1f).duration = 1000
                 }
@@ -194,9 +209,8 @@ class HomeFragment : Fragment() {
             userId = userId,
             onSuccess = { recommendedProductNames ->
                 fetchRecommendedProducts(recommendedProductNames) { products ->
-                    // Switch to the main thread before setting up the ViewPager
                     requireActivity().runOnUiThread {
-                        recommendationProgressBar.visibility = View.GONE // Hide progress bar
+                        recommendationProgressBar.visibility = View.GONE
                         setupViewPager(products)
                     }
                 }
@@ -223,19 +237,14 @@ class HomeFragment : Fragment() {
                     }
                     productsFetched++
 
-                    // Check if all fetch attempts are done, then call setupViewPager
                     if (productsFetched == totalProducts) {
-                        Log.d("HomeFragment", "All fetch attempts completed. Fetched ${fetchedProducts.size} total products.")
                         onProductsFetched(fetchedProducts)
                     }
                 },
                 { error ->
                     Log.e("HomeFragment", "Error fetching product $productName: ${error.message}")
                     productsFetched++
-
-                    // Check if all fetch attempts are done, even if some failed
                     if (productsFetched == totalProducts) {
-                        Log.d("HomeFragment", "All fetch attempts completed with some errors. Fetched ${fetchedProducts.size} total products.")
                         onProductsFetched(fetchedProducts)
                     }
                 }
@@ -244,7 +253,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupViewPager(products: List<SkinCareProduct>) {
-        Log.d("HomeFragment", "Setting up ViewPager with ${products.size} products.")
         if (products.isEmpty()) {
             Log.e("HomeFragment", "No products available to display.")
             return
@@ -254,7 +262,6 @@ class HomeFragment : Fragment() {
         viewPager.adapter = recommendationPagerAdapter
     }
 
-    // Fetch skin assessments for the user
     private fun fetchSkinAssessments(userId: String, onAssessmentsFetched: (List<SkinAssessment>) -> Unit) {
         Amplify.API.query(
             ModelQuery.list(SkinAssessment::class.java, SkinAssessment.USER_PROFILE_ID.eq(userId)),
@@ -268,6 +275,7 @@ class HomeFragment : Fragment() {
         )
     }
 }
+
 
 
 //class HomeFragment : Fragment() {

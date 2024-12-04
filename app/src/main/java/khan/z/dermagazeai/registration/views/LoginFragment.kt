@@ -1,5 +1,6 @@
 package khan.z.dermagazeai.registration.views
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -71,6 +72,15 @@ class LoginFragment : Fragment() {
         // Set the flag when navigating from LoginFragment
         navigationViewModel.fromLogin = true
     }
+
+    private fun saveLoginState() {
+        val sharedPref = requireActivity().getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putBoolean("isLoggedIn", true)
+            apply()
+        }
+    }
+
 
     private fun signOut() {
         Log.d("LoginFragment", "Sign out initiated")

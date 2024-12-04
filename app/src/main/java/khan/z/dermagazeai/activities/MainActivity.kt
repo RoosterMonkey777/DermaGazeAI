@@ -168,9 +168,12 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
 
+        // Check login state and navigate to the correct destination
+        checkLoginState()
+
         // Set up AppBarConfiguration with top-level destinations
         appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.homeFragment, //R.id.cameraFragment, R.id.medicationFragment, R.id.profileFragment
+            R.id.homeFragment, // Define top-level destinations
         ))
 
         // Handle the visibility of the bottom navigation based on the destination
@@ -219,12 +222,25 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+    }
 
+    private fun checkLoginState() {
+        val sharedPref = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+        val isLoggedIn = sharedPref.getBoolean("isLoggedIn", false)
+
+        if (isLoggedIn) {
+            // Navigate directly to HomeFragment
+            navController.navigate(R.id.homeFragment)
+        } else {
+            // Default to LoginFragment
+            navController.navigate(R.id.loginFragment)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 }
+
 
 

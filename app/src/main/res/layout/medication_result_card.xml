@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     android:elevation="6dp"
-    app:cardBackgroundColor="@color/white"
+    app:cardBackgroundColor="@color/soft_grey"
     app:cardCornerRadius="12dp">
 
     <LinearLayout
@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="4dp"
                 android:text="Medication Name"
-                android:textColor="@color/tertiaryDark"
+                android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="4dp"
                 android:text="Company Name"
-                android:textColor="@color/inversePrimaryLight"
+                android:textColor="@color/white"
                 android:textSize="14sp" />
 
             <!-- DIN (Drug Identification Number) -->
@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="DIN"
-                android:textColor="@color/inversePrimaryLight"
+                android:textColor="@color/white"
                 android:textSize="14sp" />
         </LinearLayout>
 

@@ -3,14 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundLight"
+    android:background="@color/pastel_purple"
     android:orientation="vertical"
     android:padding="16dp">
 
     <!-- Title Section with Icon -->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="369dp"
+        android:layout_height="99dp"
+        android:background="@drawable/white_halo"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
         android:paddingBottom="16dp">
@@ -89,5 +90,6 @@
         android:layout_margin="16dp"
         android:contentDescription="Add Medication"
         android:src="@drawable/search_icon"
+        android:buttonTint="@color/secondaryLight"
         app:tooltipText="Add a New Medication" />
 </LinearLayout>
