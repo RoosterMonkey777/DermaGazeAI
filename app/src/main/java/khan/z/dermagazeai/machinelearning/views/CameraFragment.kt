@@ -9,6 +9,8 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -35,11 +37,9 @@ class CameraFragment : Fragment() {
     private lateinit var btnCamera: Button
     private lateinit var btnPredict: Button
     private var selectedImageUri: Uri? = null
-    private val REQUEST_CODE_STORAGE_PERMISSION = 100
     private var cond: String = ""
     private var sev: String = ""
     private var prob: Int = 50
-
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
@@ -59,53 +59,10 @@ class CameraFragment : Fragment() {
         }
 
         // Set up touch listener for the Predict button
-        btnPredict.setOnClickListener {
-            selectedImageUri?.let { uri ->
-                checkStoragePermission(uri)
-            }
-        }
-
-//        private fun checkStoragePermission(uri: Uri) {
-//        if (ContextCompat.checkSelfPermission(
-//                requireContext(),
-//                Manifest.permission.READ_EXTERNAL_STORAGE
-//            ) != PackageManager.PERMISSION_GRANTED
-//        ) {
-//            // Request permission
-//            ActivityCompat.requestPermissions(
-//                requireActivity(),
-//                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-//                REQUEST_CODE_STORAGE_PERMISSION
-//            )
-//        } else {
-//            // Permission already granted, proceed with file operations
-//            uploadImageToS3(uri)
-//        }
-//    }
-//
-//    // Handle the user's response to the permission request
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int,
-//        permissions: Array<out String>,
-//        grantResults: IntArray
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         btnPredict.setOnTouchListener { view, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
+                Log.d("CameraFragment", "Predict button touched")
+
                 val width = view.width
                 val height = view.height
                 val x = event.x
@@ -130,83 +87,33 @@ class CameraFragment : Fragment() {
                 // Set the probability within the 85–99% range
                 prob = (85..99).random()
 
-                // Call checkStoragePermission to proceed with image upload and display the mock data
+                // Log the determined condition, severity, and probability
+                Log.d("CameraFragment", "Condition: $cond, Severity: $sev, Probability: $prob")
+
+                // Directly navigate to ResultsFragment with mock data after a delay
                 selectedImageUri?.let { uri ->
-                    checkStoragePermission(uri)
+                    Log.d("CameraFragment", "Selected Image URI: $uri")
+                    addDelayAndNavigate(uri)
+                } ?: run {
+                    Log.e("CameraFragment", "No image selected")
+                    Toast.makeText(requireContext(), "Please select an image first.", Toast.LENGTH_SHORT).show()
                 }
             }
-            true
+            true // Indicate that the touch event has been handled
         }
 
         return view
     }
 
-    private fun checkStoragePermission(uri: Uri) {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // Request permission
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                REQUEST_CODE_STORAGE_PERMISSION
-            )
-        } else {
-            // Permission already granted, proceed with file operations
-            uploadImageToS3(uri)
-        }
-    }
 
-    // Handle the user's response to the permission request
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_CODE_STORAGE_PERMISSION) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted, proceed with the selected image
-                selectedImageUri?.let { uri ->
-                    uploadImageToS3(uri)
-                }
-            } else {
-                Toast.makeText(context, "Storage permission is required to upload files.", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private fun uploadImageToS3(uri: Uri) {
-        // Get the path to the file from the Uri
-        val filePath = getPathFromUri(uri)
-        if (filePath != null) {
-            val file = File(filePath)
-
-            // Upload the file to S3
-            Amplify.Storage.uploadFile(
-                "skin-lesion-${UUID.randomUUID()}.jpg",  // S3 file name
-                file,
-                { result ->
-                    Log.i("CameraFragment", "Successfully uploaded: ${result.key}")
-                    Toast.makeText(context, "File uploaded successfully.", Toast.LENGTH_SHORT).show()
-
-                    // After successful upload, navigate to ResultsFragment with mock data
-                    navigateToResultFragment(uri)
-                },
-                { error ->
-                    Log.e("CameraFragment", "Upload failed", error)
-                    Toast.makeText(context, "Upload failed.", Toast.LENGTH_SHORT).show()
-                }
-            )
-        } else {
-            Log.e("CameraFragment", "File path could not be determined")
-            Toast.makeText(context, "File path could not be determined.", Toast.LENGTH_SHORT).show()
-        }
+    private fun addDelayAndNavigate(imageUri: Uri) {
+        Handler(Looper.getMainLooper()).postDelayed({
+            navigateToResultFragment(imageUri)
+        }, 3000)
     }
 
     private fun navigateToResultFragment(imageUri: Uri) {
+        Log.d("CameraFragment", "Navigating to ResultsFragment with imageUri: $imageUri, cond: $cond, sev: $sev, prob: $prob")
         val action = CameraFragmentDirections.actionCameraFragmentToResultsFragment(
             imageUri.toString(), cond, sev, prob
         )
@@ -251,36 +158,27 @@ class CameraFragment : Fragment() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 REQUEST_IMAGE_PICK -> {
-                    // Get selected image from gallery
                     selectedImageUri = data?.data
                     selectedImageUri?.let {
+                        Log.d("CameraFragment", "Image selected: $it")
                         imgPreview.setImageURI(it)
                         btnPredict.isEnabled = true
                     }
                 }
                 REQUEST_IMAGE_CAPTURE -> {
-                    // Get image from camera
                     val photo: Bitmap = data?.extras?.get("data") as Bitmap
                     val imageUri = saveBitmapAndGetUri(photo)
                     selectedImageUri = imageUri
-                    imgPreview.setImageURI(imageUri)
-                    btnPredict.isEnabled = true
+                    selectedImageUri?.let {
+                        Log.d("CameraFragment", "Image captured: $it")
+                        imgPreview.setImageURI(imageUri)
+                        btnPredict.isEnabled = true
+                    }
                 }
             }
+        } else {
+            Log.d("CameraFragment", "No image selected or action canceled")
         }
-    }
-
-    private fun getPathFromUri(uri: Uri): String? {
-        // Convert Uri to file path
-        var filePath: String? = null
-        val projection = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor = requireActivity().contentResolver.query(uri, projection, null, null, null)
-        if (cursor != null && cursor.moveToFirst()) {
-            val columnIndex = cursor.getColumnIndexOrThrow(projection[0])
-            filePath = cursor.getString(columnIndex)
-            cursor.close()
-        }
-        return filePath
     }
 
     private fun saveBitmapAndGetUri(bitmap: Bitmap): Uri {

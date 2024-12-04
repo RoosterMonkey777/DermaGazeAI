@@ -30,26 +30,40 @@ class EmailSignUpHandler(
         val signupButton: Button = view.findViewById(signupButtonId)
         signupButton.setOnClickListener {
             if (validateInput()) {
-                signup()
+                signup(email = etEmail.text.toString(), password = etPassword.text.toString())
             }
         }
     }
 
     // New performSignUp method for direct calls
     fun performSignUp(email: String, password: String, confirmPassword: String) {
-        etEmail.setText(email)
-        etPassword.setText(password)
-        etConfirmPassword.setText(confirmPassword)
-
-        if (validateInput()) {
-            signup()
+        if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+            Toast.makeText(fragment.context, "All fields are required", Toast.LENGTH_SHORT).show()
+            return
         }
+        if (password != confirmPassword) {
+            Toast.makeText(fragment.context, "Passwords do not match", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(fragment.context, "Invalid email address", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (password.length < 8) {
+            Toast.makeText(fragment.context, "Password must be at least 8 characters long", Toast.LENGTH_SHORT).show()
+            return
+        }
+        signup(email, password)
     }
+
+
 
     private fun validateInput(): Boolean {
         val email = etEmail.text.toString()
         val password = etPassword.text.toString()
         val confirmPassword = etConfirmPassword.text.toString()
+
+        Log.d("EmailSignUpHandler", "Validating input: email=$email, password=$password, confirmPassword=$confirmPassword")
 
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             Toast.makeText(fragment.context, "Invalid email address", Toast.LENGTH_SHORT).show()
@@ -66,10 +80,8 @@ class EmailSignUpHandler(
         return true
     }
 
-    private fun signup() {
-        val email = etEmail.text.toString()
-        val password = etPassword.text.toString()
 
+    private fun signup(email: String, password: String) {
         val options = AuthSignUpOptions.builder()
             .userAttribute(AuthUserAttributeKey.email(), email)
             .build()
@@ -80,7 +92,7 @@ class EmailSignUpHandler(
                     if (result.isSignUpComplete) {
                         Toast.makeText(fragment.context, "Sign up succeeded", Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(fragment.context, "Verification code sent to your email", Toast.LENGTH_LONG).show()
+                        Toast.makeText(fragment.context, "Verification code sent to email", Toast.LENGTH_LONG).show()
                         val bundle = Bundle().apply {
                             putString("email", email)
                         }
@@ -90,15 +102,11 @@ class EmailSignUpHandler(
             },
             { error ->
                 fragment.requireActivity().runOnUiThread {
-                    val errorMessage = error.message ?: "Sign up failed"
-                    if (errorMessage.contains("Username already exists")) {
-                        Toast.makeText(fragment.context, "Email already in use", Toast.LENGTH_LONG).show()
-                    } else {
-                        Toast.makeText(fragment.context, "Sign up failed: $errorMessage", Toast.LENGTH_SHORT).show()
-                    }
-                    Log.e("SignUpFailed", error.toString())
+                    Toast.makeText(fragment.context, "Sign up failed: ${error.message}", Toast.LENGTH_SHORT).show()
                 }
+                Log.e("SignUp", "Error: ", error)
             }
         )
     }
+
 }

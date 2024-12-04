@@ -72,7 +72,7 @@ class SignupFragment : Fragment() {
                 }
                 else -> {
                     Log.d("SignupFragment", "Delegating sign-up to EmailSignUpHandler")
-                    signupHandlerEmail.initializeSignup(view, R.id.et_email, R.id.et_password, R.id.et_confirm_password, R.id.btn_signup)
+                    signupHandlerEmail.performSignUp(email, password, confirmPassword)
                 }
             }
         }
@@ -99,6 +99,7 @@ class SignupFragment : Fragment() {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 }
+
 
 
 
