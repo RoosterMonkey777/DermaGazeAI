@@ -68,21 +68,7 @@ import kotlinx.coroutines.launch
     }
 
 
-    *//*    override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            installSplashScreen()
 
-            // Initialize and hide the bottom navigation view by default
-            setContentView(R.layout.activity_main)
-            bottomNavigationView = findViewById(R.id.bottom_navigation)
-            bottomNavigationView.visibility = View.GONE // Hidden by default during onboarding or login
-
-            if (onboardingUtils.isOnboardingCompleted()) {
-                setupNavigation()
-            } else {
-                showOnboardingCompose()
-            }
-        }*//*
 
     private fun showOnboardingCompose() {
         val composeView = findViewById<androidx.compose.ui.platform.ComposeView>(R.id.compose_view)

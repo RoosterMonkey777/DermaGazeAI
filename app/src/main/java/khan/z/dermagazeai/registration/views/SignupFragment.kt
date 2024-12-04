@@ -2,22 +2,23 @@ package khan.z.dermagazeai.registration.views
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatButton
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import khan.z.dermagazeai.R
+import khan.z.dermagazeai.dialogs.TermsOfServiceDialogFragment
+import khan.z.dermagazeai.registration.helpers.EmailSignUpHandler
 import khan.z.dermagazeai.registration.helpers.FacebookSignInHandler
 import khan.z.dermagazeai.registration.helpers.GoogleSignInHandler
-import khan.z.dermagazeai.registration.helpers.EmailSignUpHandler
-import khan.z.dermagazeai.dialogs.TermsOfServiceDialogFragment
 
-//V3: email signup and google, fb
-// V2 : Seperation of concerns
 class SignupFragment : Fragment() {
 
     private lateinit var googleSignInHandler: GoogleSignInHandler
@@ -34,20 +35,45 @@ class SignupFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Initialize handlers
         initializeHandlers(view)
 
+        // Login navigation
         view.findViewById<TextView>(R.id.tv_login).setOnClickListener {
             findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
         }
 
-        view.findViewById<View>(R.id.btn_signup).setOnClickListener {
-            val checkboxAgree = view.findViewById<CheckBox>(R.id.checkbox_agree)
-            if (checkboxAgree.isChecked) {
-                showTermsOfServiceDialog()
-            } else {
-                // Show a message prompting the user to agree to the terms
-                // You can use Toast or Snackbar for better UX
-                showToast("Please agree to the terms of service")
+        // Handle Sign-Up button click
+        val signupButton = view.findViewById<AppCompatButton>(R.id.btn_signup)
+        val checkboxAgree = view.findViewById<CheckBox>(R.id.checkbox_agree)
+        val emailField = view.findViewById<EditText>(R.id.et_email)
+        val passwordField = view.findViewById<EditText>(R.id.et_password)
+        val confirmPasswordField = view.findViewById<EditText>(R.id.et_confirm_password)
+
+        // Enable Sign-Up button only if the checkbox is checked
+        checkboxAgree.setOnCheckedChangeListener { _, isChecked ->
+            signupButton.isEnabled = isChecked
+        }
+
+        signupButton.setOnClickListener {
+            Log.d("SignupFragment", "Sign-Up Button Clicked")
+
+            // Validate inputs
+            val email = emailField.text.toString().trim()
+            val password = passwordField.text.toString()
+            val confirmPassword = confirmPasswordField.text.toString()
+
+            when {
+                email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() -> {
+                    showToast("All fields are required")
+                }
+                password != confirmPassword -> {
+                    showToast("Passwords do not match")
+                }
+                else -> {
+                    Log.d("SignupFragment", "Delegating sign-up to EmailSignUpHandler")
+                    signupHandlerEmail.initializeSignup(view, R.id.et_email, R.id.et_password, R.id.et_confirm_password, R.id.btn_signup)
+                }
             }
         }
     }
@@ -63,11 +89,6 @@ class SignupFragment : Fragment() {
         signupHandlerEmail.initializeSignup(view, R.id.et_email, R.id.et_password, R.id.et_confirm_password, R.id.btn_signup)
     }
 
-    private fun showTermsOfServiceDialog() {
-        val termsDialog = TermsOfServiceDialogFragment()
-        termsDialog.show(parentFragmentManager, "TermsOfServiceDialog")
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         googleSignInHandler.onActivityResult(requestCode, resultCode, data)
@@ -78,6 +99,10 @@ class SignupFragment : Fragment() {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 }
+
+
+
+
 
 //// V2 : Seperation of concerns
 //class SignupFragment : Fragment() {

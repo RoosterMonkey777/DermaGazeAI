@@ -90,7 +90,7 @@ class HomeFragment : Fragment() {
         val menuButton: ImageButton = view.findViewById(R.id.menu_button)
         topMenuManager.setupMenuButton(menuButton)
 
-        // Check if the user needs to see the ToS dialog or User Profile dialog
+        // Check user profile and load data
         userProfileManager.fetchUserEmail(
             onSuccess = { email ->
                 Log.d("HomeFragment", "User email: $email")
@@ -118,11 +118,7 @@ class HomeFragment : Fragment() {
                     },
                     onProfileNotFound = {
                         Log.d("HomeFragment", "No user profile found")
-                        if (shouldShowTermsOfService()) {
-                            navigateToTermsOfServiceDialog()
-                        } else {
-                            navigateToUserProfileDialog()
-                        }
+                        navigateToUserProfileDialog()
                     },
                     onError = { error ->
                         Log.e("HomeFragment", "Failed to query user profile", error)
@@ -135,17 +131,9 @@ class HomeFragment : Fragment() {
         )
     }
 
-    private fun shouldShowGreeting(): Boolean {
-        val previousBackStackEntry = findNavController().previousBackStackEntry
-        val previousDestination = previousBackStackEntry?.destination
-
-        // Check if the previous destination was the LoginFragment
-        return previousDestination?.id == R.id.loginFragment
-    }
-
     private fun setupBanner() {
         val bannerImages = listOf(
-            R.drawable.banner1, //
+            R.drawable.banner1,
             R.drawable.banner2,
             R.drawable.banner3
         )
@@ -198,17 +186,6 @@ class HomeFragment : Fragment() {
     private fun navigateToUserProfileDialog() {
         requireActivity().runOnUiThread {
             findNavController().navigate(R.id.action_homeFragment_to_userProfileDialogFragment)
-        }
-    }
-
-    private fun shouldShowTermsOfService(): Boolean {
-        val sharedPref = requireContext().getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
-        return !sharedPref.getBoolean("consentGiven", false)
-    }
-
-    private fun navigateToTermsOfServiceDialog() {
-        requireActivity().runOnUiThread {
-            findNavController().navigate(R.id.action_homeFragment_to_termsOfServiceDialogFragment)
         }
     }
 
@@ -291,6 +268,7 @@ class HomeFragment : Fragment() {
         )
     }
 }
+
 
 //class HomeFragment : Fragment() {
 //

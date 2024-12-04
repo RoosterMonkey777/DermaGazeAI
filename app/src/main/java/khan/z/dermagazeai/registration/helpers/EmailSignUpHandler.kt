@@ -35,6 +35,17 @@ class EmailSignUpHandler(
         }
     }
 
+    // New performSignUp method for direct calls
+    fun performSignUp(email: String, password: String, confirmPassword: String) {
+        etEmail.setText(email)
+        etPassword.setText(password)
+        etConfirmPassword.setText(confirmPassword)
+
+        if (validateInput()) {
+            signup()
+        }
+    }
+
     private fun validateInput(): Boolean {
         val email = etEmail.text.toString()
         val password = etPassword.text.toString()
@@ -68,11 +79,8 @@ class EmailSignUpHandler(
                 fragment.requireActivity().runOnUiThread {
                     if (result.isSignUpComplete) {
                         Toast.makeText(fragment.context, "Sign up succeeded", Toast.LENGTH_SHORT).show()
-                        // Navigate to home or login fragment as needed
-                        // For example:
-                        // navController.navigate(R.id.action_signupFragment_to_loginFragment)
                     } else {
-                        Toast.makeText(fragment.context, "A verification code has been sent to your email", Toast.LENGTH_LONG).show()
+                        Toast.makeText(fragment.context, "Verification code sent to your email", Toast.LENGTH_LONG).show()
                         val bundle = Bundle().apply {
                             putString("email", email)
                         }
