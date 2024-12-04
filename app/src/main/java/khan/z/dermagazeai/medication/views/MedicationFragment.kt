@@ -431,8 +431,3 @@ class MedicationFragment : Fragment() {
         )
     }
 }
-
-
-
-
-

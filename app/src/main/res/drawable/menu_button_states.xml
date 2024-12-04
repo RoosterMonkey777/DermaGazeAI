@@ -5,11 +5,11 @@
     <item>
         <shape android:shape="oval">
             <!-- Use a light blue color from the theme for the background -->
-            <solid android:color="@color/primaryLight" />
+            <solid android:color="@color/white" />
             <!-- Use a slightly darker tone for the outline to provide subtle contrast -->
             <stroke
                 android:width="2dp"
-                android:color="@color/onPrimaryContainerLight" /> <!-- Replace with dark complementary color -->
+                android:color="@color/primaryLight" /> <!-- Replace with dark complementary color -->
             <size
                 android:width="40dp"
                 android:height="40dp" /> <!-- Adjusted to match button size -->

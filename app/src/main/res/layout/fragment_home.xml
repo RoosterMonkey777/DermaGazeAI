@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primaryLight">
+    >
 
     <!-- Header Section -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,32 +14,31 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Static Profile Picture -->
-        <ImageView
+        <!-- Circular Profile Picture using ShapeableImageView -->
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/profile_image"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
-            android:background="@drawable/circle_shape"
             android:scaleType="centerCrop"
-            android:src="@android:drawable/sym_def_app_icon"
+            android:src="@drawable/profile"
+            app:shapeAppearanceOverlay="@style/CircleImage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Menu Button, positioned across from the profile picture -->
+        <!-- Menu Button -->
         <ImageButton
             android:id="@+id/menu_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:elevation="4dp"
             android:background="@drawable/menu_button_states"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/profile_image"
             app:layout_constraintBottom_toBottomOf="@id/profile_image" />
 
-        <!-- LinearLayout containing the greeting message -->
+        <!-- Greeting Message -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -50,7 +49,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@id/menu_button">
 
-            <!-- Dynamic Greeting Message -->
             <TextView
                 android:id="@+id/greeting_message"
                 android:layout_width="wrap_content"
