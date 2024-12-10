@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "api": {
+      "dermagazeai": [
+        "Query",
+        "Mutation",
+        "Subscription"
+      ]
+    },
+    "storage": {
+      "UserProfile:@model(appsync)": [
+        "read",
+        "update"
+      ],
+      "SkinCareProduct:@model(appsync)": [
+        "read"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

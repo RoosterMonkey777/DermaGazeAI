@@ -1,0 +1,12 @@
+{
+  "AppSyncApiName": "dermagazeai",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authdermagazeai35cf642d",
+      "Outputs.UserPoolId"
+    ]
+  },
+  "AuthModeLastUpdated": "2024-09-11T13:54:29.349Z"
+}

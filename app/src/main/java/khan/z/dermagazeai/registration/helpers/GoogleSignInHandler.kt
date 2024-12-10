@@ -17,7 +17,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
-import khan.z.dermagazeai.registration.model.SignInMethod
 
 class GoogleSignInHandler(private val fragment: Fragment, private val navController: NavController, private val destinationFragmentId: Int) {
 

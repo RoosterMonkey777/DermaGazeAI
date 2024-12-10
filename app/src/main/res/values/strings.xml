@@ -12,8 +12,25 @@
     <string name="facebook_app_id">896849079128060</string>
     <string name="fb_login_protocol_scheme">fb896849079128060</string>
     <string name="facebook_client_token">a68743d53d940e5df5578ece117472e5</string>
-    <string name="google_app_id">171025768114-080ksrp2knm09b6v3idih18p9mu19ugr.apps.googleusercontent.com</string>
+    <string name="google_app_id">171025768114-gl74e5ebod5fmt75lhr8d98r6torbgf4.apps.googleusercontent.com</string>
     <string name="or_connect_with">Or connect with</string>
     <string name="app_slogan">Skin Care Assistance</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="skin_type_prompt">Skin Type</string>
+    <string name="product_type_prompt">Product Type</string>
+    <string name="intro_text">Welcome\n to DermaGazeAI</string>
+    <string name="intro_subtitle">Discover personalized skincare insights.\n Analyze your skin health with AI.</string>
+    <string name="background_image">Background image</string>
+    <string name="medication_icon_desc">Medication Icon</string>
+    <string name="faq_icon_desc">Frequently Asked Questions Icon</string>
+    <string name="expand_description">Expand FAQ answer</string>
+    <string name="collapse_description">Collapse FAQ answer</string>
+    <string name="app_logo">DermaGazeAI</string>
+    <string name="back_button">back button</string>
+    <string name="product_image_desc">Product Description</string>
+
 
 </resources>

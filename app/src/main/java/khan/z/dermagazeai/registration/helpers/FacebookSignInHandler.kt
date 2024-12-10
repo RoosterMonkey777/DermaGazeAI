@@ -16,7 +16,6 @@ import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
-import khan.z.dermagazeai.registration.model.SignInMethod
 
 class FacebookSignInHandler(private val fragment: Fragment, private val navController: NavController, private val destinationFragmentId: Int) {
 

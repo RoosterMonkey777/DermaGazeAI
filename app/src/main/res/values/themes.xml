@@ -1,9 +1,31 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+
+    <!-- Base application theme for DermaGazeAI -->
     <style name="Base.Theme.DermaGazeAI" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
+    <!-- Default Theme for DermaGazeAI -->
     <style name="Theme.DermaGazeAI" parent="Base.Theme.DermaGazeAI" />
+
+    <!-- Splash Screen Theme -->
+    <style name="SplashTheme" parent="Theme.SplashScreen">
+        <!-- Splash screen background color -->
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <!-- Splash screen animated icon -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_logo</item>
+        <!-- Duration of splash screen animation -->
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+        <!-- Theme to apply after the splash screen -->
+        <item name="postSplashScreenTheme">@style/Theme.DermaGazeAI</item>
+    </style>
+
+    <style name="cornerImageView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">25dp</item>
+    </style>
+
+
+
 </resources>

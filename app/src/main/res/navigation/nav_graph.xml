@@ -5,21 +5,23 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/startupFragment">
 
-<!--startup-->
+    <!--startup-->
     <fragment
         android:id="@+id/startupFragment"
         android:name="khan.z.dermagazeai.registration.views.StartupFragment"
-        android:label="fragment_startup"
+        android:label="StartupFragment"
         tools:layout="@layout/fragment_startup">
+
+        <!-- Action to navigate to LoginFragment -->
         <action
             android:id="@+id/action_startupFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
-        <action
-            android:id="@+id/action_startupFragment_to_signupFragment"
-            app:destination="@id/signupFragment" />
     </fragment>
 
-<!--signup-->
+
+
+
+    <!--signup-->
     <fragment
         android:id="@+id/signupFragment"
         android:name="khan.z.dermagazeai.registration.views.SignupFragment"
@@ -36,8 +38,7 @@
             app:destination="@id/homeFragment" />
     </fragment>
 
-
-<!--confirmation    -->
+    <!--confirmation-->
     <fragment
         android:id="@+id/confirmationFragment"
         android:name="khan.z.dermagazeai.registration.views.ConfirmationFragment"
@@ -48,12 +49,10 @@
             app:destination="@id/loginFragment" />
         <action
             android:id="@+id/action_confirmationFragment_to_signupFragment"
-            app:destination="@+id/signupFragment">
-        </action>
+            app:destination="@id/signupFragment" />
     </fragment>
 
-
-<!--login-->
+    <!--login-->
     <fragment
         android:id="@+id/loginFragment"
         android:name="khan.z.dermagazeai.registration.views.LoginFragment"
@@ -68,7 +67,13 @@
     </fragment>
 
 
-<!--    home fragment-->
+
+
+
+
+
+
+    <!--home-->
     <fragment
         android:id="@+id/homeFragment"
         android:name="khan.z.dermagazeai.HomeFragment"
@@ -77,6 +82,254 @@
         <action
             android:id="@+id/action_homeFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_userProfileDialogFragment"
+            app:destination="@id/userProfileDialogFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_homeFragment_to_faqFragment"
+            app:destination="@id/faqFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_termsOfServiceDialogFragment"
+            app:destination="@id/termsOfServiceDialogFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
     </fragment>
+
+
+
+
+
+
+    <!--terms of service dialog-->
+    <dialog
+        android:id="@+id/termsOfServiceDialogFragment"
+        android:name="khan.z.dermagazeai.dialogs.TermsOfServiceDialogFragment"
+        android:label="Terms of Service"
+        tools:layout="@layout/fragment_terms_of_service_dialog">
+        <action
+            android:id="@+id/action_termsOfServiceDialogFragment_to_userProfileDialogFragment"
+            app:destination="@id/userProfileDialogFragment" />
+        <action
+            android:id="@+id/action_termsOfServiceDialogFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+    </dialog>
+
+    <!--user profile dialog-->
+    <dialog
+        android:id="@+id/userProfileDialogFragment"
+        android:name="khan.z.dermagazeai.dialogs.UserProfileDialogFragment"
+        android:label="dialog_user_profile"
+        tools:layout="@layout/fragment_user_profile_dialog">
+        <action
+            android:id="@+id/action_userProfileDialogFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_userProfileDialogFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+    </dialog>
+
+
+
+
+
+
+
+    <!--faq fragment-->
+    <fragment
+        android:id="@+id/faqFragment"
+        android:name="khan.z.dermagazeai.topmenu.FaqFragment"
+        android:label="FAQ"
+        tools:layout="@layout/fragment_faq" />
+
+    <!--about fragment-->
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="khan.z.dermagazeai.topmenu.AboutFragment"
+        android:label="About"
+        tools:layout="@layout/fragment_about" />
+
+
+
+
+
+
+
+<!--    &lt;!&ndash;camera fragment&ndash;&gt;-->
+<!--    <fragment-->
+<!--        android:id="@+id/cameraFragment"-->
+<!--        android:name="khan.z.dermagazeai.machinelearning.views.CameraFragment"-->
+<!--        android:label="Camera"-->
+<!--        tools:layout="@layout/fragment_camera" />-->
+
+    <!-- Camera Fragment -->
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="khan.z.dermagazeai.machinelearning.views.CameraFragment"
+        android:label="Camera"
+        tools:layout="@layout/fragment_camera">
+
+        <!-- Action to navigate to ResultsFragment -->
+        <action
+            android:id="@+id/action_cameraFragment_to_resultsFragment"
+            app:destination="@id/resultsFragment" >
+            <argument
+                android:name="imageUri"
+                app:argType="string" />
+            <argument
+                android:name="condition"
+                app:argType="string" />
+            <argument
+                android:name="severity"
+                app:argType="string" />
+            <argument
+                android:name="probability"
+                app:argType="integer" />
+        </action>
+    </fragment>
+
+    <!-- Results Fragment -->
+    <fragment
+        android:id="@+id/resultsFragment"
+        android:name="khan.z.dermagazeai.machinelearning.views.ResultsFragment"
+        android:label="Results"
+        tools:layout="@layout/fragment_results">
+        <argument
+            android:name="imageUri"
+            app:argType="string" />
+        <argument
+            android:name="condition"
+            app:argType="string" />
+        <argument
+            android:name="severity"
+            app:argType="string" />
+        <argument
+            android:name="probability"
+            app:argType="integer" />
+    </fragment>
+
+
+
+
+
+
+
+
+    <!-- Medication Fragment -->
+    <fragment
+        android:id="@+id/medicationFragment"
+        android:name="khan.z.dermagazeai.medication.views.MedicationFragment"
+        android:label="Medication"
+        tools:layout="@layout/fragment_medication">
+
+        <!-- Action to Search Medication Fragment -->
+        <action
+            android:id="@+id/action_medicationFragment_to_searchMedicationFragment"
+            app:destination="@id/searchMedicationFragment" />
+
+        <!-- Action to User Medication Details Fragment with Safe Args -->
+        <action
+            android:id="@+id/action_medicationFragment_to_userMedicationDetailsFragment"
+            app:destination="@id/userMedicationDetailsFragment">
+            <argument
+                android:name="medicationId"
+                app:argType="string" />
+            <argument
+                android:name="medicationName"
+                app:argType="string" />
+            <argument
+                android:name="medicationCompany"
+                app:argType="string" />
+            <argument
+                android:name="dosage"
+                app:argType="string" />
+            <argument
+                android:name="form"
+                app:argType="string" />
+            <argument
+                android:name="startDate"
+                app:argType="string" />
+            <argument
+                android:name="endDate"
+                app:argType="string" />
+        </action>
+    </fragment>
+
+    <!-- User Medication Details Fragment -->
+    <fragment
+        android:id="@+id/userMedicationDetailsFragment"
+        android:name="khan.z.dermagazeai.medication.views.UserMedicationDetailsFragment"
+        tools:layout="@layout/fragment_user_medication_details" />
+
+
+
+
+
+
+
+
+
+
+    <!-- Search Medication Fragment -->
+    <fragment
+        android:id="@+id/searchMedicationFragment"
+        android:name="khan.z.dermagazeai.medication.views.SearchMedicationFragment"
+        android:label="Search Medication"
+        tools:layout="@layout/fragment_search_medication">
+        <action
+            android:id="@+id/action_searchMedicationFragment_to_medicationDetailsFragment"
+            app:destination="@id/medicationDetailsFragment" />
+    </fragment>
+
+
+
+
+
+    <!-- Medication Details Fragment -->
+    <fragment
+        android:id="@+id/medicationDetailsFragment"
+        android:name="khan.z.dermagazeai.medication.views.MedicationDetailsFragment"
+        android:label="Medication Details"
+        tools:layout="@layout/fragment_medication_details">
+
+        <!-- Safe Args for passing medication details -->
+        <argument
+            android:name="medicationName"
+            app:argType="string" />
+        <argument
+            android:name="medicationCompany"
+            app:argType="string" />
+        <argument
+            android:name="medicationDIN"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_medicationDetailsFragment_to_searchMedicationFragment"
+            app:destination="@id/searchMedicationFragment" />
+    </fragment>
+
+
+
+
+
+
+
+    <!--user profile fragment-->
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="khan.z.dermagazeai.manager.views.UserProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_user_profile" />
+    <action
+        android:id="@+id/action_userProfileFragment_to_homeFragment"
+        app:destination="@id/homeFragment" />
 
 </navigation>

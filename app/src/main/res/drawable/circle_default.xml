@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Circle Background -->
+    <item>
+        <shape>
+            <solid android:color="@color/primaryLight" /> <!-- Light blue tone -->
+            <corners android:radius="50dp" />
+        </shape>
+    </item>
+
+    <!-- Centered Icon -->
+    <item
+        android:drawable="@drawable/baseline_menu_24"
+        android:gravity="center" />
+</layer-list>

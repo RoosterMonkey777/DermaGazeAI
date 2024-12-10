@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Circle Background -->
+    <item>
+        <shape android:shape="oval">
+            <!-- Use a light blue color from the theme for the background -->
+            <solid android:color="@color/white" />
+            <!-- Use a slightly darker tone for the outline to provide subtle contrast -->
+            <stroke
+                android:width="2dp"
+                android:color="@color/primaryLight" /> <!-- Replace with dark complementary color -->
+            <size
+                android:width="40dp"
+                android:height="40dp" /> <!-- Adjusted to match button size -->
+        </shape>
+    </item>
+
+    <!-- Centered Icon -->
+    <item
+        android:drawable="@drawable/baseline_menu_24"
+        android:gravity="center" />
+</layer-list>

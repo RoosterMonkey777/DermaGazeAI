@@ -1,0 +1,102 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bkg4">
+
+    <!-- Semi-transparent Overlay -->
+    <View
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80FFFFFF" />
+
+    <!-- Back Button -->
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="12dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/back"
+        android:contentDescription="@string/back_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Content Wrapper -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@drawable/rounded_background"
+        android:elevation="8dp"
+        app:layout_constraintTop_toBottomOf="@id/back_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/about_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="About DermaGazeAI"
+            android:textColor="@color/primaryDark"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <!-- Logo -->
+        <ImageView
+            android:id="@+id/ic_logo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:contentDescription="App Logo"
+            app:srcCompat="@drawable/ic_logo" />
+
+        <!-- Description -->
+        <TextView
+            android:id="@+id/about_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
+            android:lineSpacingExtra="4dp"
+            android:text="DermaGazeAI is an innovative app that uses AI and machine learning to assist users with identifying and managing skin conditions. Our app provides personalized recommendations, tracks treatment progress, and ensures medication adherence with timely reminders. It is not a replacement for professional medical care but serves as a supportive tool to enhance skin health management."
+            android:textColor="@color/onSurfaceLight"
+            android:textSize="16sp" />
+
+        <!-- Features -->
+        <TextView
+            android:id="@+id/about_features"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Key Features:\n- AI-powered skin condition detection\n- Personalized skincare recommendations\n- Treatment tracking and reminders\n- Secure data handling and privacy"
+            android:textColor="@color/primaryDark"
+            android:textSize="16sp" />
+
+        <!-- Contact Info -->
+        <TextView
+            android:id="@+id/about_contact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="For more information, visit our website or contact support."
+            android:textColor="@color/secondaryDark"
+            android:textSize="14sp" />
+
+        <!-- Website Button -->
+        <Button
+            android:id="@+id/website_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/primaryContainerLight"
+            android:text="Visit Website"
+            android:textColor="@color/onPrimaryLight" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

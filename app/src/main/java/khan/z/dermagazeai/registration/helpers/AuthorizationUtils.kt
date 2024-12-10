@@ -8,7 +8,6 @@ import com.amplifyframework.auth.cognito.result.AWSCognitoAuthSignOutResult
 import com.amplifyframework.core.Amplify
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.identity.Identity
-import khan.z.dermagazeai.registration.model.SignInMethod
 
 /**
  * Utility class for authentication-related functions.

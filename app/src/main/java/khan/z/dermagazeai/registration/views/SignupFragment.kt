@@ -2,20 +2,23 @@ package khan.z.dermagazeai.registration.views
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
+import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.widget.AppCompatButton
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import khan.z.dermagazeai.R
+import khan.z.dermagazeai.dialogs.TermsOfServiceDialogFragment
+import khan.z.dermagazeai.registration.helpers.EmailSignUpHandler
 import khan.z.dermagazeai.registration.helpers.FacebookSignInHandler
 import khan.z.dermagazeai.registration.helpers.GoogleSignInHandler
-import khan.z.dermagazeai.registration.helpers.EmailSignUpHandler
 
-
-//V3: email signup and google, fb
-// V2 : Seperation of concerns
 class SignupFragment : Fragment() {
 
     private lateinit var googleSignInHandler: GoogleSignInHandler
@@ -32,6 +35,50 @@ class SignupFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Initialize handlers
+        initializeHandlers(view)
+
+        // Login navigation
+        view.findViewById<TextView>(R.id.tv_login).setOnClickListener {
+            findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
+        }
+
+        // Handle Sign-Up button click
+        val signupButton = view.findViewById<AppCompatButton>(R.id.btn_signup)
+        val checkboxAgree = view.findViewById<CheckBox>(R.id.checkbox_agree)
+        val emailField = view.findViewById<EditText>(R.id.et_email)
+        val passwordField = view.findViewById<EditText>(R.id.et_password)
+        val confirmPasswordField = view.findViewById<EditText>(R.id.et_confirm_password)
+
+        // Enable Sign-Up button only if the checkbox is checked
+        checkboxAgree.setOnCheckedChangeListener { _, isChecked ->
+            signupButton.isEnabled = isChecked
+        }
+
+        signupButton.setOnClickListener {
+            Log.d("SignupFragment", "Sign-Up Button Clicked")
+
+            // Validate inputs
+            val email = emailField.text.toString().trim()
+            val password = passwordField.text.toString()
+            val confirmPassword = confirmPasswordField.text.toString()
+
+            when {
+                email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() -> {
+                    showToast("All fields are required")
+                }
+                password != confirmPassword -> {
+                    showToast("Passwords do not match")
+                }
+                else -> {
+                    Log.d("SignupFragment", "Delegating sign-up to EmailSignUpHandler")
+                    signupHandlerEmail.performSignUp(email, password, confirmPassword)
+                }
+            }
+        }
+    }
+
+    private fun initializeHandlers(view: View) {
         googleSignInHandler = GoogleSignInHandler(this, findNavController(), R.id.action_signupFragment_to_homeFragment)
         googleSignInHandler.initializeGoogleSignIn(view, getString(R.string.google_app_id), R.id.btn_google, R.id.custom_google)
 
@@ -40,10 +87,6 @@ class SignupFragment : Fragment() {
 
         signupHandlerEmail = EmailSignUpHandler(this, findNavController())
         signupHandlerEmail.initializeSignup(view, R.id.et_email, R.id.et_password, R.id.et_confirm_password, R.id.btn_signup)
-
-        view.findViewById<TextView>(R.id.tv_login).setOnClickListener {
-            findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -51,7 +94,16 @@ class SignupFragment : Fragment() {
         googleSignInHandler.onActivityResult(requestCode, resultCode, data)
         facebookSignInHandler.onActivityResult(requestCode, resultCode, data)
     }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
 }
+
+
+
+
+
 
 //// V2 : Seperation of concerns
 //class SignupFragment : Fragment() {
