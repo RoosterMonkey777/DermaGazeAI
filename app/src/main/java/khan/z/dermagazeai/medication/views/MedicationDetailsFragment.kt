@@ -45,6 +45,7 @@ class MedicationDetailsFragment : Fragment() {
     private lateinit var fridayCheckbox: CheckBox
     private lateinit var saturdayCheckbox: CheckBox
     private lateinit var sundayCheckbox: CheckBox
+
     private var selectedStartDate: String = ""
     private var selectedEndDate: String = ""
     private var selectedTime: String = ""

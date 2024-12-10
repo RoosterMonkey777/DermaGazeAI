@@ -9,8 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.amplifyframework.datastore.generated.model.Medication
 import com.amplifyframework.datastore.generated.model.UserMedication
 import khan.z.dermagazeai.R
 import java.text.SimpleDateFormat
@@ -18,10 +18,9 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-
 class MedicationAdapter(
     private val medications: List<UserMedication>,
-    private val onItemClick: (UserMedication) -> Unit // Added click listener
+    private val onItemClick: (UserMedication) -> Unit // Click listener for medication item
 ) : RecyclerView.Adapter<MedicationAdapter.MedicationViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MedicationViewHolder {
@@ -36,7 +35,7 @@ class MedicationAdapter(
 
         // Set click listener for the item
         holder.itemView.setOnClickListener {
-            onItemClick(medication) // Trigger the click listener with the selected medication
+            onItemClick(medication)
         }
     }
 
@@ -49,7 +48,7 @@ class MedicationAdapter(
         private val nextMedicationTimeTextView: TextView = itemView.findViewById(R.id.next_medication_time)
 
         fun bind(medication: UserMedication) {
-            medicationNameTextView.text = medication.medicationName // Assuming this is medication name
+            medicationNameTextView.text = medication.medicationName
             companyTextView.text = medication.companyName
             dosageTextView.text = "Dosage: ${medication.dosage}"
 
@@ -67,18 +66,15 @@ class MedicationAdapter(
 
             val medicationTime = medication.time ?: "08:00" // Default time if not set
 
-            // Parse startDate and endDate
             val startDate = medication.startDate?.let { parseDate(it) } ?: Date()
             val endDate = medication.endDate?.let { parseDate(it) }
 
             val currentDateTime = Calendar.getInstance().time
 
-            // If end date is provided, check if the medication period has ended
             if (endDate != null && currentDateTime.after(endDate)) {
                 return "No upcoming doses" // Medication period ended
             }
 
-            // Get the next valid day of the week
             val nextValidDate = getNextValidDate(daysOfWeek, medicationTime, startDate, endDate)
             return nextValidDate?.let { formatDateTime(it) } ?: "No upcoming doses"
         }
@@ -91,22 +87,11 @@ class MedicationAdapter(
         ): Date? {
             val calendar = Calendar.getInstance()
 
-            // Start from today's date or the medication start date, whichever is later
             if (calendar.time.before(startDate)) {
                 calendar.time = startDate
             }
 
-            // Validate and parse medicationTime
-            val medicationTimeParts = medicationTime.split(":").mapNotNull { part ->
-                part.toIntOrNull() // Safely parse each part, return null if invalid
-            }
-
-            if (medicationTimeParts.size != 2) {
-                // Log error and return null if time format is invalid
-                Log.e("MedicationAdapter", "Invalid medication time format: $medicationTime")
-                return null
-            }
-
+            val medicationTimeParts = medicationTime.split(":").map { it.toInt() }
             val medicationHour = medicationTimeParts[0]
             val medicationMinute = medicationTimeParts[1]
 
@@ -115,26 +100,20 @@ class MedicationAdapter(
                 val dayOfWeekString = dayOfWeekToString(currentDayOfWeek)
 
                 if (daysOfWeek.contains(dayOfWeekString)) {
-                    // Set the time for that day
                     calendar.set(Calendar.HOUR_OF_DAY, medicationHour)
                     calendar.set(Calendar.MINUTE, medicationMinute)
                     calendar.set(Calendar.SECOND, 0)
                     calendar.set(Calendar.MILLISECOND, 0)
 
-                    // If this date is valid, return it
                     val nextDate = calendar.time
                     if ((endDate == null || nextDate.before(endDate)) && nextDate.after(Date())) {
                         return nextDate
                     }
                 }
-
-                // Move to the next day
                 calendar.add(Calendar.DAY_OF_MONTH, 1)
             }
-
-            return null // No valid days found within the period
+            return null
         }
-
 
         private fun dayOfWeekToString(dayOfWeek: Int): String {
             return when (dayOfWeek) {
@@ -150,7 +129,7 @@ class MedicationAdapter(
         }
 
         private fun parseDate(dateString: String): Date {
-            val format = SimpleDateFormat("d/M/yyyy", Locale.getDefault()) // Use the correct format
+            val format = SimpleDateFormat("d/M/yyyy", Locale.getDefault())
             return format.parse(dateString) ?: Date()
         }
 
@@ -159,5 +138,32 @@ class MedicationAdapter(
             return format.format(date)
         }
     }
-}
 
+    fun scheduleMedicationAlarm(context: Context, medication: UserMedication, triggerTime: Calendar) {
+        try {
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+            val intent = Intent(context, MedicationDetailsFragment::class.java).apply {
+                putExtra("medication_name", medication.medicationName)
+            }
+
+            val pendingIntent = PendingIntent.getActivity(
+                context,
+                medication.medicationName.hashCode(),
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+
+            alarmManager.setAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                triggerTime.timeInMillis,
+                pendingIntent
+            )
+
+            Toast.makeText(context, "Alarm set for ${medication.medicationName}", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            Log.e("MedicationAdapter", "Failed to set alarm: ${e.message}")
+            Toast.makeText(context, "Failed to set alarm: ${e.message}", Toast.LENGTH_LONG).show()
+        }
+    }
+}
